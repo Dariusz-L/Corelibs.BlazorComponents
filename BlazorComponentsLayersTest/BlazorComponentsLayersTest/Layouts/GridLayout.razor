@@ -1,0 +1,14 @@
+﻿@using BlazorComponentsLayersTest.Extensions
+@inherits BaseLayout
+
+<div class="grid-layout" style=@Style>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public CssAttribute? Gap { get; set; }
+    [Parameter] public CssAttribute? ColumnGap { get; set; }
+    [Parameter] public CssAttribute? RowGap { get; set; }
+}
