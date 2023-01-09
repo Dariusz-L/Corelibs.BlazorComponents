@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Components.Rendering;
+
+@GetTreeRenderFragment(Tree);
+@{ sequence = 0; }
+
+@code {
+
+    [Parameter] public TreeNode? Tree { get; set; }
+
+    int sequence;
+    private RenderFragment GetTreeRenderFragment(TreeNode node)
+    {
+        if (node == null)
+            return builder => {};
+
+        var childrenFragments = node.Children!.Select(GetTreeRenderFragment).ToList();
+
+        return builder =>
+        {
+            builder.OpenComponent<VerticalLayout>(sequence++);
+            builder.AddAttribute(sequence++, "Height", new CssAttribute("fit-content"));
+            builder.AddAttribute(sequence++, "PaddingLeft", new CssAttribute(20));
+            RenderFragment childContentFragment = (RenderTreeBuilder b) =>
+            {
+                b.AddContent(sequence++, node.Content);
+                for (int i = 0; i < childrenFragments.Count; i++)
+                    b.AddContent(sequence++, childrenFragments[i]);
+            };
+            builder.AddAttribute(sequence++, "ChildContent", childContentFragment);
+            builder.CloseComponent();
+        };
+    }
+
+    public class TreeNode
+    {
+        public RenderFragment<RenderFragment>? Content { get; set; }
+        public List<TreeNode>? Children { get; set; }
+    }
+}

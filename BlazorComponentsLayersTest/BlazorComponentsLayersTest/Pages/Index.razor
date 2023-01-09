@@ -1,31 +1,91 @@
 ﻿@page "/"
+@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
-<GridLayout Gap="(30, 30)">
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-    <GridLayoutElement></GridLayoutElement>
-</GridLayout>
+<TreeLayout Tree=Tree>
+
+</TreeLayout>
+
+@code {
+    public TreeNode? Tree = new TreeNode
+    {
+        Children = new List<TreeNode>
+        {
+            new TreeNode
+            {
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+        }
+    };
+}

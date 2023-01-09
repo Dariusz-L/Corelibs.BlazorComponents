@@ -1,0 +1,31 @@
+﻿@inherits BaseLayout
+@implements ILayoutElement
+
+<div class="layout-element" style=@Style>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [CascadingParameter] public ILayoutElementsContainerAdd Container { get; set; }
+
+    [Parameter] public CssAttribute? Width { get; set; }
+    [Parameter] public CssAttribute? MinWidth { get; set; }
+    [Parameter] public CssAttribute? MaxWidth { get; set; }
+
+    [Parameter] public CssAttribute? Height { get; set; }
+    [Parameter] public CssAttribute? MinHeight { get; set; }
+    [Parameter] public CssAttribute? MaxHeight { get; set; }
+
+    [Parameter] public CssAttribute? Padding { get; set; }
+    [Parameter] public CssAttribute? PaddingLeft { get; set; }
+    [Parameter] public CssAttribute? PaddingRight { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Container.Add(this);
+    }
+
+    public Task RefreshView() => InvokeAsync(StateHasChanged);
+}
