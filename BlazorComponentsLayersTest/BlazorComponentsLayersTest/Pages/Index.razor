@@ -1,41 +1,24 @@
 ﻿@page "/"
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
-<TreeLayout Tree=Tree>
+<TreeLayout Tree=Tree Padding=50 LayoutGap=20>
         
 </TreeLayout>
 
 @code {
     public TreeNode? Tree = new TreeNode
     {
-        Content = builder =>
-            {
-                builder.OpenComponent<SignatureAndName>(0);
-                builder.AddAttribute(0, "Text1", "Author");
-                builder.AddAttribute(0, "Text2", "Misa Ammo");
-                builder.CloseComponent();
-            },
+        Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
         Children = new List<TreeNode>
         {
             new TreeNode
             {
-                Content = builder =>
-                {
-                    builder.OpenComponent<SignatureAndName>(0);
-                    builder.AddAttribute(0, "Text1", "Lessons");
-                    builder.CloseComponent();
-                },
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
                     {
-                        Content = builder =>
-                        {
-                            builder.OpenComponent<SignatureAndName>(0);
-                            builder.AddAttribute(0, "Text1", "Lesson");
-                            builder.AddAttribute(0, "Text2", "wa nad ga particles");
-                            builder.CloseComponent();
-                        },
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "wa nad ga particles"),
                         Children = new List<TreeNode>
                         {
 
@@ -43,13 +26,7 @@
                     },
                     new TreeNode
                     {
-                        Content = builder =>
-                        {
-                            builder.OpenComponent<SignatureAndName>(0);
-                            builder.AddAttribute(0, "Text1", "Lesson");
-                            builder.AddAttribute(0, "Text2", "tara and nara");
-                            builder.CloseComponent();
-                        },
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "tara and nara"),
                         Children = new List<TreeNode>
                         {
 
@@ -57,13 +34,7 @@
                     },
                     new TreeNode
                     {
-                        Content = builder =>
-                        {
-                            builder.OpenComponent<SignatureAndName>(0);
-                            builder.AddAttribute(0, "Text1", "Lesson");
-                            builder.AddAttribute(0, "Text2", "Basic expressions");
-                            builder.CloseComponent();
-                        },
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Basic expressions"),
                         Children = new List<TreeNode>
                         {
 

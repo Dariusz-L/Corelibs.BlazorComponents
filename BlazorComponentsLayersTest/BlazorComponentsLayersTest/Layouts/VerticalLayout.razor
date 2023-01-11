@@ -2,7 +2,7 @@
 @inherits BaseLayout
 @implements ILayoutElement
 
-<div class="vertical-layout" style=@Style>
+<div class="vertical-layout booba" style=@CombinedStyle>
     <CascadingValue Value=@_children>
         @ChildContent
     </CascadingValue>
@@ -11,7 +11,7 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    [Parameter] public CssAttribute? Background { get; set; } //= GetRandomColor();
+    [Parameter] public CssAttribute? Background { get; set; } = GetRandomColor();
 
     [Parameter] public CssAttribute? Padding { get; set; }
     [Parameter] public CssAttribute? PaddingLeft { get; set; }

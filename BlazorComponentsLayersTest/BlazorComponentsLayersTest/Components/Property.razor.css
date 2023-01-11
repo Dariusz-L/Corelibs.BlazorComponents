@@ -1,0 +1,90 @@
+﻿.property-container {
+}
+
+.property {
+    position: relative;
+}
+
+.property:hover {
+    background: #d0d0d0
+}
+
+.property:hover .settings-button{
+    display: block;
+}
+
+.property-highlight {
+    position: absolute;
+    background: red;
+    
+    width: calc(100% + 2 * 20px);
+    height: calc(100% + 2 * 20px);
+
+    transform: translate(-20px, -20px);
+    z-index: 0;
+}
+
+.side-menu {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: contain;
+    left: 0;
+    transform: translateY(-100%);
+    background: #e88b8b;
+    list-style-type: none;
+    z-index: 1;
+}
+
+.settings-button {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.settings-button:hover .menu-list {
+    display: flex;
+}
+
+.menu-list {
+    display: none;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: flex-start;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-list-button {
+    width: 100%;
+    text-align: start;
+}
+
+.menu-list-button:hover {
+    background: #808080;
+}
+
+.expand-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transform: translate(-90%, -10%);
+
+    width: fit-content;
+    height: fit-content;
+
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+}
+
+.expand-icon:hover {
+    filter: brightness(0) invert(1);
+}

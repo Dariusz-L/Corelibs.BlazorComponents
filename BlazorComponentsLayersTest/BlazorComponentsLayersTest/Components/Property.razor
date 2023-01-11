@@ -1,5 +1,28 @@
-﻿<h3>Property</h3>
+﻿<div class="property-container">
+    <div class="property">
+        @*<div class="property-highlight"/>*@
+        <SignatureAndName Text1=@Text1 Text2=@Text2 />
+        <button class="settings-button">
+            S
+            <ul class="menu-list">
+                <li class="menu-list-button">Create</li>
+                <li class="menu-list-button">Archive</li>
+                <li class="menu-list-button">Move Up</li>
+                <li class="menu-list-button">Move Down</li>
+                <li class="menu-list-button">Move To Index</li>
+                <li>---</li>
+            </ul>
+        </button>
+        <button class="expand-button">
+            <img class="expand-icon" src="/icons/chevron-right.png" />
+        </button>
+    </div>
+    <ul class="side-menu">
+        <li>C</li>
+    </ul>
+</div>
 
 @code {
-
+    [Parameter] public string Text1 { get; set; }
+    [Parameter] public string Text2 { get; set; }
 }

@@ -1,13 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering;
+@inherits BaseLayout
 
-@GetTreeRenderFragment(Tree)
-@{ sequence = 0; }
+<div style=@Style>
+    <div class="tree-layout">
+        @GetTreeRenderFragment(Tree)
+        @{
+            seq = 0;
+        }
+    </div>
+</div>
 
 @code {
 
     [Parameter] public TreeNode? Tree { get; set; }
 
-    int sequence;
+    [Parameter] public CssAttribute? Padding { get; set; }
+    [Parameter] public CssAttribute? PaddingLeft { get; set; }
+
+    [Parameter] public double? LayoutGap { get; set; }
+
+    int seq;
+    int zIndex = 0;
     private RenderFragment GetTreeRenderFragment(TreeNode node)
     {
         if (node == null)
@@ -17,17 +30,43 @@
 
         return builder =>
         {
-            builder.OpenComponent<VerticalLayout>(sequence++);
-            builder.AddAttribute(sequence++, "Height", new CssAttribute("fit-content"));
-            builder.AddAttribute(sequence++, "Padding", new CssAttribute(20));
-            RenderFragment childContentFragment = (RenderTreeBuilder b) =>
-            {
-                b.AddContent(sequence++, node.Content);
-                for (int i = 0; i < childrenFragments.Count; i++)
-                    b.AddContent(sequence++, childrenFragments[i]);
-            };
-            builder.AddAttribute(sequence++, "ChildContent", childContentFragment);
-            builder.CloseComponent();
+            builder.OpenElement(seq++, "style");
+            int highlightID = seq;
+            builder.AddContent(seq++, ".highlight-" + highlightID + " {");
+                    builder.AddContent(seq++, "position: absolute;");
+                    builder.AddContent(seq++, "background: green;");
+                    builder.AddContent(seq++, "display: none;");
+                    builder.AddContent(seq++, $"z-index: {0};");
+                    builder.AddContent(seq++, "width: 100%;");
+                    builder.AddContent(seq++, "height: 100%;");
+                builder.AddContent(seq++, "}");
+                builder.AddContent(seq++, $".entry-{highlightID}:hover .highlight-" + highlightID + " {");
+                    builder.AddContent(seq++, "display: block;");
+                builder.AddContent(seq++, "}");
+            builder.CloseElement();
+
+            builder.OpenElement(seq++, "div");
+            builder.AddAttribute(seq++, "class", $"entry-{highlightID}");
+                builder.OpenElement(seq++, "div");
+                    builder.AddAttribute(seq++, "class", $"highlight-{highlightID}");
+                builder.CloseElement();
+
+                builder.OpenComponent<VerticalLayout>(seq++);
+                    builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
+                    builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
+                    if (LayoutGap.HasValue)
+                        builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+
+                    RenderFragment childContentFragment = (RenderTreeBuilder b) =>
+                    {
+                        b.AddContent(seq++, node.Content);
+                        for (int i = 0; i < childrenFragments.Count; i++)
+                            b.AddContent(seq++, childrenFragments[i]);
+                    };
+                    builder.AddAttribute(seq++, "ChildContent", childContentFragment);
+                builder.CloseComponent();
+
+            builder.CloseElement();
         };
     }
 
