@@ -36,9 +36,10 @@
                     builder.AddContent(seq++, "position: absolute;");
                     builder.AddContent(seq++, "background: green;");
                     builder.AddContent(seq++, "display: none;");
-                    builder.AddContent(seq++, $"z-index: {0};");
+                    builder.AddContent(seq++, $"z-index: {zIndex};");
                     builder.AddContent(seq++, "width: 100%;");
                     builder.AddContent(seq++, "height: 100%;");
+                    builder.AddContent(seq++, "opacity: 50%;");
                 builder.AddContent(seq++, "}");
                 builder.AddContent(seq++, $".entry-{highlightID}:hover .highlight-" + highlightID + " {");
                     builder.AddContent(seq++, "display: block;");
@@ -52,6 +53,7 @@
                 builder.CloseElement();
 
                 builder.OpenComponent<VerticalLayout>(seq++);
+                    builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
                     builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
                     builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
                     if (LayoutGap.HasValue)
