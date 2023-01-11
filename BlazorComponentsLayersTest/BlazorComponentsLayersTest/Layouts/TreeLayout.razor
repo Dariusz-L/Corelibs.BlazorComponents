@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering;
 
-@GetTreeRenderFragment(Tree);
+@GetTreeRenderFragment(Tree)
 @{ sequence = 0; }
 
 @code {
@@ -19,7 +19,7 @@
         {
             builder.OpenComponent<VerticalLayout>(sequence++);
             builder.AddAttribute(sequence++, "Height", new CssAttribute("fit-content"));
-            builder.AddAttribute(sequence++, "PaddingLeft", new CssAttribute(20));
+            builder.AddAttribute(sequence++, "Padding", new CssAttribute(20));
             RenderFragment childContentFragment = (RenderTreeBuilder b) =>
             {
                 b.AddContent(sequence++, node.Content);
@@ -33,7 +33,7 @@
 
     public class TreeNode
     {
-        public RenderFragment<RenderFragment>? Content { get; set; }
+        public RenderFragment? Content { get; set; }
         public List<TreeNode>? Children { get; set; }
     }
 }

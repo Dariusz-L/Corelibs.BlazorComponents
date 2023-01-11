@@ -2,20 +2,40 @@
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <TreeLayout Tree=Tree>
-
+        
 </TreeLayout>
 
 @code {
     public TreeNode? Tree = new TreeNode
     {
+        Content = builder =>
+            {
+                builder.OpenComponent<SignatureAndName>(0);
+                builder.AddAttribute(0, "Text1", "Author");
+                builder.AddAttribute(0, "Text2", "Misa Ammo");
+                builder.CloseComponent();
+            },
         Children = new List<TreeNode>
         {
             new TreeNode
             {
+                Content = builder =>
+                {
+                    builder.OpenComponent<SignatureAndName>(0);
+                    builder.AddAttribute(0, "Text1", "Lessons");
+                    builder.CloseComponent();
+                },
                 Children = new List<TreeNode>
                 {
                     new TreeNode
                     {
+                        Content = builder =>
+                        {
+                            builder.OpenComponent<SignatureAndName>(0);
+                            builder.AddAttribute(0, "Text1", "Lesson");
+                            builder.AddAttribute(0, "Text2", "wa nad ga particles");
+                            builder.CloseComponent();
+                        },
                         Children = new List<TreeNode>
                         {
 
@@ -23,6 +43,13 @@
                     },
                     new TreeNode
                     {
+                        Content = builder =>
+                        {
+                            builder.OpenComponent<SignatureAndName>(0);
+                            builder.AddAttribute(0, "Text1", "Lesson");
+                            builder.AddAttribute(0, "Text2", "tara and nara");
+                            builder.CloseComponent();
+                        },
                         Children = new List<TreeNode>
                         {
 
@@ -30,6 +57,13 @@
                     },
                     new TreeNode
                     {
+                        Content = builder =>
+                        {
+                            builder.OpenComponent<SignatureAndName>(0);
+                            builder.AddAttribute(0, "Text1", "Lesson");
+                            builder.AddAttribute(0, "Text2", "Basic expressions");
+                            builder.CloseComponent();
+                        },
                         Children = new List<TreeNode>
                         {
 

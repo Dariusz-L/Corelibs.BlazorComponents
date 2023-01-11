@@ -5,6 +5,8 @@ namespace BlazorComponentsLayersTest.Layouts
 {
     public abstract class BaseLayout : ComponentBase
     {
+        [Parameter] public string style { get; set; }
+
         protected string Style 
         { 
             get 
@@ -33,6 +35,8 @@ namespace BlazorComponentsLayersTest.Layouts
                 return styles.Aggregate((x, y) => x + y);
             }
         }
+
+        protected string CombinedStyle => Style + style;
     }
 
     public class LayoutElementsContainer : ILayoutElementsContainerAdd

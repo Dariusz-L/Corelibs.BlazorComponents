@@ -41,11 +41,11 @@
     protected override void OnInitialized()
     {
         Container?.Add(this);
-        if (ChildContent == null)
-        {
-            Height = 0;
-            Padding = 0;
-        }
+        //if (ChildContent == null)
+        //{
+        //    Height = 0;
+        //    Padding = 0;
+        //}
     }
 
     public Task RefreshView() => InvokeAsync(StateHasChanged);
@@ -72,20 +72,20 @@
             child.RefreshView();
         }
 
-        bool any = false;
-        _children.Elements.ForEach(e =>
-        {
-            if (e.ChildContent == null)
-            {
-                any = true;
-                e.Height = 0;
-                e.Padding = 0;
-                e.RefreshView();
-            }
-        });
+        //bool any = false;
+        //_children.Elements.ForEach(e =>
+        //{
+        //    if (e.ChildContent == null)
+        //    {
+        //        any = true;
+        //        e.Height = 0;
+        //        e.Padding = 0;
+        //        e.RefreshView();
+        //    }
+        //});
 
-        if (any && firstRender)
-            RefreshView();
+        //if (any && firstRender)
+        //    RefreshView();
 
     }
 
