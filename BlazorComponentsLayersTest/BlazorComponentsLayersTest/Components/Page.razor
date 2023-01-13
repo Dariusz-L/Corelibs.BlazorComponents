@@ -1,6 +1,14 @@
 ﻿@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
-<TreeLayout Tree=Tree Padding=50 LayoutGap=20/>
+<div class="page">
+    <div class="mod-menu">
+        <button class="mod-menu-button">Styles</button>
+        <button class="mod-menu-button">Arrangements</button>
+        <button class="mod-menu-button">Versions</button>
+    </div>
+    <TreeLayout Tree=Tree LayoutGap=20 />
+</div>
+
 
 @code {
     public TreeNode? Tree = new TreeNode

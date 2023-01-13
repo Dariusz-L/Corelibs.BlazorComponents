@@ -5,10 +5,12 @@
     position: relative;
 }
 
-
-
-.property:hover .settings-button{
+.property:hover .settings-button {
     display: block;
+}
+
+.property:hover .side-menu {
+    display: flex;
 }
 
 .property-highlight {
@@ -26,13 +28,12 @@
     position: absolute;
     margin: 0;
     padding: 0;
-    display: flex;
+    display: none;
     flex-direction: row;
     flex-wrap: nowrap;
     width: contain;
     left: 0;
     transform: translateY(-100%);
-    background: #e88b8b;
     list-style-type: none;
     z-index: 1;
 }
@@ -84,5 +85,9 @@
 }
 
 .expand-icon:hover {
-    filter: brightness(0) invert(1);
+    filter: brightness(50) invert(0.5);
+}
+
+.select-checkbox {
+    transform: translate(-250%, -17%);
 }
