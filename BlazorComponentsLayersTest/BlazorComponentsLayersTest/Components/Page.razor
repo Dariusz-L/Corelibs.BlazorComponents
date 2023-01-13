@@ -1,0 +1,93 @@
+﻿@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
+
+<TreeLayout Tree=Tree Padding=50 LayoutGap=20/>
+
+@code {
+    public TreeNode? Tree = new TreeNode
+        {
+            Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
+            Children = new List<TreeNode>
+        {
+            new TreeNode
+            {
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "wa nad ga particles"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "tara and nara"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Basic expressions"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+        }
+    };
+}
