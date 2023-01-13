@@ -5,7 +5,8 @@ namespace BlazorComponentsLayersTest.Layouts
 {
     public abstract class BaseLayout : ComponentBase
     {
-        [Parameter] public string style { get; set; }
+        [Parameter] public string style { get; set; } = "";
+        [Parameter] public string @class { get; set; } = "";
 
         protected string Style 
         { 

@@ -1,6 +1,49 @@
 ﻿@page "/"
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
+@*<div class="parent">
+    <div class="sibling"></div>
+    <div class="child"></div>
+    <div class="child-2"></div>
+</div>
+*@
+<style>
+
+    .parent {
+        padding: 100px;
+        width: 400px;
+        height: 400px;
+        background: blue;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .parent:hover:not(:has(.child:hover)):not(:has(.child-2:hover)) {
+        background-color: grey;
+    }
+
+    .child {
+        width: 200px;
+        height: 200px;
+        background: green;
+    }
+
+    .child:hover {
+        background: grey;
+    }
+
+    .child-2 {
+        width: 200px;
+        height: 200px;
+        background: green;
+    }
+
+    .child-2:hover {
+        background: grey;
+    }
+
+</style>
+
 <TreeLayout Tree=Tree Padding=50 LayoutGap=20>
         
 </TreeLayout>

@@ -1,12 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Components.Rendering;
+@using Common.Basic.Collections
 @inherits BaseLayout
 
 <div style=@Style>
     <div class="tree-layout">
+        @{treeNodeCount = Tree.Flatten(n => n.Children).Count();}
         @GetTreeRenderFragment(Tree)
-        @{
-            seq = 0;
-        }
+        @GetParentStyle()
+        @{seq = 0;}
     </div>
 </div>
 
@@ -21,6 +22,7 @@
 
     int seq;
     int zIndex = 0;
+    int curTreeNodeIndex;
     private RenderFragment GetTreeRenderFragment(TreeNode node)
     {
         if (node == null)
@@ -30,45 +32,50 @@
 
         return builder =>
         {
-            builder.OpenElement(seq++, "style");
-            int highlightID = seq;
-            builder.AddContent(seq++, ".highlight-" + highlightID + " {");
-                    builder.AddContent(seq++, "position: absolute;");
-                    builder.AddContent(seq++, "background: green;");
-                    builder.AddContent(seq++, "display: none;");
-                    builder.AddContent(seq++, $"z-index: {zIndex};");
-                    builder.AddContent(seq++, "width: 100%;");
-                    builder.AddContent(seq++, "height: 100%;");
-                    builder.AddContent(seq++, "opacity: 50%;");
-                builder.AddContent(seq++, "}");
-                builder.AddContent(seq++, $".entry-{highlightID}:hover .highlight-" + highlightID + " {");
-                    builder.AddContent(seq++, "display: block;");
-                builder.AddContent(seq++, "}");
-            builder.CloseElement();
+            builder.OpenComponent<VerticalLayout>(seq++);
+            builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
+            builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
+            builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
+            if (LayoutGap.HasValue)
+                builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+            builder.AddAttribute(seq++, "class", $"highlight-{curTreeNodeIndex++}");
+            RenderFragment childContentFragment = (RenderTreeBuilder b) =>
+            {
+                b.AddContent(seq++, node.Content);
+                for (int i = 0; i < childrenFragments.Count; i++)
+                    b.AddContent(seq++, childrenFragments[i]);
+            };
+            builder.AddAttribute(seq++, "ChildContent", childContentFragment);
+            builder.CloseComponent();
+        };
+    }
 
-            builder.OpenElement(seq++, "div");
-            builder.AddAttribute(seq++, "class", $"entry-{highlightID}");
-                builder.OpenElement(seq++, "div");
-                    builder.AddAttribute(seq++, "class", $"highlight-{highlightID}");
-                builder.CloseElement();
+    int treeNodeCount;
+    private RenderFragment GetParentStyle()
+    {
+        return b =>
+        {
+            b.OpenElement(seq++, "style");
+            {
+                for (int i = 0; i < treeNodeCount; i++)
+                {
+                    var notString = "";
 
-                builder.OpenComponent<VerticalLayout>(seq++);
-                    builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
-                    builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
-                    builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
-                    if (LayoutGap.HasValue)
-                        builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
-
-                    RenderFragment childContentFragment = (RenderTreeBuilder b) =>
+                    for (int j = i + 1; i < treeNodeCount; j++)
                     {
-                        b.AddContent(seq++, node.Content);
-                        for (int i = 0; i < childrenFragments.Count; i++)
-                            b.AddContent(seq++, childrenFragments[i]);
-                    };
-                    builder.AddAttribute(seq++, "ChildContent", childContentFragment);
-                builder.CloseComponent();
+                        if (j >= treeNodeCount)
+                            break;
+                        notString += $":not(:has(.highlight-{j}:hover))";
+                    }
 
-            builder.CloseElement();
+                    b.AddContent(seq++, ".highlight-" + i + ":hover" + notString + "{");
+                    //b.AddContent(seq++, "background: #f1f1f1 !important;");
+                    //b.AddContent(seq++, "opacity: 70% !important;");
+                    b.AddContent(seq++, "outline: solid 1px;");
+                    b.AddContent(seq++, "}");
+                }
+            }
+            b.CloseElement();
         };
     }
 

@@ -5,9 +5,7 @@
     position: relative;
 }
 
-.property:hover {
-    background: #d0d0d0
-}
+
 
 .property:hover .settings-button{
     display: block;

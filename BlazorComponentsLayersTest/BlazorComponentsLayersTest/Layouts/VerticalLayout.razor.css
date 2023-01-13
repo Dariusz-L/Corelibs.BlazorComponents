@@ -15,14 +15,8 @@
 
     box-sizing: border-box;
     z-index: 150;
-}
 
-.booba {
-    display: flex;
-}
-
-.booba:hover {
-    background: white;
+    position: relative;
 }
 
 div ::deep p {

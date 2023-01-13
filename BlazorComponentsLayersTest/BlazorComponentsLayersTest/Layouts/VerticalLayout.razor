@@ -2,16 +2,17 @@
 @inherits BaseLayout
 @implements ILayoutElement
 
-<div class="vertical-layout booba" style=@CombinedStyle>
+<div class="vertical-layout @(@class)" style=@CombinedStyle>
     <CascadingValue Value=@_children>
         @ChildContent
     </CascadingValue>
 </div>
 
 @code {
+    static int highlight;
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    [Parameter] public CssAttribute? Background { get; set; } = GetRandomColor();
+    [Parameter] public CssAttribute? Background { get; set; }//= GetRandomColor();
     [Parameter] public CssAttribute? ZIndex { get; set; }
 
     [Parameter] public CssAttribute? Padding { get; set; }
@@ -42,11 +43,6 @@
     protected override void OnInitialized()
     {
         Container?.Add(this);
-        //if (ChildContent == null)
-        //{
-        //    Height = 0;
-        //    Padding = 0;
-        //}
     }
 
     public Task RefreshView() => InvokeAsync(StateHasChanged);
@@ -72,22 +68,6 @@
 
             child.RefreshView();
         }
-
-        //bool any = false;
-        //_children.Elements.ForEach(e =>
-        //{
-        //    if (e.ChildContent == null)
-        //    {
-        //        any = true;
-        //        e.Height = 0;
-        //        e.Padding = 0;
-        //        e.RefreshView();
-        //    }
-        //});
-
-        //if (any && firstRender)
-        //    RefreshView();
-
     }
 
     private static string GetRandomColor()
@@ -95,4 +75,29 @@
         var random = new Random();
         return String.Format("#{0:X6}", random.Next(0x1000000));
     }
+
+    private static string bgWithColor = $"background: {GetRandomColor()}";
+    private static string bgNone = $"background: none";
+
+    string color = GetRandomColor();
+
+    //private void MouseOver()
+    //{
+    //    Console.WriteLine("MouseOver");
+    //    if (style != null && !style.Contains(bgWithColor))
+    //    {
+    //        style = bgWithColor;
+    //        InvokeAsync(StateHasChanged);
+    //    }
+    //}
+
+    //private void MouseOut()
+    //{
+    //    Console.WriteLine("MouseOut");
+    //    if (style != null && !style.Contains(bgNone))
+    //    {
+    //        style = bgNone; 
+    //        InvokeAsync(StateHasChanged);
+    //    }
+    //}
 }
