@@ -1,0 +1,30 @@
+﻿.add-button {
+    padding: 5px;
+    margin: 0;
+    background: #cecece;
+    border: none;
+    width: fit-content;
+}
+
+.add-button:hover {
+    background: #808080;
+}
+
+.add-button-parent {
+    width: fit-content;
+}
+
+.add-button-parent:hover .add-panel {
+    display: flex;
+}
+
+.add-panel {
+    display: none;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: flex-start;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    background: #cecece;
+}

@@ -1,16 +1,25 @@
 ﻿@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
-    <div class="mod-menu">
-        <button class="mod-menu-button">Styles</button>
-        <button class="mod-menu-button">Arrangements</button>
-        <button class="mod-menu-button">Versions</button>
-    </div>
+    <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
+    <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
+    <Arrangements_AddNew @ref=@_arrangements_AddNew/>
     <TreeLayout Tree=Tree LayoutGap=20 />
 </div>
 
-
 @code {
+    private Arrangements? _arrangements;
+    private Arrangements_AddNew? _arrangements_AddNew;
+
+    private void OnArrangmentsButton()
+    {
+        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
+    }
+    private void OnAddNewArrangmentClick()
+    {
+        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
+        _arrangements_AddNew.OuterClickComponent.Enabled = !_arrangements_AddNew.OuterClickComponent.Enabled;
+    }
     public TreeNode? Tree = new TreeNode
         {
             Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),

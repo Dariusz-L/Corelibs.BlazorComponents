@@ -1,0 +1,23 @@
+﻿<OuterClickComponent @ref=@OuterClickComponent>
+    <ToolWindow>
+        <div class="add-button-parent">
+            <button class="add-button" @onclick=@OnAddNewModClick>Add New Mod</button>
+            <div class="add-panel">
+                <button>Order</button>
+                <button>Sort</button>
+                <button>Filter</button>
+                <button>Paginate</button>
+                <button>Group</button>
+            </div>
+        </div>
+    </ToolWindow>
+</OuterClickComponent>
+
+@code {
+    public OuterClickComponent? OuterClickComponent { get; private set; }
+
+    private void OnAddNewModClick()
+    {
+        
+    }
+}

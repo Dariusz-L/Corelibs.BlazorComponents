@@ -1,22 +1,3 @@
 ﻿.page {
     padding: 30px;
 }
-
-.mod-menu {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    width: 100%;
-    height: fit-content;
-}
-
-.mod-menu-button {
-    border: none;
-    margin: 0;
-    padding: 0;
-    background: none;
-}
-
-.mod-menu-button:hover {
-    color: red;
-}

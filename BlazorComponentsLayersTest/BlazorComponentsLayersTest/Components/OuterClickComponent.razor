@@ -1,0 +1,28 @@
+﻿@inherits BaseLayout
+
+<div class="outer @_displayNoneCssClass" @onclick=@OnClick style=@Style>
+    <div @onclick:stopPropagation="true" @onclick:preventDefault="true">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public CssAttribute? ZIndex { get; set; }
+
+    private string _displayNoneCssClass => _enabled ? "" : "display-none";
+
+    private bool _enabled;
+    public bool Enabled {
+        get => _enabled;
+        set {
+            _enabled = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void OnClick()
+    {
+        Enabled = false;
+    }
+}

@@ -1,0 +1,9 @@
+﻿<div class="mod-menu">
+    <button class="mod-menu-button">Styles</button>
+    <button class="mod-menu-button" onclick="@(() => OnArrangmentsButton?.Invoke())">Arrangements</button>
+    <button class="mod-menu-button">Versions</button>
+</div>
+
+@code {
+    [Parameter] public Action OnArrangmentsButton { get; set; }
+}
