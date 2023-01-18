@@ -1,0 +1,13 @@
+﻿.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.index-input {
+    width: 1rem;
+    height: min-content;
+}
+
+.is-not-active {
+    display: none;
+}

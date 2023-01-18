@@ -1,9 +1,21 @@
-﻿<OuterClickComponent @ref=@OuterClickComponent>
+﻿@using BlazorComponentsLayersTest.ViewModels;
+
+<OuterClickComponent @ref=@OuterClickComponent>
     <ToolWindow>
+        <VerticalLayout Height=@("fit-content")>
+            @foreach (var mod in _modifications)
+            {
+                if (mod is OrderModification.ViewModel orderVM)
+                {
+                    <OrderModification VM=orderVM />
+                }
+            }
+
+        </VerticalLayout>
         <div class="add-button-parent">
-            <button class="add-button" @onclick=@OnAddNewModClick>Add New Mod</button>
+            <button class="add-button">Add New Mod</button>
             <div class="add-panel">
-                <button>Order</button>
+                <button @onclick=@AddNewOrderModification>Order</button>
                 <button>Sort</button>
                 <button>Filter</button>
                 <button>Paginate</button>
@@ -14,10 +26,66 @@
 </OuterClickComponent>
 
 @code {
+    [Parameter] public List<IdentityVM> Properties { get; set; } = new();
+
     public OuterClickComponent? OuterClickComponent { get; private set; }
 
-    private void OnAddNewModClick()
+    private List<object> _modifications = new();
+
+    private void AddNewOrderModification()
     {
-        
+        _modifications.Add(new OrderModification.ViewModel() { Properties = Properties });
+        InvokeAsync(StateHasChanged);
+    }
+
+    class SortModification
+    {
+        public SortMethod Method { get; init; }
+
+        public enum SortMethod
+        {
+            Alphabetically,
+            Random,
+        }
+    }
+
+    class FilterModification
+    {
+        public FilterMethod Method { get; init; }
+
+        public enum FilterMethod
+        {
+            Substring,
+            StartsWith,
+            EndsWith,
+        }
+    }
+
+    class PaginateModification
+    {
+        public PaginateMethod Method { get; init; }
+
+        public enum PaginateMethod
+        {
+            ByQuantityPerGroup,
+            ByGroupCount,
+            ByInitialCharacter
+        }
+    }
+
+    class GroupModification
+    {
+        public GroupMethod Method { get; init; }
+
+        public enum GroupMethod
+        {
+            ByQuantityPerGroup,
+            ByGroupCount,
+            ByInitialCharacter
+        }
+    }
+
+    class ReverseModification
+    {
     }
 }

@@ -1,0 +1,28 @@
+﻿.is-active .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    display: none;
+    
+    width: fit-content;
+    height: fit-content;
+
+    box-sizing: border-box;
+}
+
+.dropdown-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    background: white;
+    box-sizing: border-box;
+}
+
+.dropdown-item {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+}

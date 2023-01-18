@@ -28,3 +28,12 @@
     padding: 0;
     background: #cecece;
 }
+
+.mod-list {
+    width: 100%;
+    height: fit-content;
+    background: #e5dbdb;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}

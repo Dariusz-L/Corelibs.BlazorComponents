@@ -1,9 +1,10 @@
-﻿@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
+﻿@using BlazorComponentsLayersTest.ViewModels;
+@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
-    <Arrangements_AddNew @ref=@_arrangements_AddNew/>
+    <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
     <TreeLayout Tree=Tree LayoutGap=20 />
 </div>
 
@@ -11,22 +12,32 @@
     private Arrangements? _arrangements;
     private Arrangements_AddNew? _arrangements_AddNew;
 
+    private List<IdentityVM> _properties = new();
+
+    protected override void OnInitialized()
+    {
+        _properties = Tree.Children.Select(n => n.Identity).ToList();
+    }
+
     private void OnArrangmentsButton()
     {
         _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
     }
+
     private void OnAddNewArrangmentClick()
     {
         _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
         _arrangements_AddNew.OuterClickComponent.Enabled = !_arrangements_AddNew.OuterClickComponent.Enabled;
     }
+
     public TreeNode? Tree = new TreeNode
-        {
-            Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
-            Children = new List<TreeNode>
+    {
+        Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
+        Children = new List<TreeNode>
         {
             new TreeNode
             {
+                Identity = new IdentityVM("LessonsID", "Lessons"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
                 Children = new List<TreeNode>
                 {
@@ -59,10 +70,12 @@
 
             new TreeNode
             {
+                Identity = new IdentityVM("SecondID", "Bah bah"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
                     {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "another lesson"),
                         Children = new List<TreeNode>
                         {
 
@@ -70,6 +83,7 @@
                     },
                     new TreeNode
                     {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "yet another lesson"),
                         Children = new List<TreeNode>
                         {
 
@@ -87,6 +101,7 @@
 
             new TreeNode
             {
+                Identity = new IdentityVM("ThirdID", "Sup!"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
