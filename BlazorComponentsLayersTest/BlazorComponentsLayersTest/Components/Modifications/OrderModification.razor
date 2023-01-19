@@ -8,9 +8,7 @@
 </div>
 
 @code {
-    [Parameter] public ViewModel VM { get; set; } = ViewModel.Empty;
-
-    private Dropdown? _orderMethodDropdown;
+    [Parameter] public ViewModel VM { get; set; } = new();
 
     private Dropdown.ViewModel _propertiesDropdownVM = new();
     private Dropdown.ViewModel _orderMethodDropdownVM = new();
@@ -69,8 +67,6 @@
         public List<IdentityVM> Properties { get; set; } = new();
         public string OrderMethod { get; set; } = OrderMethods.SetAtIndex;
         public int Index { get; set; }
-
-        public static readonly ViewModel Empty = new ViewModel();
     }
 
     public static class OrderMethods

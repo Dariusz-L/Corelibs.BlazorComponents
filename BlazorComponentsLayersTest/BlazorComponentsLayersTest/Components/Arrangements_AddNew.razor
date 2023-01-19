@@ -8,6 +8,13 @@
                 if (mod is OrderModification.ViewModel orderVM)
                 {
                     <OrderModification VM=orderVM />
+                    continue;
+                }
+
+                if (mod is SortModification.ViewModel sortVM)
+                {
+                    <SortModification VM=sortVM />
+                    continue;
                 }
             }
 
@@ -15,8 +22,8 @@
         <div class="add-button-parent">
             <button class="add-button">Add New Mod</button>
             <div class="add-panel">
-                <button @onclick=@AddNewOrderModification>Order</button>
-                <button>Sort</button>
+                <button @onclick=@AddOrderModification>Order</button>
+                <button @onclick=@AddSortModification>Sort</button>
                 <button>Filter</button>
                 <button>Paginate</button>
                 <button>Group</button>
@@ -32,21 +39,16 @@
 
     private List<object> _modifications = new();
 
-    private void AddNewOrderModification()
+    private void AddOrderModification()
     {
         _modifications.Add(new OrderModification.ViewModel() { Properties = Properties });
         InvokeAsync(StateHasChanged);
     }
 
-    class SortModification
+    private void AddSortModification()
     {
-        public SortMethod Method { get; init; }
-
-        public enum SortMethod
-        {
-            Alphabetically,
-            Random,
-        }
+        _modifications.Add(new SortModification.ViewModel());
+        InvokeAsync(StateHasChanged);
     }
 
     class FilterModification
