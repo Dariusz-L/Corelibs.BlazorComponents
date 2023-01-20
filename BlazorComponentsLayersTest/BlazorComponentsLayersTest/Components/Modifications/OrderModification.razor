@@ -1,7 +1,7 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 
 <div class="row">
-    <span>Order Property - &nbsp;</span>
+    <span>Order&nbsp;</span>
     <Dropdown VM=_propertiesDropdownVM OnValueChanged=OnPropertyChanged />
     <Dropdown VM=_orderMethodDropdownVM OnValueChanged=OnOrderMethodChanged />
     <input class="index-input @_isIndexInputActiveCssClass" type="text" placeholder="Enter Index" value="@VM.Index" @oninput=OnIndexChanged />

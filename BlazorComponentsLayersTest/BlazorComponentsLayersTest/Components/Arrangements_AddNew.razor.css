@@ -12,6 +12,7 @@
 
 .add-button-parent {
     width: fit-content;
+    position: relative;
 }
 
 .add-button-parent:hover .add-panel {
@@ -19,7 +20,7 @@
 }
 
 .add-panel {
-    display: none;
+    display: flex;
     flex-direction: column;
     list-style-type: none;
     align-items: flex-start;
@@ -27,6 +28,8 @@
     margin: 0;
     padding: 0;
     background: #cecece;
+    position: absolute;
+    top: 0;
 }
 
 .mod-list {

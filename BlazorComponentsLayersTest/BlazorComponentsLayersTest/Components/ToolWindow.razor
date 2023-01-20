@@ -1,8 +1,9 @@
-﻿<div class="tool-window">
+﻿@inherits BaseLayout
+
+<div class="tool-window">
     @ChildContent
 </div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
-
 }

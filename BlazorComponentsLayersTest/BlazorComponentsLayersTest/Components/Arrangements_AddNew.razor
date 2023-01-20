@@ -2,7 +2,7 @@
 
 <OuterClickComponent @ref=@OuterClickComponent>
     <ToolWindow>
-        <VerticalLayout Height=@("fit-content")>
+        <VerticalLayout Height=@("fit-content") Gap=5 OverflowX=@("auto")>
             @foreach (var mod in _modifications)
             {
                 if (mod is OrderModification.ViewModel orderVM)
@@ -16,19 +16,50 @@
                     <SortModification VM=sortVM />
                     continue;
                 }
-            }
 
-        </VerticalLayout>
-        <div class="add-button-parent">
-            <button class="add-button">Add New Mod</button>
-            <div class="add-panel">
-                <button @onclick=@AddOrderModification>Order</button>
-                <button @onclick=@AddSortModification>Sort</button>
-                <button>Filter</button>
-                <button>Paginate</button>
-                <button>Group</button>
+                if (mod is FilterModification.ViewModel filterVM)
+                {
+                    <FilterModification VM=filterVM />
+                    continue;
+                }
+
+                if (mod is PaginateModification.ViewModel paginateVM)
+                {
+                    <PaginateModification VM=paginateVM />
+                    continue;
+                }
+
+                if (mod is GroupModification.ViewModel groupVM)
+                {
+                    <GroupModification VM=groupVM />
+                    continue;
+                }
+
+                if (mod is ReverseModification reverseVM)
+                {
+                    <span>Reverse</span>
+                    continue;
+                }
+
+                if (mod is AppendModification.ViewModel appendVM)
+                {
+                    <AppendModification VM=appendVM />
+                    continue;
+                }
+            }
+            <div class="add-button-parent">
+                <button class="add-button">Add New Mod</button>
+                <div class="add-panel">
+                    <button @onclick=@(AddModification<OrderModification.ViewModel>())>Order</button>
+                    <button @onclick=@(AddModification<SortModification.ViewModel>())>Sort</button>
+                    <button @onclick=@(AddModification<FilterModification.ViewModel>())>Filter</button>
+                    <button @onclick=@(AddModification<PaginateModification.ViewModel>())>Paginate</button>
+                    <button @onclick=@(AddModification<GroupModification.ViewModel>())>Group</button>
+                    <button @onclick=@(AddModification<ReverseModification>())>Reverse</button>
+                    <button @onclick=@(AddModification<AppendModification.ViewModel>())>Add</button>
+                </div>
             </div>
-        </div>
+        </VerticalLayout>
     </ToolWindow>
 </OuterClickComponent>
 
@@ -39,52 +70,17 @@
 
     private List<object> _modifications = new();
 
-    private void AddOrderModification()
+    private Action AddModification<T>() where T : new()
     {
-        _modifications.Add(new OrderModification.ViewModel() { Properties = Properties });
-        InvokeAsync(StateHasChanged);
-    }
-
-    private void AddSortModification()
-    {
-        _modifications.Add(new SortModification.ViewModel());
-        InvokeAsync(StateHasChanged);
-    }
-
-    class FilterModification
-    {
-        public FilterMethod Method { get; init; }
-
-        public enum FilterMethod
+        return () =>
         {
-            Substring,
-            StartsWith,
-            EndsWith,
-        }
-    }
+            var mod = new T();
+            if (mod is OrderModification.ViewModel orderModVM)
+                orderModVM.Properties = Properties;
 
-    class PaginateModification
-    {
-        public PaginateMethod Method { get; init; }
-
-        public enum PaginateMethod
-        {
-            ByQuantityPerGroup,
-            ByGroupCount,
-            ByInitialCharacter
-        }
-    }
-
-    class GroupModification
-    {
-        public GroupMethod Method { get; init; }
-
-        public enum GroupMethod
-        {
-            ByQuantityPerGroup,
-            ByGroupCount,
-            ByInitialCharacter
-        }
+            _modifications.Add(mod);
+            InvokeAsync(StateHasChanged);
+        };
     }
 
     class ReverseModification
