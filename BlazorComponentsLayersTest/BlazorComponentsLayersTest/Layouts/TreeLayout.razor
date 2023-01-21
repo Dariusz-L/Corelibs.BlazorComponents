@@ -1,7 +1,7 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 @using Microsoft.AspNetCore.Components.Rendering;
 @using Common.Basic.Collections
-@inherits BaseLayout
+@inherits BaseElement
 
 <div class="tree-layout-container" style=@Style>
     <div class="tree-layout">
@@ -13,8 +13,9 @@
 </div>
 
 @code {
-
     [Parameter] public TreeNode? Tree { get; set; }
+    [Parameter] public Func<string, Task<bool>> BeforeExpand { get; set; }
+    [Parameter] public Func<string, Task> AfterExpand { get; set; }
 
     [Parameter] public CssAttribute? Padding { get; set; }
     [Parameter] public CssAttribute? PaddingLeft { get; set; }
@@ -29,26 +30,61 @@
         if (node == null)
             return builder => {};
 
-        var childrenFragments = node.Children!.Select(GetTreeRenderFragment).ToList();
+        var childrenFragments = new List<RenderFragment>();
+        if (node.IsExpanded)
+            childrenFragments = node.Children!.Select(GetTreeRenderFragment).ToList();
 
         return builder =>
         {
             builder.OpenComponent<VerticalLayout>(seq++);
-            builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
-            builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
-            builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
-            if (LayoutGap.HasValue)
-                builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
-            builder.AddAttribute(seq++, "class", $"highlight-{curTreeNodeIndex++}");
-            RenderFragment childContentFragment = (RenderTreeBuilder b) =>
             {
-                b.AddContent(seq++, node.Content);
-                for (int i = 0; i < childrenFragments.Count; i++)
-                    b.AddContent(seq++, childrenFragments[i]);
-            };
-            builder.AddAttribute(seq++, "ChildContent", childContentFragment);
+                builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
+                builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
+                builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
+                if (LayoutGap.HasValue)
+                    builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+                builder.AddAttribute(seq++, "class", $"highlight-{curTreeNodeIndex++}");
+
+                RenderFragment childContentFragment = (RenderTreeBuilder b) =>
+                {
+                    b.OpenElement(seq++, "button");
+                    {
+                        b.AddAttribute(seq++, "class", "expand-button");
+                        b.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
+                        b.OpenElement(seq++, "img");
+                        {
+                            b.AddAttribute(seq++, "class", "expand-icon");
+                            if (node.HasChildren || node.Children.Count > 0)
+                                b.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                        }
+                        b.CloseElement();
+                    }
+                    b.CloseElement();
+
+                    b.AddContent(seq++, node.Content);
+                    for (int i = 0; i < childrenFragments.Count; i++)
+                        b.AddContent(seq++, childrenFragments[i]);
+                };
+
+                builder.AddAttribute(seq++, "ChildContent", childContentFragment);
+            }
             builder.CloseComponent();
         };
+    }
+
+    private async Task SwitchExpand(TreeNode node)
+    {
+        if (BeforeExpand == null)
+            return;
+
+        var result = await BeforeExpand.Invoke(node.Identity.ID);
+        if (!result)
+            return;
+
+        node.IsExpanded = !node.IsExpanded;
+        await InvokeAsync(StateHasChanged);
+
+        await AfterExpand.Invoke(node.Identity.ID);
     }
 
     int treeNodeCount;
@@ -84,6 +120,8 @@
     {
         public IdentityVM Identity { get; set; } = new();
         public RenderFragment? Content { get; set; }
-        public List<TreeNode>? Children { get; set; }
+        public List<TreeNode>? Children { get; set; } = new();
+        public bool IsExpanded { get; set; } = false;
+        public bool HasChildren { get; set; }
     }
 }

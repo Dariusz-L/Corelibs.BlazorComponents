@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BlazorComponentsLayersTest.Layouts
 {
-    public abstract class BaseLayout : ComponentBase
+    public abstract class BaseElement : ComponentBase
     {
         [Parameter] public string style { get; set; } = "";
         [Parameter] public string @class { get; set; } = "";
@@ -36,6 +36,14 @@ namespace BlazorComponentsLayersTest.Layouts
                 return styles.Aggregate((x, y) => x + y);
             }
         }
+
+        protected Action OnClick<T>(Action<T> action, T argument) => () =>
+        {
+            if (action == null || action.GetInvocationList().Length == 0)
+                return;
+
+            action.Invoke(argument);
+        };
 
         protected string CombinedStyle => Style + style;
     }

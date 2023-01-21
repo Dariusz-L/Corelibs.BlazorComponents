@@ -3,7 +3,7 @@
 
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
-    <TreeLayout Tree=Tree LayoutGap=20  />
+    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
     <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
 </div>
@@ -11,6 +11,7 @@
 @code {
     private Arrangements? _arrangements;
     private Arrangements_AddNew? _arrangements_AddNew;
+    private TreeLayout? _treeLayout;
 
     private List<IdentityVM> _properties = new();
 
@@ -30,7 +31,14 @@
         _arrangements_AddNew.OuterClickComponent.Enabled = !_arrangements_AddNew.OuterClickComponent.Enabled;
     }
 
-    public TreeNode? Tree = new TreeNode
+    private Task<bool> BeforeExpand(string id)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
+
+    public static TreeNode? Tree = new TreeNode
     {
         Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
         Children = new List<TreeNode>
@@ -70,6 +78,7 @@
 
             new TreeNode
             {
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba", "Hoho"),
                 Identity = new IdentityVM("SecondID", "Bah bah"),
                 Children = new List<TreeNode>
                 {
@@ -89,36 +98,13 @@
 
                         }
                     },
-                    new TreeNode
-                    {
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
                 }
             },
 
             new TreeNode
             {
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba2", "Hoho"),
                 Identity = new IdentityVM("ThirdID", "Sup!"),
-                Children = new List<TreeNode>
-                {
-                    new TreeNode
-                    {
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                }
             },
         }
     };

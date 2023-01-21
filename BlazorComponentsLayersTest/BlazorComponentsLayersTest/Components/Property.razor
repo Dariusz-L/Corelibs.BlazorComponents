@@ -1,4 +1,6 @@
-﻿<div class="property-container">
+﻿@inherits BaseElement
+
+<div class="property-container">
     <div class="property">
         @*<div class="property-highlight"/>*@
         <SignatureAndName Text1=@Text1 Text2=@Text2 />
@@ -13,9 +15,6 @@
                 <li>---</li>
             </ul>
         </button>
-        <button class="expand-button">
-            <img class="expand-icon" src="/icons/chevron-right.png" />
-        </button>
         <ul class="side-menu">
             <input type="checkbox" class="select-checkbox" />
         </ul>
@@ -25,4 +24,6 @@
 @code {
     [Parameter] public string Text1 { get; set; }
     [Parameter] public string Text2 { get; set; }
+    [Parameter] public string ID { get; set; }
+
 }
