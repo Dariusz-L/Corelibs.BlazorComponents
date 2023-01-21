@@ -3,9 +3,9 @@
 
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
+    <TreeLayout Tree=Tree LayoutGap=20  />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
     <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
-    <TreeLayout Tree=Tree LayoutGap=20 />
 </div>
 
 @code {

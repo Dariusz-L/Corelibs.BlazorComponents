@@ -2,7 +2,7 @@
 
 <OuterClickComponent @ref=@OuterClickComponent>
     <ToolWindow>
-        <VerticalLayout Height=@("fit-content") Gap=5 OverflowX=@("auto")>
+        <VerticalLayout Gap=5 OverflowX=@("auto")>
             @foreach (var mod in _modifications)
             {
                 if (mod is OrderModification.ViewModel orderVM)

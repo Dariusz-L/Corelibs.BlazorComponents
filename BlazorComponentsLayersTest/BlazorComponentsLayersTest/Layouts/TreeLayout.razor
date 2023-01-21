@@ -3,7 +3,7 @@
 @using Common.Basic.Collections
 @inherits BaseLayout
 
-<div style=@Style>
+<div class="tree-layout-container" style=@Style>
     <div class="tree-layout">
         @{treeNodeCount = Tree.Flatten(n => n.Children).Count();}
         @GetTreeRenderFragment(Tree)
