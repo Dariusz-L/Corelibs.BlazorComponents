@@ -1,18 +1,22 @@
 ﻿.tree-layout-container {
     overflow-x: auto;
     height: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .tree-layout-container::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0.25rem;
 }
 
 .tree-layout-container::-webkit-scrollbar-track {
-    background: #2e323a;
+    background: #ddd;
 }
 
 .tree-layout-container::-webkit-scrollbar-thumb {
-    background: #666;
+    background: #444;
 }
 
 .tree-layout {
