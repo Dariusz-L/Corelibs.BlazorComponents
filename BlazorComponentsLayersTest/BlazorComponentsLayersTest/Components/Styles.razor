@@ -1,12 +1,23 @@
 ﻿<div class="styles">
-    <Style />
+    <div class="menu">
+        <button class="menu-button" @onclick=AddStyle>Add</button>
+    </div>
 
     <VerticalLayout Gap=5 OverflowX=@("auto")>
-
+        <Style />
+        @foreach (var style in _styles)
+        {
+            <Style VM=style/>
+        }
     </VerticalLayout>
-
 </div>
 
 @code {
+    private List<Style.ViewModel> _styles = new();
 
+    private async Task AddStyle()
+    {
+        _styles.Add(new());
+        await InvokeAsync(StateHasChanged);
+    }
 }

@@ -2,15 +2,12 @@
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="style">
-    <div class="menu">
-        <button class="menu-button">Styles</button>
-        <button class="menu-button">Arrangements</button>
-        <button class="menu-button">Versions</button>
-    </div>
     <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
 </div>
 
 @code {
+    [Parameter] public ViewModel VM { get; set; } = new();
+
     private TreeLayout? _treeLayout;
 
     private Task<bool> BeforeExpand(string id) => Task.FromResult(true);
@@ -18,26 +15,31 @@
 
     public static TreeNode? Tree = new TreeNode
     {
-        Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("styles", "Misa Ammo"),
+        Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Signature", "Name"),
         Children = new List<TreeNode>
         {
             new TreeNode
             {
                 Identity = new IdentityVM("LessonsID", "Lessons"),
-                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Lessons")
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Name")
             },
 
             new TreeNode
             {
-                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Booba", "Hoho"),
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Signature", "Name"),
                 Identity = new IdentityVM("SecondID", "Bah bah")
             },
 
             new TreeNode
             {
-                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Booba2", "Hoho"),
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Signature", "Name"),
                 Identity = new IdentityVM("ThirdID", "Sup!"),
             },
         }
     };
+
+    public class ViewModel
+    {
+        
+    }
 }

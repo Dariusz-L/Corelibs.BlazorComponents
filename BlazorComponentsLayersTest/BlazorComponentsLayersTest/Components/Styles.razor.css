@@ -1,4 +1,23 @@
-﻿.page {
+﻿.style {
     height: calc(100% - 100px);
     margin-top: 10px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    height: fit-content;
+}
+
+.menu-button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+
+.menu-button:hover {
+    color: red;
 }
