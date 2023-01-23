@@ -4,17 +4,7 @@
     <div class="property">
         @*<div class="property-highlight"/>*@
         <SignatureAndName Text1=@Text1 Text2=@Text2 />
-        <button class="settings-button">
-            S
-            <ul class="menu-list">
-                <li class="menu-list-button">Create</li>
-                <li class="menu-list-button">Archive</li>
-                <li class="menu-list-button">Move Up</li>
-                <li class="menu-list-button">Move Down</li>
-                <li class="menu-list-button">Move To Index</li>
-                <li>---</li>
-            </ul>
-        </button>
+        <HoverableMenu Title="S" VM=_menuVM OnClick=OnMenuButtonClick MenuButtonCSS="property-menu-button" />
         <ul class="side-menu">
             <input type="checkbox" class="select-checkbox" />
         </ul>
@@ -26,4 +16,20 @@
     [Parameter] public string Text2 { get; set; }
     [Parameter] public string ID { get; set; }
 
+    private Task<bool> OnMenuButtonClick(HoverableMenu.ButtonVM vm)
+    {
+        return Task.FromResult(true);
+    }
+
+    private HoverableMenu.MenuVM _menuVM = new()
+    {
+        Buttons = new()
+        {
+            new("Create"),
+            new("Archive"),
+            new("Move Up"),
+            new("Move Down"),
+            new("Move To Index"),
+        }
+    };
 }

@@ -4,20 +4,22 @@
 
 .dropdown-menu {
     display: none;
-    
-    width: fit-content;
-    height: fit-content;
-
+    position: relative;
+    min-width: fit-content;
+    min-height: fit-content;
     box-sizing: border-box;
+    z-index: 99999;
+    position: fixed;
 }
 
 .dropdown-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: fit-content;
     height: fit-content;
     background: white;
     box-sizing: border-box;
+    z-index: 99999;
 }
 
 .dropdown-item {
@@ -25,4 +27,8 @@
     margin: 0;
     padding: 0;
     background: none;
+    width: fit-content;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
 }

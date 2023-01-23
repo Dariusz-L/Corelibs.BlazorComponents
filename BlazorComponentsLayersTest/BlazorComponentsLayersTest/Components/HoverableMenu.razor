@@ -1,0 +1,53 @@
+﻿@inherits BaseElement
+
+<button class="menu-button @MenuButtonCSS">
+    @Title
+    <ul class="menu-list @MenuListCSS">
+        @foreach (var vm in VM.Buttons)
+        {
+            <li class="menu-list-button @MenuListButtonCSS" @onclick=@(() => OnClickInternal(vm))>@vm.Name</li>
+        }
+    </ul>
+</button>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Menu";
+    [Parameter] public MenuVM VM { get; set; } = new();
+    [Parameter] public Func<ButtonVM, Task<bool>> OnClick { get; set; }
+
+    [Parameter] public string MenuButtonCSS { get; set; } = "";
+    [Parameter] public string MenuListCSS { get; set; } = "";
+    [Parameter] public string MenuListButtonCSS { get; set; } = "";
+
+    protected async Task OnClickInternal(ButtonVM vm)
+    {
+        if (!vm.IsInteractive)
+            return;
+
+        if (OnClick == null || OnClick.GetInvocationList().Length == 0)
+            return;
+
+        var result = await OnClick.Invoke(vm);
+        if (!result)
+            return;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public class MenuVM
+    {
+        public List<ButtonVM> Buttons { get; set; } = new();
+        public static implicit operator MenuVM(List<ButtonVM> buttons) => new MenuVM() { Buttons = buttons };
+    }
+
+    public class ButtonVM
+    {
+        public string ID { get; set; } = "";
+        public string Name { get; set; } = "";
+        public bool IsInteractive { get; set; } = true;
+
+        public ButtonVM(string name) => Name = name;
+        public ButtonVM(string name, bool isInteractive) : this(name) => IsInteractive = isInteractive;
+        public ButtonVM(string id, string name, bool isInteractive) : this(name, isInteractive) => ID = id;
+    }
+}

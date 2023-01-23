@@ -1,5 +1,8 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
-<div class="dropdown @_isActiveCssClass">
+
+@inherits BaseElement
+
+<div class="dropdown @_isActiveCssClass @(@class)">
     <div class="dropdown-trigger">
         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @onclick=@OnTrigger>
             <span>@(VM.SelectedValue.Name ?? "None")</span>
@@ -23,6 +26,7 @@
 @code {
     [Parameter] public ViewModel VM { get; set; } = new();
     [Parameter] public Func<IdentityVM, Task<bool>> OnValueChanged { get; set; } = OnValueChangedDefault;
+    [Parameter] public string FixedValue { get; set; } = "";
 
     public bool IsActive { get; private set; } = false;
 
@@ -30,6 +34,11 @@
 
     protected override void OnInitialized()
     {
+        if (!string.IsNullOrEmpty(FixedValue))
+        {
+            VM.SelectedValue = new IdentityVM(FixedValue, FixedValue);
+        }
+        else
         if ((VM.SelectedValue == null || string.IsNullOrEmpty(VM.SelectedValue.Name)) && VM.Values.Count() > 0)
             VM.SelectedValue = VM.Values.First();
     }
@@ -46,7 +55,9 @@
         if (!result)
             return;
 
-        VM.SelectedValue = value;
+        if (string.IsNullOrEmpty(FixedValue))
+            VM.SelectedValue = value;
+
         IsActive = false;
 
         await InvokeAsync(StateHasChanged);

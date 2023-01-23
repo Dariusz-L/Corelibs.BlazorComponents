@@ -5,10 +5,10 @@
 
 <div class="tree-layout-container" style=@Style>
     <div class="tree-layout">
-        @{treeNodeCount = Tree.Flatten(n => n.Children).Count();}
+        @{ treeNodeCount = Tree.Flatten(n => n.IsExpanded ? n.Children : new()).Count(); }
         @GetTreeRenderFragment(Tree)
         @GetParentStyle()
-        @{seq = 0;}
+        @{seq = 0; curTreeNodeIndex = 0;}
     </div>
 </div>
 
@@ -19,6 +19,8 @@
 
     [Parameter] public CssAttribute? Padding { get; set; }
     [Parameter] public CssAttribute? PaddingLeft { get; set; }
+
+    [Parameter] public CssAttribute? OverflowX { get; set; }
 
     [Parameter] public double? LayoutGap { get; set; }
 
@@ -94,13 +96,14 @@
         {
             b.OpenElement(seq++, "style");
             {
-                for (int i = 0; i < treeNodeCount; i++)
+                var count = treeNodeCount + 1;
+                for (int i = 0; i < count; i++)
                 {
                     var notString = "";
 
-                    for (int j = i + 1; i < treeNodeCount; j++)
+                    for (int j = i + 1; i < count; j++)
                     {
-                        if (j >= treeNodeCount)
+                        if (j >= count)
                             break;
                         notString += $":not(:has(.highlight-{j}:hover))";
                     }

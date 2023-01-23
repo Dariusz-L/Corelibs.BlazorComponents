@@ -2,7 +2,7 @@
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="style">
-    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
+    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 OverflowX=@("hidden") />
 </div>
 
 @code {

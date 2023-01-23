@@ -1,27 +1,21 @@
 ﻿.property-container {
+
 }
 
 .property {
     position: relative;
 }
 
-.property:hover .settings-button {
+.property:hover ::deep .style-menu-button {
     display: block;
+}
+
+div ::deep .style-menu-button {
+    display: none;
 }
 
 .property:hover .side-menu {
     display: flex;
-}
-
-.property-highlight {
-    position: absolute;
-    background: red;
-
-    width: calc(100% + 2 * 20px);
-    height: calc(100% + 2 * 20px);
-
-    transform: translate(-20px, -20px);
-    z-index: 0;
 }
 
 .side-menu {
@@ -36,36 +30,6 @@
     transform: translateY(-100%);
     list-style-type: none;
     z-index: 1;
-}
-
-.settings-button {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.settings-button:hover .menu-list {
-    display: flex;
-}
-
-.menu-list {
-    display: none;
-    flex-direction: column;
-    list-style-type: none;
-    align-items: flex-start;
-    width: fit-content;
-    margin: 0;
-    padding: 0;
-}
-
-.menu-list-button {
-    width: 100%;
-    text-align: start;
-}
-
-.menu-list-button:hover {
-    background: #808080;
 }
 
 .select-checkbox {

@@ -45,6 +45,18 @@ namespace BlazorComponentsLayersTest.Layouts
             action.Invoke(argument);
         };
 
+        protected Func<Task> OnClick<T>(Func<T, Task<bool>> action, T argument) => async () =>
+        {
+            if (action == null || action.GetInvocationList().Length == 0)
+                return;
+
+            var result = await action.Invoke(argument);
+            if (!result)
+                return;
+
+            await InvokeAsync(StateHasChanged);
+        };
+
         protected string CombinedStyle => Style + style;
     }
 

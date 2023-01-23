@@ -1,0 +1,42 @@
+﻿.menu-button {
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.menu-button:hover {
+    z-index: 99999;
+}
+
+.menu-button:hover .menu-list {
+    z-index: 99999;
+}
+
+.menu-button:hover .menu-list {
+    display: flex;
+}
+
+.menu-list {
+    display: none;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: flex-start;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    transform: translate(-85%, 4%);
+    background: #eee;
+}
+
+.menu-list-button {
+    width: 100%;
+    text-align: start;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.menu-list-button:hover {
+    background: #808080;
+}
