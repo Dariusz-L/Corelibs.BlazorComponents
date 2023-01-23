@@ -1,0 +1,29 @@
+﻿@using BlazorComponentsLayersTest.ViewModels;
+@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
+
+<div class="property-container">
+    <div class="property">
+        @*<div class="property-highlight"/>*@
+        <SignatureAndName Text1=@Text1 Text2=@Text2 />
+        <button class="settings-button">
+            S
+            <ul class="menu-list">
+                <li class="menu-list-button">Create</li>
+                <li class="menu-list-button">Archive</li>
+                <li class="menu-list-button">Move Up</li>
+                <li class="menu-list-button">Move Down</li>
+                <li class="menu-list-button">Move To Index</li>
+                <li>---</li>
+            </ul>
+        </button>
+        <ul class="side-menu">
+            <input type="checkbox" class="select-checkbox" />
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Text1 { get; set; }
+    [Parameter] public string Text2 { get; set; }
+    [Parameter] public string ID { get; set; }
+}

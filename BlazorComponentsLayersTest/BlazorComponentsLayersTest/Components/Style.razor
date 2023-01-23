@@ -1,0 +1,43 @@
+﻿@using BlazorComponentsLayersTest.ViewModels;
+@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
+
+<div class="style">
+    <div class="menu">
+        <button class="menu-button">Styles</button>
+        <button class="menu-button">Arrangements</button>
+        <button class="menu-button">Versions</button>
+    </div>
+    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
+</div>
+
+@code {
+    private TreeLayout? _treeLayout;
+
+    private Task<bool> BeforeExpand(string id) => Task.FromResult(true);
+    private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
+
+    public static TreeNode? Tree = new TreeNode
+    {
+        Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("styles", "Misa Ammo"),
+        Children = new List<TreeNode>
+        {
+            new TreeNode
+            {
+                Identity = new IdentityVM("LessonsID", "Lessons"),
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Lessons")
+            },
+
+            new TreeNode
+            {
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Booba", "Hoho"),
+                Identity = new IdentityVM("SecondID", "Bah bah")
+            },
+
+            new TreeNode
+            {
+                Content = RenderFragmentExtensions.CreateComponent<StyleProperty>("Booba2", "Hoho"),
+                Identity = new IdentityVM("ThirdID", "Sup!"),
+            },
+        }
+    };
+}

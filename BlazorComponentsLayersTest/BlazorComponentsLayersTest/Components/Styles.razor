@@ -1,111 +1,12 @@
-﻿@using BlazorComponentsLayersTest.ViewModels;
-@using static BlazorComponentsLayersTest.Layouts.TreeLayout;
+﻿<div class="styles">
+    <Style />
 
-<div class="page">
-    <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
-    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
-    <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
-    <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
+    <VerticalLayout Gap=5 OverflowX=@("auto")>
+
+    </VerticalLayout>
+
 </div>
 
 @code {
-    private Arrangements? _arrangements;
-    private Arrangements_AddNew? _arrangements_AddNew;
-    private TreeLayout? _treeLayout;
 
-    private List<IdentityVM> _properties = new();
-
-    protected override void OnInitialized()
-    {
-        _properties = Tree.Children.Select(n => n.Identity).ToList();
-    }
-
-    private void OnArrangmentsButton()
-    {
-        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
-    }
-
-    private void OnAddNewArrangmentClick()
-    {
-        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
-        _arrangements_AddNew.OuterClickComponent.Enabled = !_arrangements_AddNew.OuterClickComponent.Enabled;
-    }
-
-    private Task<bool> BeforeExpand(string id)
-    {
-        return Task.FromResult(true);
-    }
-
-    private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
-
-    public static TreeNode? Tree = new TreeNode
-    {
-        Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
-        Children = new List<TreeNode>
-        {
-            new TreeNode
-            {
-                Identity = new IdentityVM("LessonsID", "Lessons"),
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
-                Children = new List<TreeNode>
-                {
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "wa nad ga particles"),
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "tara and nara"),
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Basic expressions"),
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                }
-            },
-
-            new TreeNode
-            {
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba", "Hoho"),
-                Identity = new IdentityVM("SecondID", "Bah bah"),
-                Children = new List<TreeNode>
-                {
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "another lesson"),
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "yet another lesson"),
-                        Children = new List<TreeNode>
-                        {
-
-                        }
-                    },
-                }
-            },
-
-            new TreeNode
-            {
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba2", "Hoho"),
-                Identity = new IdentityVM("ThirdID", "Sup!"),
-            },
-        }
-    };
 }
