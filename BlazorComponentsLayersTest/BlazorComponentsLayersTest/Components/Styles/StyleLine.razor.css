@@ -1,0 +1,14 @@
+﻿.line {
+    padding: 1rem;
+}
+
+.name {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.attribute {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}

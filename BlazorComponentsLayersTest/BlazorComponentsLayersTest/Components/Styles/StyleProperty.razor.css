@@ -1,4 +1,15 @@
-﻿.property-container {
+﻿.info-tool {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.property-container {
 
 }
 
@@ -11,11 +22,12 @@
 }
 
 .property:hover ::deep .style-style-menu-button {
-    display: block;
+    display: none;
 }
 
 div ::deep .style-menu-button {
-    display: none;
+    display: block;
+    position: static;
 }
 
 div ::deep .style-style-menu-button {

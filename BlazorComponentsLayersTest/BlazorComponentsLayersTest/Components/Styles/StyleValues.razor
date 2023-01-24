@@ -1,0 +1,41 @@
+﻿@using System.Drawing;
+
+<div class="values">
+    <i class="name">@Name</i>
+    <label class="attribute">
+        <span>Default</span>
+        <input class="index-input" type="text" placeholder="Enter Value" value="1" />
+    </label>
+    <label class="attribute">
+        <span>Hover</span>
+        <input class="index-input" type="text" placeholder="Enter Value" value="1" />
+    </label>
+    <label class="attribute">
+        <span>Edit</span>
+        <input class="index-input" type="text" placeholder="Enter Value" value="1" />
+    </label>
+</div>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+    [Parameter] public float DefaultValue { get => Model.DefaultValue; set => Model.DefaultValue = value; }
+    [Parameter] public float HoverValue { get => Model.HoverValue; set => Model.HoverValue = value; }
+    [Parameter] public float EditValue { get => Model.EditValue; set => Model.EditValue = value; }
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Values";
+        public float DefaultValue { get; set; } = new();
+        public float HoverValue { get; set; } = new();
+        public float EditValue { get; set; } = new();
+
+        public static implicit operator ViewModel((float, float, float) args) => new()
+        {
+            DefaultValue = args.Item1,
+            HoverValue = args.Item2,
+            EditValue = args.Item3,
+        };
+    }
+}
