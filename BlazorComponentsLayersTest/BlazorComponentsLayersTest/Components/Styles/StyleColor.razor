@@ -1,0 +1,33 @@
+﻿@using System.Drawing;
+@using Common.Basic.Functional;
+
+<label class="color">
+    <span>@Name</span>
+    <input class="index-input" type="text" placeholder="Enter Index" value=@Color @oninput=OnInputChanged />
+</label>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+    [Parameter] public Color Color { get => Model.Color; set => Model.Color = value; }
+    [Parameter] public Func<Task<bool>> OnChanged { get => Model.OnChanged; set => Model.OnChanged = value; }
+
+    private Task OnInputChanged(ChangeEventArgs args)
+    {
+        return Task.CompletedTask;
+    }
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Color";
+        public Color Color { get; set; } = Color.FromArgb(1, 0, 0, 0);
+        public Func<Task<bool>> OnChanged { get; set; }
+
+        public static implicit operator ViewModel((string name, Color color) args) => new()
+        {
+            Name = args.name,
+            Color = args.color,
+        };
+    }
+}

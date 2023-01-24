@@ -1,0 +1,32 @@
+﻿@using System.Drawing;
+
+<div class="colors">
+    <i class="name">@Name</i>
+    <StyleColor Name="Default Color" Color=@DefaultColor/>
+    <StyleColor Name="Hover Color" Color=@HoverColor/>
+    <StyleColor Name="Edit Color" Color=@EditColor />
+</div>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+    [Parameter] public Color DefaultColor { get => Model.DefaultColor; set => Model.DefaultColor = value; }
+    [Parameter] public Color HoverColor { get => Model.HoverColor; set => Model.HoverColor = value; }
+    [Parameter] public Color EditColor { get => Model.EditColor; set => Model.EditColor = value; }
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Colors";
+        public Color DefaultColor { get; set; } = new();
+        public Color HoverColor { get; set; } = new();
+        public Color EditColor { get; set; } = new();
+
+        public static implicit operator ViewModel((Color, Color, Color) args) => new()
+        {
+            DefaultColor = args.Item1,
+            HoverColor = args.Item2,
+            EditColor = args.Item3,
+        };
+    }
+}

@@ -1,0 +1,16 @@
+﻿
+<label class="visibility">
+    <span>Visible</span>
+    <input type="checkbox" checked="checked" />
+</label>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Visibility";
+    }
+}

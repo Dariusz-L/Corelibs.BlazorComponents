@@ -1,0 +1,66 @@
+﻿@using BlazorComponentsLayersTest.ViewModels;
+<OuterClickComponent @ref=@OuterClick>
+    <ToolWindow class="tool-window">
+        <VerticalLayout Gap=5 OverflowX=@("auto")>
+            <div class="attribute-list as-property">
+                <h4>As Property</h4>
+
+                <label class="attribute">
+                    <span>Layout</span>
+                    <Dropdown VM=_layoutDropdownVM OnValueChanged=OnChildrenLayoutChanged />
+                </label>
+
+                <StyleFonts />
+                <StyleColors Name="Text Color" />
+                <StyleColors Name="Background Color" />
+
+                <div class="artifacts">
+                    <div class="artifact">
+                        <h5>Name</h5>
+                        <StyleVisibility />
+                        <StyleFonts />
+                        <StyleColors Name="Text Color" />
+                        <StyleColors Name="Background Color" />
+
+                    </div>
+                    <div class="artifact">
+                        <h5>Signature</h5>
+                        <StyleVisibility />
+                    </div>
+                </div>
+            </div>
+
+            <div class="attribute-list as-page">
+                <h4>As Page</h4>
+            </div>
+
+            <div class="attribute-list children">
+                <h4>Children</h4>
+                <label class="attribute">
+                    <span>Layout</span>
+                    <Dropdown VM=_layoutDropdownVM OnValueChanged=OnChildrenLayoutChanged />
+                </label>
+            </div>
+        </VerticalLayout>
+    </ToolWindow>
+</OuterClickComponent>
+
+@code {
+    public OuterClickComponent? OuterClick { get; private set; }
+
+
+    private Task<bool> OnChildrenLayoutChanged(IdentityVM propertyVM)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Dropdown.ViewModel _layoutDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Vertical"),
+            new("", "Horizontal"),
+            new("", "Grid"),
+        }
+    };
+}
