@@ -22,13 +22,13 @@
 
     private void OnArrangmentsButton()
     {
-        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
+        _arrangements.OuterClick.Enabled = !_arrangements.OuterClick.Enabled;
     }
 
     private void OnAddNewArrangmentClick()
     {
-        _arrangements.OuterClickComponent.Enabled = !_arrangements.OuterClickComponent.Enabled;
-        _arrangements_AddNew.OuterClickComponent.Enabled = !_arrangements_AddNew.OuterClickComponent.Enabled;
+        _arrangements.OuterClick.Enabled = !_arrangements.OuterClick.Enabled;
+        _arrangements_AddNew.OuterClick.Enabled = !_arrangements_AddNew.OuterClick.Enabled;
     }
 
     private Task<bool> BeforeExpand(string id)

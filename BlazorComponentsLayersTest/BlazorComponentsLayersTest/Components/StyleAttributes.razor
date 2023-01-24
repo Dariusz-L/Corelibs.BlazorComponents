@@ -1,0 +1,176 @@
+﻿@using BlazorComponentsLayersTest.ViewModels;
+<OuterClickComponent @ref=@OuterClick>
+    <ToolWindow class="tool-window">
+        <VerticalLayout Gap=5 OverflowX=@("auto")>
+            <div class="attribute-list as-property">
+                <h4>As Property</h4>
+                <label class="attribute">
+                    <span>Visible</span>
+                    <input type="checkbox" checked="checked" />
+                </label>
+                <label class="attribute">
+                    <span>Layout</span>
+                    <Dropdown VM=_layoutDropdownVM OnValueChanged=OnChildrenLayoutChanged />
+                </label>
+
+                @* Font *@
+                <label class="attribute">
+                    <span>Font</span>
+                    <Dropdown VM=_fontDropdownVM OnValueChanged=OnFontChanged />
+                </label>
+                <label class="attribute">
+                    <span>Font Size</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="16"/>
+                </label>
+                <label class="attribute">
+                    <span>Font Weight</span>
+                    <Dropdown VM=_textWeightDropdownVM />
+                </label>
+
+                @* Text Color *@
+                <label class="attribute">
+                    <span>Text Color</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+                <label class="attribute">
+                    <span>Text Color Hover</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+                <label class="attribute">
+                    <span>Text Color Edit</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+
+                @* Bg Color *@
+                <label class="attribute">
+                    <span>Background Color</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+                <label class="attribute">
+                    <span>Background Color Hover</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+                <label class="attribute">
+                    <span>Background Color Edit</span>
+                    <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                </label>
+                <div class="artifacts">
+                    <div class="artifact">
+                        <h5>Name</h5>
+                        <label class="attribute">
+                            <span>Visible</span>
+                            <input type="checkbox" checked="checked" />
+                        </label>
+
+                        @* Text Color *@
+                        <label class="attribute">
+                            <span>Text Color</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+                        <label class="attribute">
+                            <span>Text Color Hover</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+                        <label class="attribute">
+                            <span>Text Color Edit</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+
+                        @* Font *@
+                        <div class="artifact-attributes">
+                            <label class="attribute">
+                                <span>Font</span>
+                                <Dropdown VM=_fontDropdownVM OnValueChanged=OnFontChanged />
+                            </label>
+                            <label class="attribute">
+                                <span>Font Size</span>
+                                <input class="index-input" type="text" placeholder="Enter Index" value="16" />
+                            </label>
+                            <label class="attribute">
+                                <span>Font Weight</span>
+                                <Dropdown VM=_textWeightDropdownVM />
+                            </label>
+                        </div>
+
+                        @* Bg Color *@
+                        <label class="attribute">
+                            <span>Background Color</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+                        <label class="attribute">
+                            <span>Background Color Hover</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+                        <label class="attribute">
+                            <span>Background Color Edit</span>
+                            <input class="index-input" type="text" placeholder="Enter Index" value="#e4f7d2" />
+                        </label>
+                    </div>
+                    <div class="artifact">
+                        <h5>Signature</h5>
+                        <label class="attribute">
+                            <span>Visible</span>
+                            <input type="checkbox"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attribute-list as-page">
+                <h4>As Page</h4>
+            </div>
+
+            <div class="attribute-list children">
+                <h4>Children</h4>
+                <label class="attribute">
+                    <span>Layout</span>
+                    <Dropdown VM=_layoutDropdownVM OnValueChanged=OnChildrenLayoutChanged />
+                </label>
+            </div>
+        </VerticalLayout>
+    </ToolWindow>
+</OuterClickComponent>
+
+@code {
+    public OuterClickComponent? OuterClick { get; private set; }
+
+    private Task<bool> OnFontChanged(IdentityVM propertyVM)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Task<bool> OnChildrenLayoutChanged(IdentityVM propertyVM)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Dropdown.ViewModel _fontDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Arial"),
+            new("", "Times New Roman"),
+            new("", "3rd font"),
+        }
+    };
+
+    private Dropdown.ViewModel _layoutDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Vertical"),
+            new("", "Horizontal"),
+            new("", "Grid"),
+        }
+    };
+
+    private Dropdown.ViewModel _textWeightDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Thin"),
+            new("", "Bold"),
+            new("", "Bolder"),
+        }
+    };
+}

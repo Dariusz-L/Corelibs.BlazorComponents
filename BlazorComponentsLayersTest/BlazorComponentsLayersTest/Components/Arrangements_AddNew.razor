@@ -1,6 +1,6 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 
-<OuterClickComponent @ref=@OuterClickComponent>
+<OuterClickComponent @ref=@OuterClick>
     <ToolWindow>
         <VerticalLayout Gap=5 OverflowX=@("auto")>
             @foreach (var mod in _modifications)
@@ -66,7 +66,7 @@
 @code {
     [Parameter] public List<IdentityVM> Properties { get; set; } = new();
 
-    public OuterClickComponent? OuterClickComponent { get; private set; }
+    public OuterClickComponent? OuterClick { get; private set; }
 
     private List<object> _modifications = new();
 

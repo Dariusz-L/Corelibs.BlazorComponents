@@ -10,8 +10,17 @@
     display: block;
 }
 
+.property:hover ::deep .style-style-menu-button {
+    display: block;
+}
+
 div ::deep .style-menu-button {
     display: none;
+}
+
+div ::deep .style-style-menu-button {
+    display: none;
+    right: 30px;
 }
 
 .property:hover .side-menu {

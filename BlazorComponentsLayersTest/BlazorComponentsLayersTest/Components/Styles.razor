@@ -4,16 +4,24 @@
     </div>
 
     <VerticalLayout Gap=5 OverflowX=@("hidden")>
-        <Style />
+        <Style OnAttributesClick=OnAttributesClick />
         @foreach (var style in _styles)
         {
-            <Style VM=style/>
+            <Style VM=style OnAttributesClick=OnAttributesClick />
         }
     </VerticalLayout>
+    <StyleAttributes @ref=_styleAttributes />
 </div>
 
 @code {
     private List<Style.ViewModel> _styles = new();
+    private StyleAttributes _styleAttributes;
+
+    private async Task OnAttributesClick(HoverableMenu.ButtonVM vm)
+    {
+        _styleAttributes.OuterClick.Enabled = !_styleAttributes.OuterClick.Enabled;
+        await InvokeAsync(StateHasChanged);
+    }
 
     private async Task AddStyle()
     {

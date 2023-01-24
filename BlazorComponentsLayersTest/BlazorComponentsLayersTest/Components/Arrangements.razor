@@ -1,4 +1,4 @@
-﻿<OuterClickComponent @ref=@OuterClickComponent>
+﻿<OuterClickComponent @ref=@OuterClick>
     <div class="arrangements">
         <div class="current-arrangement">
             <div class="current-arrangement-label"><i>Current: </i></div>
@@ -19,7 +19,7 @@
 </OuterClickComponent>
 
 @code {
-    public OuterClickComponent? OuterClickComponent { get; private set; }
+    public OuterClickComponent? OuterClick { get; private set; }
     [Parameter] public Action? OnAddNewClick { get; set; }
 }
 @*

@@ -1,0 +1,38 @@
+﻿.tool-window {
+
+}
+
+.attribute-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.attribute {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.artifacts {
+    
+}
+
+.artifact {
+
+}
+
+.artifact-atrributes {
+
+}
+
+.as-property {
+}
+
+.page {
+
+}
+
+.children {
+
+}

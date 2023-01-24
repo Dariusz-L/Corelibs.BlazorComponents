@@ -5,7 +5,8 @@
     <div class="property">
         @*<div class="property-highlight"/>*@
         <SignatureAndName Text1=@Text1 Text2=@Text2/>
-        <HoverableMenu Title="S" VM=_menuVM OnClick=OnMenuButtonClick MenuButtonCSS="style-menu-button" />
+        @*<HoverableMenu Title="ST" VM=_stylesMenuVM OnClick=OnMenuButtonClick MenuButtonCSS="style-style-menu-button" />*@
+        <HoverableMenu Title="S" VM=_settingsMenuVM OnClick=OnMenuButtonClick MenuButtonCSS="style-menu-button" />
         <ul class="side-menu">
             <input type="checkbox" class="select-checkbox" />
         </ul>
@@ -15,14 +16,23 @@
 @code {
     [Parameter] public string Text1 { get; set; }
     [Parameter] public string Text2 { get; set; }
+
     [Parameter] public string ID { get; set; }
 
-    private Task<bool> OnMenuButtonClick(HoverableMenu.ButtonVM vm)
+    [Parameter] public Func<HoverableMenu.ButtonVM, Task> OnAttributesClick { get; set; }
+
+    private async Task<bool> OnMenuButtonClick(HoverableMenu.ButtonVM vm)
     {
-        return Task.FromResult(true);
+        if (vm.Name == "Attributes")
+        {
+            await OnAttributesClick(vm);
+            return true;
+        }
+
+        return true;
     }
 
-    private HoverableMenu.MenuVM _menuVM = new()
+    private HoverableMenu.MenuVM _settingsMenuVM = new()
     {
         Buttons = new()
         {
@@ -31,6 +41,13 @@
             new("Move Up"),
             new("Move Down"),
             new("Move To Index"),
+            new("---", false),
+            new("Attributes"),
+            new("---", false),
+            new("Save Expand"),
+            new("Reset Expand"),
+            new("Collapse"),
+            new("Collapse All"),
         }
     };
 }
