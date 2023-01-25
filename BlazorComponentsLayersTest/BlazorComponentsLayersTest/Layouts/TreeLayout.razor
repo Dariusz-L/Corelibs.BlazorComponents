@@ -24,6 +24,8 @@
 
     [Parameter] public double? LayoutGap { get; set; }
 
+    [Parameter] public Func<TreeNode, RenderFragment> GetContent { get; set; }
+
     int seq;
     int zIndex = 0;
     int curTreeNodeIndex;
@@ -38,30 +40,35 @@
 
         return builder =>
         {
-            builder.OpenComponent<VerticalLayout>(seq++);
+            var layoutType = LayoutTypeExtensions.GetComponent(node.LayoutType);
+            builder.OpenComponent(seq++, layoutType);
             {
                 builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
                 builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
                 builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
                 if (LayoutGap.HasValue)
                     builder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+
                 builder.AddAttribute(seq++, "class", $"highlight-{curTreeNodeIndex++}");
 
                 RenderFragment childContentFragment = (RenderTreeBuilder b) =>
                 {
-                    b.OpenElement(seq++, "button");
+                    if (node.CanExpand)
                     {
-                        b.AddAttribute(seq++, "class", "expand-button");
-                        b.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
-                        b.OpenElement(seq++, "img");
+                        b.OpenElement(seq++, "button");
                         {
-                            b.AddAttribute(seq++, "class", "expand-icon");
-                            if (node.HasChildren || node.Children.Count > 0)
-                                b.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                            b.AddAttribute(seq++, "class", "expand-button");
+                            b.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
+                            b.OpenElement(seq++, "img");
+                            {
+                                b.AddAttribute(seq++, "class", "expand-icon");
+                                if (node.HasChildren || node.Children.Count > 0)
+                                    b.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                            }
+                            b.CloseElement();
                         }
                         b.CloseElement();
                     }
-                    b.CloseElement();
 
                     b.AddContent(seq++, node.Content);
                     for (int i = 0; i < childrenFragments.Count; i++)
@@ -124,7 +131,29 @@
         public IdentityVM Identity { get; set; } = new();
         public RenderFragment? Content { get; set; }
         public List<TreeNode>? Children { get; set; } = new();
+        public bool CanExpand { get; set; } = true;
         public bool IsExpanded { get; set; } = false;
         public bool HasChildren { get; set; }
+
+        public LayoutType LayoutType { get; set; }
+    }
+
+    public enum LayoutType
+    {
+        Vertical,
+        Horizontal,
+        Grid
+    }
+
+    public static class LayoutTypeExtensions
+    {
+        public static Type GetComponent(LayoutType layoutType) =>
+            layoutType switch
+            {
+                LayoutType.Vertical => typeof(VerticalLayout),
+                LayoutType.Horizontal => typeof(VerticalLayout),
+                LayoutType.Grid => typeof(GridLayout),
+                _ => typeof(VerticalLayout)
+            };
     }
 }

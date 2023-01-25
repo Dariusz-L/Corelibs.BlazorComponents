@@ -2,6 +2,13 @@
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
+    <GridLayout>
+        <span>N1</span>
+        <span>N2</span>
+        <span>N3</span>
+        <span>N4</span>
+        <span>N5</span>
+    </GridLayout>
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
@@ -78,24 +85,86 @@
 
             new TreeNode
             {
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba", "Hoho"),
+                LayoutType = LayoutType.Grid,
+                Content = RenderFragmentExtensions.CreateComponent<Property>("WordsID", "Words"),
                 Identity = new IdentityVM("SecondID", "Bah bah"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
                     {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "another lesson"),
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
                         Children = new List<TreeNode>
                         {
-
                         }
                     },
                     new TreeNode
                     {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "yet another lesson"),
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
                         Children = new List<TreeNode>
                         {
-
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Children = new List<TreeNode>
+                        {
                         }
                     },
                 }
@@ -103,7 +172,7 @@
 
             new TreeNode
             {
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Booba2", "Hoho"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("CharactersID", "Characters"),
                 Identity = new IdentityVM("ThirdID", "Sup!"),
             },
         }

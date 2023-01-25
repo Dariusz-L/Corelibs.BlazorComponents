@@ -10,7 +10,7 @@ namespace BlazorComponentsLayersTest.Layouts
 
         protected string Style 
         { 
-            get 
+            get
             {
                 var type = GetType();
                 var properties = type.GetProperties().ToArray();
