@@ -1,6 +1,6 @@
 ﻿@inherits BaseElement
 
-<div class="property-container">
+<div class="property-container" style=@Style>
     <div class="property">
         @*<div class="property-highlight"/>*@
         <SignatureAndName Text1=@Text1 Text2=@Text2 />
@@ -15,6 +15,14 @@
     [Parameter] public string Text1 { get; set; }
     [Parameter] public string Text2 { get; set; }
     [Parameter] public string ID { get; set; }
+
+    [Parameter] public CssAttribute? Width { get; set; }
+    [Parameter] public CssAttribute? MinWidth { get; set; }
+    [Parameter] public CssAttribute? MaxWidth { get; set; }
+
+    [Parameter] public CssAttribute? Height { get; set; }
+    [Parameter] public CssAttribute? MinHeight { get; set; }
+    [Parameter] public CssAttribute? MaxHeight { get; set; }
 
     private Task<bool> OnMenuButtonClick(HoverableMenu.ButtonVM vm)
     {

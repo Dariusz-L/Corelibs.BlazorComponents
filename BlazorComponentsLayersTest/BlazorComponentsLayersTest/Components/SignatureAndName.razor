@@ -1,4 +1,9 @@
-﻿<p class="signature">@Text1</p>
+﻿@using Common.Basic.Collections;
+
+@if (!Text1.IsNullOrEmpty())
+{
+    <p class="signature">@Text1</p>
+}
 <p class="name">@Text2</p>
 
 @code {

@@ -1,14 +1,8 @@
 ﻿@using BlazorComponentsLayersTest.Extensions
-@inherits BaseElement
+@inherits BaseLayout
 
-<div class="grid-layout" style=@Style>
-    @ChildContent
+<div class="grid-layout @(@class)" style=@CombinedStyle>
+    <CascadingValue Value=@_children>
+        @ChildContent
+    </CascadingValue>
 </div>
-
-@code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    [Parameter] public CssAttribute? Gap { get; set; }
-    [Parameter] public CssAttribute? ColumnGap { get; set; }
-    [Parameter] public CssAttribute? RowGap { get; set; }
-}

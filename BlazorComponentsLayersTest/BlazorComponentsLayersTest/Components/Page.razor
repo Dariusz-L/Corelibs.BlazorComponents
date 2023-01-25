@@ -86,88 +86,34 @@
             new TreeNode
             {
                 LayoutType = LayoutType.Grid,
-                Content = RenderFragmentExtensions.CreateComponent<Property>("WordsID", "Words"),
-                Identity = new IdentityVM("SecondID", "Bah bah"),
+                Identity = new IdentityVM("WordsID", "Words"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
                     {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute(200)), "Lesson", "Word"),
                     },
                     new TreeNode
                     {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Children = new List<TreeNode>
-                        {
-                        }
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute(200)), "Lesson", "Word"),
                     },
                 }
+            },
+
+            new TreeNode
+            {
+                LayoutType = LayoutType.Grid,
+                Identity = new IdentityVM("CharactersID", "Characters"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
+                Children = Enumerable.Range(97, 23).Select(i => new TreeNode
+                {
+                    CanExpand = false,
+                    Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute("20px")), "", ((char) i).ToString()),
+                })
+                .ToList()
             },
 
             new TreeNode
