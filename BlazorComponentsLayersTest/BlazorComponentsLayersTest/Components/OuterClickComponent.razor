@@ -1,6 +1,6 @@
 ﻿@inherits BaseElement
 
-<div class="outer @_displayNoneCssClass" @onclick=@OnClick style=@Style>
+<div class="outer @_displayNoneCssClass @(@class)" @onclick=@OnClick style=@Style @ref=ElementReference>
     <div @onclick:stopPropagation="true" @onclick:preventDefault="true">
         @ChildContent
     </div>
@@ -9,6 +9,8 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public CssAttribute? ZIndex { get; set; }
+
+    public ElementReference ElementReference { get; private set; }
 
     private string _displayNoneCssClass => _enabled ? "" : "display-none";
 

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorComponentsLayersTest"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.Basic", "..\..\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic.csproj", "{9D17C3E1-D4DA-4B06-9810-9692F4F29E0B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.BlazorShared", "..\..\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared.csproj", "{F6FC6472-1259-40B5-98FB-0B191EF56FD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{9D17C3E1-D4DA-4B06-9810-9692F4F29E0B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D17C3E1-D4DA-4B06-9810-9692F4F29E0B}.Release|x64.ActiveCfg = Release|x64
 		{9D17C3E1-D4DA-4B06-9810-9692F4F29E0B}.Release|x64.Build.0 = Release|x64
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6FC6472-1259-40B5-98FB-0B191EF56FD2}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

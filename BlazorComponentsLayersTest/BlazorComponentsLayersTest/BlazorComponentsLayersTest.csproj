@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic.csproj" />
+    <ProjectReference Include="..\..\..\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared.csproj" />
   </ItemGroup>
 
 </Project>

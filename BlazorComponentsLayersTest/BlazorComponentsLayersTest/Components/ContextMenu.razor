@@ -1,0 +1,11 @@
+﻿@inherits BaseElement
+
+<div class="context-menu @(@class)" @ref=ElementReference>
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    public ElementReference ElementReference { get; private set; }
+
+}
