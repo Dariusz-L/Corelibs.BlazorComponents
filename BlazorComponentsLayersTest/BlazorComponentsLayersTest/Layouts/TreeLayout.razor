@@ -1,9 +1,10 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 @using Microsoft.AspNetCore.Components.Rendering;
 @using Common.Basic.Collections
+@using System.Drawing;
 @inherits BaseElement
 
-<div class="tree-layout-container" style=@Style>
+<div class="tree-layout-container" style=@base.Style>
     <div class="tree-layout">
         @{ treeNodeCount = Tree.Flatten(n => n.IsExpanded ? n.Children : new()).Count(); }
         @GetTreeRenderFragment(Tree)
@@ -42,54 +43,52 @@
         {
             builder.OpenComponent<VerticalLayout>(seq++);
             {
-                builder.AddAttribute(seq++, "ZIndex", new CssAttribute(zIndex));
-                builder.AddAttribute(seq++, "Height", new CssAttribute("fit-content"));
-                builder.AddAttribute(seq++, "Padding", new CssAttribute(20));
-
-                builder.AddAttribute(seq++, "class", $"highlight-{curTreeNodeIndex++}");
-
-                RenderFragment childContentFragment = (RenderTreeBuilder b) =>
-                {
-                    if (node.CanExpand)
-                    {
-                        b.OpenElement(seq++, "button");
+                builder.AddClassAttribute(ref seq, $"highlight-{curTreeNodeIndex++}")
+                    .AddCssAttribute(ref seq, "ZIndex", zIndex)
+                    .AddCssAttribute(ref seq, "Height", "fit-content")
+                    .AddCssAttribute(ref seq, "Padding", 20)
+                    .AddCssAttribute(ref seq, "BorderRadius", node.Style.Borders.Radius)
+                    .AddAttribute(seq++, "ChildContent", new RenderFragment(
+                        (RenderTreeBuilder childBuilder) =>
                         {
-                            b.AddAttribute(seq++, "class", "expand-button");
-                            b.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
-                            b.OpenElement(seq++, "img");
+                            if (node.CanExpand)
                             {
-                                b.AddAttribute(seq++, "class", "expand-icon");
-                                if (node.HasChildren || node.Children.Count > 0)
-                                    b.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                                childBuilder.OpenElement(seq++, "button");
+                                {
+                                    childBuilder.AddAttribute(seq++, "class", "expand-button");
+                                    childBuilder.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
+                                    childBuilder.OpenElement(seq++, "img");
+                                    {
+                                        childBuilder.AddAttribute(seq++, "class", "expand-icon");
+                                        if (node.HasChildren || node.Children.Count > 0)
+                                            childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                                    }
+                                    childBuilder.CloseElement();
+                                }
+                                childBuilder.CloseElement();
                             }
-                            b.CloseElement();
-                        }
-                        b.CloseElement();
-                    }
 
-                    b.AddContent(seq++, node.Content);
+                            childBuilder.AddContent(seq++, node.Content);
 
-                    b.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.LayoutType));
-                    {
-                        if (LayoutGap.HasValue)
-                            b.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
-                        b.AddAttribute(seq++, "Background", null as CssAttribute);
+                            childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.Style.LayoutType));
+                            {
+                                if (LayoutGap.HasValue)
+                                    childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+                                childBuilder.AddAttribute(seq++, "Background", null as CssAttribute);
 
-                        if (node.LayoutType != LayoutType.Vertical)
-                            b.AddAttribute(seq++, "ChildWidth", new CssAttributeExt("fit-content"));
+                                if (node.Style.LayoutType != LayoutType.Vertical)
+                                    childBuilder.AddAttribute(seq++, "ChildWidth", new CssAttributeExt("fit-content"));
 
-                        RenderFragment childrenActualLayoutFragment = (RenderTreeBuilder b) =>
-                        {
-                            for (int i = 0; i < childrenFragments.Count; i++)
-                                b.AddContent(seq++, childrenFragments[i]);
-                        };
+                                RenderFragment childrenActualLayoutFragment = (RenderTreeBuilder b) =>
+                                {
+                                    for (int i = 0; i < childrenFragments.Count; i++)
+                                        b.AddContent(seq++, childrenFragments[i]);
+                                };
 
-                        b.AddAttribute(seq++, "ChildContent", childrenActualLayoutFragment);
-                    }
-                    b.CloseComponent();
-                };
-
-                builder.AddAttribute(seq++, "ChildContent", childContentFragment);
+                                childBuilder.AddAttribute(seq++, "ChildContent", childrenActualLayoutFragment);
+                            }
+                            childBuilder.CloseComponent();
+                        }));
             }
             builder.CloseComponent();
         };
@@ -148,8 +147,44 @@
         public bool CanExpand { get; set; } = true;
         public bool IsExpanded { get; set; } = false;
         public bool HasChildren { get; set; }
+        public Style Style { get; set; } = new Style();
+    }
 
+    public class Style
+    {
         public LayoutType LayoutType { get; set; }
+        public bool Visible { get; set; }
+        public BordersInfo Borders { get; } = new BordersInfo();
+    }
+
+    public class BordersInfo
+    {
+        public float Radius { get; set; } = 5;
+        public LineInfo Top { get; set; }
+        public LineInfo Bottom { get; set; }
+        public LineInfo Right { get; set; }
+        public LineInfo Left { get; set; }
+    }
+
+    public class LineInfo
+    {
+        public LineType Type { get; set; }
+        public ColorsInfo Colors { get; } = new ColorsInfo();
+        public float Thickness { get; set; } = 1;
+    }
+
+    public class ColorsInfo
+    {
+        public Color DefaultColor { get; set; }
+        public Color HoverColor { get; set; }
+        public Color EditColor { get; set; }
+    }
+
+    public enum LineType
+    {
+        Solid,
+        Dashed,
+        Dotted
     }
 
     public enum LayoutType

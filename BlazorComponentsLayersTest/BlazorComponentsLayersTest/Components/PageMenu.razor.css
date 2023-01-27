@@ -4,6 +4,10 @@
     gap: 10px;
     width: 100%;
     height: fit-content;
+    background: #e0e0e0;
+    margin-bottom: 15px;
+    padding: 8px;
+    border-radius: 5px;
 }
 
 .mod-menu-button {

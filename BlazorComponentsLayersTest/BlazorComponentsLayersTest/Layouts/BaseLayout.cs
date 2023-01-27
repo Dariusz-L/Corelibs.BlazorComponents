@@ -20,6 +20,8 @@ namespace BlazorComponentsLayersTest.Layouts
         [Parameter] public CssAttribute? OverflowX { get; set; }
         [Parameter] public CssAttribute? OverflowY { get; set; }
 
+        [Parameter] public CssAttribute? BorderRadius { get; set; }
+
         [Parameter] public CssAttributeExt ChildWidth { get; set; }
         [Parameter] public CssAttributeExt ChildMinWidth { get; set; }
         [Parameter] public CssAttributeExt ChildMaxWidth { get; set; }

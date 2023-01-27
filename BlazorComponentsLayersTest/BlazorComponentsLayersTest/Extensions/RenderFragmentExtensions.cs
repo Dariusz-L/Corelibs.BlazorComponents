@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Common.Basic.Collections;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace BlazorComponentsLayersTest.Extensions
 {
@@ -55,6 +58,36 @@ namespace BlazorComponentsLayersTest.Extensions
 
                 builder.CloseComponent();
             };
+        }
+
+        public static RenderTreeBuilder AddAttribute(this RenderTreeBuilder builder, ref int sequence, string name, MulticastDelegate? value)
+        {
+            builder.AddAttribute(sequence++, name, value);
+            return builder;
+        }
+
+        public static RenderTreeBuilder AddCssAttribute(this RenderTreeBuilder builder, ref int sequence, string name, double value)
+        {
+            if (value is not 0)
+                builder.AddAttribute(sequence++, name, new CssAttribute(value));
+
+            return builder;
+        }
+
+        public static RenderTreeBuilder AddCssAttribute(this RenderTreeBuilder builder, ref int sequence, string name, string value)
+        {
+            if (!value.IsNullOrEmpty())
+                builder.AddAttribute(sequence++, name, new CssAttribute(value));
+
+            return builder;
+        }
+
+        public static RenderTreeBuilder AddClassAttribute(this RenderTreeBuilder builder, ref int sequence, string value)
+        {
+            if (!value.IsNullOrEmpty())
+                builder.AddAttribute(sequence++, "class", value);
+
+            return builder;
         }
     }
 

@@ -16,6 +16,8 @@
     box-sizing: border-box;
 
     position: relative;
+
+    overflow-y: visible;
 }
 
 div ::deep p {

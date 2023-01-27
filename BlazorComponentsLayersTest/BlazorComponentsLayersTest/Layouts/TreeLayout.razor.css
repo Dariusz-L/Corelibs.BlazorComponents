@@ -1,10 +1,8 @@
 ﻿.tree-layout-container {
     overflow-x: auto;
-    height: 100%;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: fit-content;
+    padding: 5px;
+    overflow-x: visible;
 }
 
 .tree-layout-container::-webkit-scrollbar {

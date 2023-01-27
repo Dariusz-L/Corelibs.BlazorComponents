@@ -2,13 +2,6 @@
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
-    <GridLayout>
-        <span>N1</span>
-        <span>N2</span>
-        <span>N3</span>
-        <span>N4</span>
-        <span>N5</span>
-    </GridLayout>
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
@@ -85,7 +78,7 @@
 
             new TreeNode
             {
-                LayoutType = LayoutType.Grid,
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
                 Identity = new IdentityVM("WordsID", "Words"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
                 Children = new List<TreeNode>
@@ -105,7 +98,7 @@
 
             new TreeNode
             {
-                LayoutType = LayoutType.Grid,
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
                 Identity = new IdentityVM("CharactersID", "Characters"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
                 Children = Enumerable.Range(97, 23).Select(i => new TreeNode
