@@ -1,4 +1,5 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
+@using System.Drawing;
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
@@ -40,6 +41,13 @@
 
     public static TreeNode? Tree = new TreeNode
     {
+        Style = new TreeLayout.Style()
+        {
+            BackgroundColor = new()
+            {
+                DefaultColor = Color.FromArgb(255, 230, 230, 230)
+            }
+        },
         Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
         Children = new List<TreeNode>
         {
@@ -86,12 +94,196 @@
                     new TreeNode
                     {
                         CanExpand = false,
-                        Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute(200)), "Lesson", "Word"),
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        { 
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
                     },
                     new TreeNode
                     {
                         CanExpand = false,
-                        Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute(200)), "Lesson", "Word"),
+                        Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        {
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                Identity = new IdentityVM("CharactersID", "Characters"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
+                Children = Enumerable.Range(97, 23).Select(i => new TreeNode
+                {
+                    CanExpand = false,
+                    Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute("20px")), "", ((char) i).ToString()),
+                })
+                .ToList()
+            },
+
+            new TreeNode
+            {
+                Content = RenderFragmentExtensions.CreateComponent<Property>("CharactersID", "Characters"),
+                Identity = new IdentityVM("ThirdID", "Sup!"),
+            },
+            new TreeNode
+            {
+                Identity = new IdentityVM("LessonsID", "Lessons"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "wa nad ga particles"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "tara and nara"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Basic expressions"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                Identity = new IdentityVM("WordsID", "Words"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        {
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
+                    },
+                    new TreeNode
+                    {
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        {
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                Identity = new IdentityVM("CharactersID", "Characters"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
+                Children = Enumerable.Range(97, 23).Select(i => new TreeNode
+                {
+                    CanExpand = false,
+                    Content = RenderFragmentExtensions.CreateComponent<Property>(("Width", new CssAttribute("20px")), "", ((char) i).ToString()),
+                })
+                .ToList()
+            },
+
+            new TreeNode
+            {
+                Content = RenderFragmentExtensions.CreateComponent<Property>("CharactersID", "Characters"),
+                Identity = new IdentityVM("ThirdID", "Sup!"),
+            },
+            new TreeNode
+            {
+                Identity = new IdentityVM("LessonsID", "Lessons"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "wa nad ga particles"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "tara and nara"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                    new TreeNode
+                    {
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Basic expressions"),
+                        Children = new List<TreeNode>
+                        {
+
+                        }
+                    },
+                }
+            },
+
+            new TreeNode
+            {
+                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                Identity = new IdentityVM("WordsID", "Words"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
+                Children = new List<TreeNode>
+                {
+                    new TreeNode
+                    {
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        {
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
+                    },
+                    new TreeNode
+                    {
+                        CanExpand = false,
+                        Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
+                        Style = new TreeLayout.Style()
+                        {
+                            BackgroundColor = new()
+                            {
+                                DefaultColor = Color.Aqua
+                            }
+                        }
                     },
                 }
             },
@@ -115,5 +307,6 @@
                 Identity = new IdentityVM("ThirdID", "Sup!"),
             },
         }
+
     };
 }

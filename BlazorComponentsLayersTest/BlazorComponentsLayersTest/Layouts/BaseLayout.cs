@@ -14,6 +14,12 @@ namespace BlazorComponentsLayersTest.Layouts
         [Parameter] public CssAttribute? PaddingLeft { get; set; }
         [Parameter] public CssAttribute? PaddingRight { get; set; }
 
+        [Parameter] public CssAttribute? Margin { get; set; }
+        [Parameter] public CssAttribute? MarginLeft { get; set; }
+        [Parameter] public CssAttribute? MarginRight { get; set; }
+        [Parameter] public CssAttribute? MarginTop{ get; set; }
+        [Parameter] public CssAttribute? MarginBottom { get; set; }
+
         [Parameter] public CssAttribute? Gap { get; set; }
 
         [Parameter] public CssAttribute? Overflow { get; set; }

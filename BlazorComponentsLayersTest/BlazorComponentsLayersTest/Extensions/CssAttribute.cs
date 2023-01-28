@@ -11,12 +11,16 @@ namespace BlazorComponentsLayersTest.Extensions
 
         public CssAttribute() {}
         public CssAttribute(double value) { Value = value; }
-        public CssAttribute(string valuesString) 
+        public CssAttribute(string valuesString)
         {
             if (string.IsNullOrEmpty(valuesString))
                 throw new ArgumentNullException();
 
             ValueStr = valuesString;
+
+            if (valuesString.Contains("rgb"))
+                return;
+
             GetFromValuesString(valuesString, out var values);
             if (values.Length == 0)
             {

@@ -1,4 +1,5 @@
-﻿using Common.Basic.Collections;
+﻿using BlazorComponentsLayersTest.Layouts;
+using Common.Basic.Collections;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Reflection;
@@ -58,6 +59,18 @@ namespace BlazorComponentsLayersTest.Extensions
 
                 builder.CloseComponent();
             };
+        }
+
+        public static RenderTreeBuilder OpenElement(this RenderTreeBuilder builder, ref int sequence, string name)
+        {
+            builder.OpenElement(sequence++, name);
+            return builder;
+        }
+
+        public static RenderTreeBuilder OpenComponent<T>(this RenderTreeBuilder builder, ref int sequence) where T : notnull, IComponent
+        {
+            builder.OpenComponent<T>(sequence++);
+            return builder;
         }
 
         public static RenderTreeBuilder AddAttribute(this RenderTreeBuilder builder, ref int sequence, string name, MulticastDelegate? value)

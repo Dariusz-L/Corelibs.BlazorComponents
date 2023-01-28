@@ -26,11 +26,9 @@
 }
 
 div ::deep .expand-button {
-    position: absolute;
     left: 0;
-    top: 17px;
-    transform: translate(-90%, 0);
     width: fit-content;
+    height: fit-content;
     max-height: fit-content;
     padding: 0;
     margin: 0;
@@ -38,6 +36,29 @@ div ::deep .expand-button {
     background: none;
 }
 
+div ::deep .expand-icon {
+    width: 16px;
+    height: 16px;
+}
+
 div ::deep .expand-icon:hover {
     filter: brightness(50) invert(0.5);
+}
+
+div ::deep .side-menu {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: none;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+
+    width: 32px;
+    height: 16px;
+
+    top: 0;
+    left: 0;
+    transform: translate(-100%, 80%);
+    list-style-type: none;
+    z-index: 1;
 }

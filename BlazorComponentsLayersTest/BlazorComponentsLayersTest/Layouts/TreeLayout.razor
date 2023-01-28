@@ -1,7 +1,9 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 @using Microsoft.AspNetCore.Components.Rendering;
 @using Common.Basic.Collections
+@using Corelibs.Basic.Colors;
 @using System.Drawing;
+
 @inherits BaseElement
 
 <div class="tree-layout-container" style=@base.Style>
@@ -41,39 +43,49 @@
 
         return builder =>
         {
-            builder.OpenComponent<VerticalLayout>(seq++);
-            {
-                builder.AddClassAttribute(ref seq, $"highlight-{curTreeNodeIndex++}")
-                    .AddCssAttribute(ref seq, "ZIndex", zIndex)
-                    .AddCssAttribute(ref seq, "Height", "fit-content")
-                    .AddCssAttribute(ref seq, "Padding", 20)
-                    .AddCssAttribute(ref seq, "BorderRadius", node.Style.Borders.Radius)
-                    .AddAttribute(seq++, "ChildContent", new RenderFragment(
-                        (RenderTreeBuilder childBuilder) =>
+            builder.OpenComponent<VerticalLayout>(ref seq)
+                .AddClassAttribute(ref seq, $"highlight-{curTreeNodeIndex++}")
+                .AddCssAttribute(ref seq, "ZIndex", zIndex)
+                .AddCssAttribute(ref seq, "Height", "fit-content")
+                .AddCssAttribute(ref seq, "Padding", 16)
+                .AddCssAttribute(ref seq, "PaddingLeft", 16)
+                .AddCssAttribute(ref seq, "BorderRadius", node.Style.Borders.Radius)
+                .AddCssAttribute(ref seq, "Background", node.Style.BackgroundColor.DefaultColor.ToRgbaString())
+                .AddAttribute(ref seq, "ChildContent", new RenderFragment(
+                    (RenderTreeBuilder childBuilder) =>
+                    {
+                        if (node.CanExpand)
                         {
-                            if (node.CanExpand)
+                            if (node.HasChildren || node.Children.Count > 0)
                             {
-                                childBuilder.OpenElement(seq++, "button");
+                                childBuilder.OpenElement(ref seq, "div");
                                 {
-                                    childBuilder.AddAttribute(seq++, "class", "expand-button");
-                                    childBuilder.AddAttribute(seq++, "onclick", () => SwitchExpand(node));
-                                    childBuilder.OpenElement(seq++, "img");
-                                    {
-                                        childBuilder.AddAttribute(seq++, "class", "expand-icon");
-                                        if (node.HasChildren || node.Children.Count > 0)
+                                    childBuilder.AddClassAttribute(ref seq, "side-menu");
+                                    childBuilder.OpenElement(ref seq, "button")
+                                        .AddCssAttribute(ref seq, "class", "expand-button")
+                                        .AddAttribute(ref seq, "onclick", () => SwitchExpand(node))
+                                        .OpenElement(seq++, "img");
+                                        {
+                                            childBuilder.AddAttribute(seq++, "class", "expand-icon");
                                             childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
-                                    }
+                                        }
+                                        childBuilder.CloseElement();
                                     childBuilder.CloseElement();
                                 }
                                 childBuilder.CloseElement();
                             }
+                        }
 
-                            childBuilder.AddContent(seq++, node.Content);
+                        childBuilder.AddContent(seq++, node.Content);
 
+                        if (childrenFragments.Count > 0)
+                        {
                             childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.Style.LayoutType));
                             {
+                                childBuilder.AddCssAttribute(ref seq, "MarginTop", 15);
                                 if (LayoutGap.HasValue)
                                     childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+
                                 childBuilder.AddAttribute(seq++, "Background", null as CssAttribute);
 
                                 if (node.Style.LayoutType != LayoutType.Vertical)
@@ -88,9 +100,9 @@
                                 childBuilder.AddAttribute(seq++, "ChildContent", childrenActualLayoutFragment);
                             }
                             childBuilder.CloseComponent();
-                        }));
-            }
-            builder.CloseComponent();
+                        }
+                    }))
+                .CloseComponent();
         };
     }
 
@@ -133,6 +145,10 @@
                     //b.AddContent(seq++, "opacity: 70% !important;");
                     b.AddContent(seq++, "outline: solid 1px;");
                     b.AddContent(seq++, "}");
+
+                    b.AddContent(seq++, ".highlight-" + i + ":hover" + notString + "> .side-menu {");
+                    b.AddContent(seq++, "display: flex;");
+                    b.AddContent(seq++, "}");
                 }
             }
             b.CloseElement();
@@ -153,31 +169,52 @@
     public class Style
     {
         public LayoutType LayoutType { get; set; }
+
         public bool Visible { get; set; }
-        public BordersInfo Borders { get; } = new BordersInfo();
+        public DisplayType HoverDisplayType { get; set; }
+        public DisplayType EditDisplayType { get; set; }
+
+        public FontInfo Font { get; set; }
+        public ColorsInfo BackgroundColor { get; set; } = new();
+        public BordersInfo Borders { get; } = new();
+    }
+
+    public class FontInfo
+    {
+        public string FontID { get; init; }
+        public string FontSize { get; init; }
+        public string FontWeightType { get; init; }
     }
 
     public class BordersInfo
     {
         public float Radius { get; set; } = 5;
-        public LineInfo Top { get; set; }
-        public LineInfo Bottom { get; set; }
-        public LineInfo Right { get; set; }
-        public LineInfo Left { get; set; }
+        public LineInfo Top { get; set; } = new();
+        public LineInfo Bottom { get; set; } = new();
+        public LineInfo Right { get; set; } = new();
+        public LineInfo Left { get; set; } = new();
     }
 
     public class LineInfo
     {
         public LineType Type { get; set; }
-        public ColorsInfo Colors { get; } = new ColorsInfo();
+        public ColorsInfo Colors { get; } = new();
         public float Thickness { get; set; } = 1;
     }
 
     public class ColorsInfo
     {
-        public Color DefaultColor { get; set; }
-        public Color HoverColor { get; set; }
-        public Color EditColor { get; set; }
+        public Color DefaultColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
+        public Color HoverColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
+        public Color EditColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
+    }
+
+    public enum DisplayType
+    {
+        None,
+        Border,
+        Background,
+        Shadow
     }
 
     public enum LineType
