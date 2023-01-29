@@ -58,7 +58,7 @@ div ::deep .side-menu {
 
     top: 0;
     left: 0;
-    transform: translate(-100%, 80%);
+    transform: translate(-100%, 125%);
     list-style-type: none;
     z-index: 1;
 }

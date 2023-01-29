@@ -29,6 +29,9 @@
 
     [Parameter] public Func<TreeNode, RenderFragment> GetContent { get; set; }
 
+    [Parameter] public ModifyContentDelegate ModifyNode { get; set; }
+    public delegate void ModifyContentDelegate(RenderTreeBuilder builder, TreeNode node, ref int sequence);
+
     int seq;
     int zIndex = 0;
     int curTreeNodeIndex;
@@ -46,12 +49,11 @@
             builder.OpenComponent<VerticalLayout>(ref seq)
                 .AddClassAttribute(ref seq, $"highlight-{curTreeNodeIndex++}")
                 .AddCssAttribute(ref seq, "ZIndex", zIndex)
-                .AddCssAttribute(ref seq, "Height", "fit-content")
-                .AddCssAttribute(ref seq, "Padding", 16)
-                .AddCssAttribute(ref seq, "PaddingLeft", 16)
-                .AddCssAttribute(ref seq, "BorderRadius", node.Style.Borders.Radius)
-                .AddCssAttribute(ref seq, "Background", node.Style.BackgroundColor.DefaultColor.ToRgbaString())
-                .AddAttribute(ref seq, "ChildContent", new RenderFragment(
+                .AddCssAttribute(ref seq, "Height", "fit-content");
+
+            ModifyNode?.Invoke(builder, node, ref seq);
+
+            builder.AddAttribute(ref seq, "ChildContent", new RenderFragment(
                     (RenderTreeBuilder childBuilder) =>
                     {
                         if (node.CanExpand)
@@ -65,22 +67,23 @@
                                         .AddCssAttribute(ref seq, "class", "expand-button")
                                         .AddAttribute(ref seq, "onclick", () => SwitchExpand(node))
                                         .OpenElement(seq++, "img");
-                                        {
-                                            childBuilder.AddAttribute(seq++, "class", "expand-icon");
-                                            childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
-                                        }
-                                        childBuilder.CloseElement();
+                                    {
+                                        childBuilder.AddAttribute(seq++, "class", "expand-icon");
+                                        childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                                    }
+                                    childBuilder.CloseElement();
                                     childBuilder.CloseElement();
                                 }
                                 childBuilder.CloseElement();
                             }
                         }
 
+                        //node.GetContent(node, ref seq)
                         childBuilder.AddContent(seq++, node.Content);
 
                         if (childrenFragments.Count > 0)
                         {
-                            childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.Style.LayoutType));
+                            childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.LayoutType));
                             {
                                 childBuilder.AddCssAttribute(ref seq, "MarginTop", 15);
                                 if (LayoutGap.HasValue)
@@ -88,7 +91,7 @@
 
                                 childBuilder.AddAttribute(seq++, "Background", null as CssAttribute);
 
-                                if (node.Style.LayoutType != LayoutType.Vertical)
+                                if (node.LayoutType != LayoutType.Vertical)
                                     childBuilder.AddAttribute(seq++, "ChildWidth", new CssAttributeExt("fit-content"));
 
                                 RenderFragment childrenActualLayoutFragment = (RenderTreeBuilder b) =>
@@ -159,87 +162,20 @@
     {
         public IdentityVM Identity { get; set; } = new();
         public RenderFragment? Content { get; set; }
+        public GetContentDelegate? GetContent { get; set; }
         public List<TreeNode>? Children { get; set; } = new();
         public bool CanExpand { get; set; } = true;
         public bool IsExpanded { get; set; } = false;
         public bool HasChildren { get; set; }
-        public Style Style { get; set; } = new Style();
-    }
-
-    public class Style
-    {
         public LayoutType LayoutType { get; set; }
+        public object? Data { get; set; }
 
-        public bool Visible { get; set; }
-        public DisplayType HoverDisplayType { get; set; }
-        public DisplayType EditDisplayType { get; set; }
-
-        public FontInfo Font { get; set; }
-        public ColorsInfo BackgroundColor { get; set; } = new();
-        public BordersInfo Borders { get; } = new();
+        public delegate RenderFragment GetContentDelegate(TreeNode node, ref int sequence);
     }
 
-    public class FontInfo
+    public class Content<T>
     {
-        public string FontID { get; init; }
-        public string FontSize { get; init; }
-        public string FontWeightType { get; init; }
-    }
-
-    public class BordersInfo
-    {
-        public float Radius { get; set; } = 5;
-        public LineInfo Top { get; set; } = new();
-        public LineInfo Bottom { get; set; } = new();
-        public LineInfo Right { get; set; } = new();
-        public LineInfo Left { get; set; } = new();
-    }
-
-    public class LineInfo
-    {
-        public LineType Type { get; set; }
-        public ColorsInfo Colors { get; } = new();
-        public float Thickness { get; set; } = 1;
-    }
-
-    public class ColorsInfo
-    {
-        public Color DefaultColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
-        public Color HoverColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
-        public Color EditColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
-    }
-
-    public enum DisplayType
-    {
-        None,
-        Border,
-        Background,
-        Shadow
-    }
-
-    public enum LineType
-    {
-        Solid,
-        Dashed,
-        Dotted
-    }
-
-    public enum LayoutType
-    {
-        Vertical,
-        Horizontal,
-        Grid
-    }
-
-    public static class LayoutTypeExtensions
-    {
-        public static Type GetComponent(LayoutType layoutType) =>
-            layoutType switch
-            {
-                LayoutType.Vertical => typeof(VerticalLayout),
-                LayoutType.Horizontal => typeof(VerticalLayout),
-                LayoutType.Grid => typeof(GridLayout),
-                _ => typeof(VerticalLayout)
-            };
+        public RenderFragment? Fragment { get; set; }
+        public ReferenceCapture<T>? Reference { get; } = new();
     }
 }

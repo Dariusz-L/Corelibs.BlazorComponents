@@ -1,15 +1,13 @@
-﻿using BlazorComponentsLayersTest.Layouts;
-using Common.Basic.Collections;
+﻿using Common.Basic.Collections;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace BlazorComponentsLayersTest.Extensions
 {
     public static class RenderFragmentExtensions
     {
-        public static RenderFragment CreateComponent<T>(params object[] arguments)
+        public static RenderFragment CreateComponent<T>(Action<RenderTreeBuilder> modify, params object[] arguments)
              where T : notnull, IComponent
         {
             var type = typeof(T);
@@ -19,11 +17,31 @@ namespace BlazorComponentsLayersTest.Extensions
             {
                 builder.OpenComponent<T>(0);
 
-                for (int i = 0; i < arguments.Length; i++) 
+                for (int i = 0; i < arguments.Length; i++)
                     builder.AddAttribute(0, parameterProperties[i].Name, arguments[i]);
+
+                modify?.Invoke(builder);
 
                 builder.CloseComponent();
             };
+        }
+
+        public static RenderFragment CreateComponent<T>(params object[] arguments)
+             where T : notnull, IComponent
+        {
+            return CreateComponent<T>(builder => {}, arguments);
+        }
+
+        public static RenderFragment CreateComponent<T>(ReferenceCapture<T> reference, params object[] arguments)
+             where T : class, IComponent
+        {
+            return CreateComponent<T>(builder => 
+            {
+                builder.AddComponentReferenceCapture(0, obj =>
+                {
+                    reference.Value = obj as T;
+                });
+            }, arguments);
         }
 
         public static RenderFragment CreateComponent<T>(params RFArg[] arguments)
@@ -116,5 +134,10 @@ namespace BlazorComponentsLayersTest.Extensions
         public object Value { get; } = "";
 
         public static implicit operator RFArg((string name, object value) arg) => new RFArg(arg.name, arg.value);
+    }
+
+    public class ReferenceCapture<T>
+    {
+        public T Value { get; set; }
     }
 }

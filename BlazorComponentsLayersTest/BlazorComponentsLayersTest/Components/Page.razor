@@ -1,10 +1,12 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 @using System.Drawing;
+@using Corelibs.Basic.Colors;
+@using Microsoft.AspNetCore.Components.Rendering;
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
 
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
-    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 />
+    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode LayoutGap=20 />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
     <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
 </div>
@@ -39,13 +41,46 @@
 
     private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
 
+    private TreeNode.GetContentDelegate GetProperty(params string[] arguments)
+    {
+        return GetContent;
+        RenderFragment GetContent(TreeNode node, ref int seq)
+        {
+            int seqLocal = seq;
+            seq += 4;
+
+            var style = node.Data as StyleInfo;
+
+            return RenderFragmentExtensions.CreateComponent<Property>(builder =>
+            {
+
+            },
+            arguments);
+        };
+    }
+
+    private void ModifyNode(RenderTreeBuilder builder, TreeNode node, ref int sequence)
+    {
+        builder
+            .AddCssAttribute(ref sequence, "Padding", 16)
+            .AddCssAttribute(ref sequence, "PaddingLeft", 16);
+
+        var style = node.Data as StyleInfo;
+        if (style == null)
+            return;
+
+        builder
+            .AddCssAttribute(ref sequence, "BorderRadius", style.Borders.Radius)
+            .AddCssAttribute(ref sequence, "Background", style.BackgroundColor.DefaultColor.ToRgbaString());
+    }
+
     public static TreeNode? Tree = new TreeNode
     {
-        Style = new TreeLayout.Style()
+        Data = new StyleInfo()
         {
             BackgroundColor = new()
             {
-                DefaultColor = Color.FromArgb(255, 230, 230, 230)
+                DefaultColor = Color.FromArgb(255, 246, 246, 238)
             }
         },
         Content = RenderFragmentExtensions.CreateComponent<Property>("Author", "Misa Ammo"),
@@ -53,8 +88,15 @@
         {
             new TreeNode
             {
+                Data = new StyleInfo()
+                {
+                    BackgroundColor = new()
+                    {
+                        DefaultColor = Color.Coral,
+                    }
+                },
                 Identity = new IdentityVM("LessonsID", "Lessons"),
-                Content = RenderFragmentExtensions.CreateComponent<Property>("Lessons"),
+                Content = RenderFragmentExtensions.CreateComponent<Property>( "Lessons"),
                 Children = new List<TreeNode>
                 {
                     new TreeNode
@@ -86,7 +128,14 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
+                Data = new StyleInfo()
+                { 
+                    BackgroundColor = new()
+                    {
+                        DefaultColor = Color.Coral,
+                    } 
+                },
                 Identity = new IdentityVM("WordsID", "Words"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
                 Children = new List<TreeNode>
@@ -95,7 +144,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         { 
                             BackgroundColor = new()
                             {
@@ -107,7 +156,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         {
                             BackgroundColor = new()
                             {
@@ -120,7 +169,7 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
                 Identity = new IdentityVM("CharactersID", "Characters"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
                 Children = Enumerable.Range(97, 23).Select(i => new TreeNode
@@ -171,7 +220,7 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
                 Identity = new IdentityVM("WordsID", "Words"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
                 Children = new List<TreeNode>
@@ -180,7 +229,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         {
                             BackgroundColor = new()
                             {
@@ -192,7 +241,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         {
                             BackgroundColor = new()
                             {
@@ -205,7 +254,7 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
                 Identity = new IdentityVM("CharactersID", "Characters"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
                 Children = Enumerable.Range(97, 23).Select(i => new TreeNode
@@ -256,7 +305,7 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
                 Identity = new IdentityVM("WordsID", "Words"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Words", "Words"),
                 Children = new List<TreeNode>
@@ -265,7 +314,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>("Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         {
                             BackgroundColor = new()
                             {
@@ -277,7 +326,7 @@
                     {
                         CanExpand = false,
                         Content = RenderFragmentExtensions.CreateComponent<Property>( "Lesson", "Word"),
-                        Style = new TreeLayout.Style()
+                        Data = new StyleInfo()
                         {
                             BackgroundColor = new()
                             {
@@ -290,7 +339,7 @@
 
             new TreeNode
             {
-                Style = new TreeLayout.Style() { LayoutType = LayoutType.Grid },
+                LayoutType = LayoutType.Grid,
                 Identity = new IdentityVM("CharactersID", "Characters"),
                 Content = RenderFragmentExtensions.CreateComponent<Property>("Characters", "Characters"),
                 Children = Enumerable.Range(97, 23).Select(i => new TreeNode

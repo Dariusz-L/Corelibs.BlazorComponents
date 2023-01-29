@@ -19,6 +19,8 @@
     [Parameter] public string Text2 { get; set; }
     [Parameter] public string ID { get; set; }
 
+    [Parameter] public double? FontSize { get; set; }
+
     [Parameter] public CssAttribute? Width { get; set; }
     [Parameter] public CssAttribute? MinWidth { get; set; }
     [Parameter] public CssAttribute? MaxWidth { get; set; }
@@ -75,4 +77,14 @@
             new("Move To Index"),
         }
     };
+
+    public class ViewModel
+    {
+        
+    }
+
+    public class Artifact
+    {
+        
+    }
 }

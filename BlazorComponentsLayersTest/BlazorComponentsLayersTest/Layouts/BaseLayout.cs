@@ -7,7 +7,7 @@ namespace BlazorComponentsLayersTest.Layouts
     {
         [Parameter] public RenderFragment? ChildContent { get; set; }
 
-        [Parameter] public CssAttribute? Background { get; set; } = GetRandomColor();
+        [Parameter] public CssAttribute? Background { get; set; } //= GetRandomColor();
         [Parameter] public CssAttribute? ZIndex { get; set; }
 
         [Parameter] public CssAttribute? Padding { get; set; }
