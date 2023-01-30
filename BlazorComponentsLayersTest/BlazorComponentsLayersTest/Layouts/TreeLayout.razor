@@ -78,7 +78,8 @@
                             }
                         }
 
-                        childBuilder.AddContent(seq++, node.GetContent(node, ref seq));
+                        if (node.GetContent != null)
+                            childBuilder.AddContent(seq++, node.GetContent(node, ref seq));
 
                         if (childrenFragments.Count > 0)
                         {

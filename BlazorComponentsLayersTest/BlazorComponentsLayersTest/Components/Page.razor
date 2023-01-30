@@ -128,14 +128,8 @@
 
     public static TreeNode? Tree = new()
     {
-        Data = new StyleVM()
-        {
-            BackgroundColor = new()
-            {
-                DefaultColor = Color.FromArgb(255, 255, 232, 237)
-            }
-        },
-        GetContent = GetProperty("Author", "Misa Ammo"),
+        CanExpand = false,
+        IsExpanded = true,
         Children = new List<TreeNode>
         {
             new TreeNode
