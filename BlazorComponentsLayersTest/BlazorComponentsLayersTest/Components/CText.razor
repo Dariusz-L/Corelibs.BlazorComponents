@@ -1,0 +1,9 @@
+﻿@inherits BaseElement
+
+<p style=@Style>@ChildContent</p>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public CssAttribute? FontSize { get; set; }
+
+}

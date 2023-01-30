@@ -26,26 +26,26 @@
         if (_node != null)
             return _node;
 
-        _node =new TreeNode
+        _node = new TreeNode
         {
-            Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+            //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
             Children = new List<TreeNode>
             {
                 new TreeNode
                 {
                     Identity = new IdentityVM("LessonsID", "Lessons"),
-                    Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Name")
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Name")
                 },
 
                 new TreeNode
                 {
-                    Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
                     Identity = new IdentityVM("SecondID", "Bah bah")
                 },
 
                 new TreeNode
                 {
-                    Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
                     Identity = new IdentityVM("ThirdID", "Sup!"),
                 },
             }

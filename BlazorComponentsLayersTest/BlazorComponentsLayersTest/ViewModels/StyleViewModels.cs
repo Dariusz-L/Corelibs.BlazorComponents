@@ -1,47 +1,79 @@
 ﻿using BlazorComponentsLayersTest.Layouts;
+using System.ComponentModel;
 using System.Drawing;
+using static BlazorComponentsLayersTest.Components.Property;
 
 namespace BlazorComponentsLayersTest.ViewModels
 {
-    public class StyleInfo
+    public class StyleVM
     {
         public bool Visible { get; set; }
         public DisplayType HoverDisplayType { get; set; }
         public DisplayType EditDisplayType { get; set; }
 
-        public FontInfo Font { get; set; }
-        public ColorsInfo BackgroundColor { get; set; } = new();
-        public BordersInfo Borders { get; } = new();
+        public FontVM Font { get; set; }
+        public ColorsVM BackgroundColor { get; set; } = new();
+        public BordersVM Borders { get; } = new();
     }
 
-    public class FontInfo
+    public class StylePropertyVM
+    {
+        public List<StyleArtifactVM> Artifacts { get; } = new();
+        public bool Visible { get; set; }
+        public object Layout { get; set; }
+        public object LayoutOfChildren { get; set; }
+
+        public List<StylePropertyVM> Children { get; } = new();
+    }
+
+    public class StyleArtifactVM
+    {
+        public StyleArtifactType Type { get; private set; }
+        public string ChildIndex { get; private set; }
+        public VisualInfoVM VisualInfo { get; private set; }
+    }
+
+    public class VisualInfoVM
+    {
+        public bool Visible { get; set; }
+        public FontVM Font { get; set; } = new();
+    }
+
+    public class FontVM
     {
         public string FontID { get; init; }
         public float FontSize { get; init; } = 12;
         public string FontWeightType { get; init; }
     }
 
-    public class BordersInfo
+    public class BordersVM
     {
         public float Radius { get; set; } = 5;
-        public LineInfo Top { get; set; } = new();
-        public LineInfo Bottom { get; set; } = new();
-        public LineInfo Right { get; set; } = new();
-        public LineInfo Left { get; set; } = new();
+        public LineVM Top { get; set; } = new();
+        public LineVM Bottom { get; set; } = new();
+        public LineVM Right { get; set; } = new();
+        public LineVM Left { get; set; } = new();
     }
 
-    public class LineInfo
+    public class LineVM
     {
         public LineType Type { get; set; }
-        public ColorsInfo Colors { get; } = new();
+        public ColorsVM Colors { get; } = new();
         public float Thickness { get; set; } = 1;
     }
 
-    public class ColorsInfo
+    public class ColorsVM
     {
         public Color DefaultColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
         public Color HoverColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
         public Color EditColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
+    }
+
+    public enum StyleArtifactType
+    {
+        Name,
+        Signature,
+        Child,
     }
 
     public enum DisplayType

@@ -78,8 +78,7 @@
                             }
                         }
 
-                        //node.GetContent(node, ref seq)
-                        childBuilder.AddContent(seq++, node.Content);
+                        childBuilder.AddContent(seq++, node.GetContent(node, ref seq));
 
                         if (childrenFragments.Count > 0)
                         {
@@ -161,7 +160,6 @@
     public class TreeNode
     {
         public IdentityVM Identity { get; set; } = new();
-        public RenderFragment? Content { get; set; }
         public GetContentDelegate? GetContent { get; set; }
         public List<TreeNode>? Children { get; set; } = new();
         public bool CanExpand { get; set; } = true;
