@@ -9,6 +9,7 @@
 <div class="tree-layout-container" style=@base.Style>
     <div class="tree-layout">
         @{ treeNodeCount = Tree.Flatten(n => n.IsExpanded ? n.Children : new()).Count(); }
+        @{ curTreeNodeIndex = 0; seq = 0; }
         @GetTreeRenderFragment(Tree)
         @if (Highlight != HighlightType.None)
         {
