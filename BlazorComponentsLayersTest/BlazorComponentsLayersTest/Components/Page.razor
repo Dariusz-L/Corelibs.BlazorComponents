@@ -125,7 +125,7 @@
             }
         }
     };
-
+    private readonly static Color BackgroundColor = Color.FromArgb(255, 225, 228, 228);
     public static TreeNode? Tree = new()
     {
         CanExpand = false,
@@ -142,7 +142,7 @@
                     },
                     BackgroundColor = new()
                     {
-                        DefaultColor = Color.FromArgb(255, 133, 255, 178)
+                        DefaultColor = BackgroundColor
                     }
                 },
                 Identity = new IdentityVM("LessonsID", "Lessons"),
@@ -180,7 +180,7 @@
                 {
                     BackgroundColor = new()
                     {
-                        DefaultColor = Color.FromArgb(255, 133, 255, 178)
+                        DefaultColor = BackgroundColor
                     }
                 },
                 Identity = new IdentityVM("WordsID", "Words"),
@@ -236,7 +236,7 @@
                 {
                     BackgroundColor = new()
                     {
-                        DefaultColor = Color.FromArgb(255, 133, 255, 178)
+                        DefaultColor = BackgroundColor
                     }
                 },
             },
@@ -249,7 +249,7 @@
                 {
                     BackgroundColor = new()
                     {
-                        DefaultColor = Color.FromArgb(255, 133, 255, 178)
+                        DefaultColor = BackgroundColor
                     }
                 },
             },

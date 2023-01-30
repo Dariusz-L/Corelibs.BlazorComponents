@@ -159,6 +159,7 @@
 
                     if (i != 0)
                     {
+                        // highlight-hover
                         b.AddContent(seq++, ".highlight-" + i + ":hover" + notString + "{");
                         //b.AddContent(seq++, "background: #f1f1f1 !important;");
                         //b.AddContent(seq++, "opacity: 70% !important;");
@@ -169,8 +170,14 @@
                         if (Highlight == HighlightType.Color)
                             b.AddContent(seq++, "background: grey;");
                         else
-                        if (Highlight == HighlightType.Opacity) ;
+                        if (Highlight == HighlightType.Opacity) 
+                            ;
+                        
+                        b.AddContent(seq++, "}");
 
+                        // highlight
+                        b.AddContent(seq++, ".highlight-" + i + "{");
+                        b.AddContent(seq++, "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);");
                         b.AddContent(seq++, "}");
                     }
 
