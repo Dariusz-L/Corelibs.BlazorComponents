@@ -20,6 +20,6 @@
 }
 
 .page::-webkit-scrollbar-thumb {
-    background: #ddd;
+    background: #bbb;
     border-radius: 10px;
 }

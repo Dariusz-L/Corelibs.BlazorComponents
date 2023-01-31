@@ -90,9 +90,12 @@
 
     private void ModifyNode(RenderTreeBuilder builder, TreeNode node, ref int sequence)
     {
-        builder
-            .AddCssAttribute(ref sequence, "Padding", 16)
-            .AddCssAttribute(ref sequence, "PaddingLeft", 16);
+        if (node.Parent != null)
+        {
+            builder
+                .AddCssAttribute(ref sequence, "Padding", 16)
+                .AddCssAttribute(ref sequence, "PaddingLeft", 16);
+        }
 
         var style = node.Data as StyleVM;
         if (style == null)

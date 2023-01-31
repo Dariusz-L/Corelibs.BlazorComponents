@@ -57,7 +57,8 @@
 
             builder
                 .AddCssAttribute(ref seq, "ZIndex", zIndex)
-                .AddCssAttribute(ref seq, "Height", "fit-content");
+                .AddCssAttribute(ref seq, "Height", "fit-content")
+                .AddCssAttribute(ref seq, "Gap", 15);
 
             ModifyNode?.Invoke(builder, node, ref seq);
 
@@ -93,7 +94,7 @@
                         {
                             childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.LayoutType));
                             {
-                                childBuilder.AddCssAttribute(ref seq, "MarginTop", 15);
+                                childBuilder.AddCssAttribute(ref seq, "MarginBottom", 30);
                                 if (LayoutGap.HasValue)
                                     childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
 
@@ -172,12 +173,12 @@
                         else
                         if (Highlight == HighlightType.Opacity) 
                             ;
-                        
+
                         b.AddContent(seq++, "}");
 
                         // highlight
                         b.AddContent(seq++, ".highlight-" + i + "{");
-                        b.AddContent(seq++, "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);");
+                        //b.AddContent(seq++, "box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);");
                         b.AddContent(seq++, "}");
                     }
 
@@ -192,9 +193,19 @@
 
     public class TreeNode
     {
+        public List<TreeNode>? _children { get; set; } = new();
+
         public IdentityVM Identity { get; set; } = new();
         public GetContentDelegate? GetContent { get; set; }
-        public List<TreeNode>? Children { get; set; } = new();
+        public TreeNode? Parent { get; set; }
+        public List<TreeNode>? Children { 
+            get => _children; 
+            set {
+                _children = value;
+                value.ForEach(n => n.Parent = this);
+            }
+        }
+
         public bool CanExpand { get; set; } = true;
         public bool IsExpanded { get; set; } = false;
         public bool HasChildren { get; set; }
