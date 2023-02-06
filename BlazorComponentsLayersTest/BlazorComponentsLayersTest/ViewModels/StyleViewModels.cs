@@ -1,7 +1,5 @@
 ﻿using BlazorComponentsLayersTest.Layouts;
-using System.ComponentModel;
 using System.Drawing;
-using static BlazorComponentsLayersTest.Components.Property;
 
 namespace BlazorComponentsLayersTest.ViewModels
 {
@@ -64,9 +62,9 @@ namespace BlazorComponentsLayersTest.ViewModels
 
     public class ColorsVM
     {
-        public Color DefaultColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
-        public Color HoverColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
-        public Color EditColor { get; set; } = Color.FromArgb(0, 0, 0, 0);
+        public Color Default { get; set; } = Color.FromArgb(0, 0, 0, 0);
+        public Color Hover { get; set; } = Color.FromArgb(0, 0, 0, 0);
+        public Color Edit { get; set; } = Color.FromArgb(0, 0, 0, 0);
     }
 
     public enum StyleArtifactType

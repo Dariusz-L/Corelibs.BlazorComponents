@@ -1,5 +1,6 @@
 ﻿@using BlazorComponentsLayersTest.ViewModels;
 @using System.Drawing;
+@using Common.Basic.Collections;
 @using Corelibs.Basic.Colors;
 @using Microsoft.AspNetCore.Components.Rendering;
 @using static BlazorComponentsLayersTest.Layouts.TreeLayout;
@@ -7,21 +8,28 @@
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <PageHeader Model=@PageHeaderVM />
-    <TreeLayout @ref=_treeLayout Tree=Tree BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode LayoutGap=20 />
+    <TreeLayout @ref=_treeLayout Tree=_treeNode BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode LayoutGap=20 />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
     <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
 </div>
 
 @code {
+    [Parameter]
+    public BlazorComponentsLayersTest.Queries.GetPageQueryOut? Model { get; set; } = BlazorComponentsLayersTest.Queries.TestQueries.Query;
+
+    private PageTree.App.Entities.Styles.Style _style => Model!.PageVM.StyleOfPage!;
+
     private Arrangements? _arrangements;
     private Arrangements_AddNew? _arrangements_AddNew;
     private TreeLayout? _treeLayout;
 
     private List<IdentityVM> _properties = new();
 
+    private TreeNode? _treeNode;
     protected override void OnInitialized()
     {
-        _properties = Tree.Children.Select(n => n.Identity).ToList();
+        _treeNode = GetTreeNode();
+        _properties = _treeNode.Children.Select(n => n.Identity).ToList();
     }
 
     private void OnArrangmentsButton()
@@ -42,7 +50,12 @@
 
     private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
 
-    private static TreeNode.GetContentDelegate GetProperty(params string[] arguments)
+    private static TreeNode.GetContentDelegate GetProperty(
+        BlazorComponentsLayersTest.Queries.PropertyVM propertyVM,
+        int propertyIndex,
+        PageTree.App.Entities.Styles.StyleOfRootProperty parentStyle,
+        PageTree.App.Entities.Styles.StyleOfChildProperty childStyle,
+        PageTree.App.Entities.Styles.Style[] signatureOrPageStyles)
     {
         return GetContent;
         RenderFragment GetContent(TreeNode node, ref int seq)
@@ -54,38 +67,36 @@
 
             return RenderFragmentExtensions.CreateComponent<Property>(builder =>
             {
-                var vmModel = new Property.ViewModel();
-
-                if (arguments.Length >= 1)
-                    vmModel.Artifacts.Add(
-                        new()
-                        {
-                            Text = arguments[0],
-                            VisualInfo = new()
-                            {
-                                Font = new()
-                                {
-                                    FontSize = 10
-                                }
-                            }
-                        });
-
-                if (arguments.Length >= 2)
-                    vmModel.Artifacts.Add(new()
-                    {
-                        Text = arguments[1],
-                        VisualInfo = new()
-                        {
-                            Font = new()
-                            {
-                                FontSize = 14
-                            }
-                        }
-                    });
+                var vmModel = GetPropertyViewModel(propertyVM, parentStyle, childStyle, propertyIndex, propertyVM.PropertyType);
+                // override main by signature or page style
 
                 builder.AddAttribute(seqLocal++, "Model", vmModel);
             });
         };
+    }
+
+    private static Property.ViewModel GetPropertyViewModel(
+        BlazorComponentsLayersTest.Queries.PropertyVM propertyVM,
+        PageTree.App.Entities.Styles.StyleOfRootProperty parentStyle,
+        PageTree.App.Entities.Styles.StyleOfChildProperty childStyle,
+        int propertyIndex,
+        PageTree.App.Entities.Styles.PropertyType propertyType)
+    {
+        var vmModel = new Property.ViewModel();
+
+        if (parentStyle.ChildrenStyle == null)
+        {
+            if (propertyVM.SignatureIdentity != null)
+                vmModel.Artifacts.Add(new()
+                    { Identity = new() { ID = propertyVM.SignatureIdentity.ID, Name = propertyVM.SignatureIdentity.Name } });
+
+            vmModel.Artifacts.Add(new() 
+                { Identity = new() { ID = propertyVM.Identity.ID, Name = propertyVM.Identity.Name } });
+        }
+
+        // apply from child style?
+
+        return vmModel;
     }
 
     private void ModifyNode(RenderTreeBuilder builder, TreeNode node, ref int sequence)
@@ -103,7 +114,7 @@
 
         builder
             .AddCssAttribute(ref sequence, "BorderRadius", style.Borders.Radius)
-            .AddCssAttribute(ref sequence, "Background", style.BackgroundColor.DefaultColor.ToRgbaString());
+            .AddCssAttribute(ref sequence, "Background", style.BackgroundColor.Default.ToRgbaString());
     }
 
     public static PageHeader.ViewModel PageHeaderVM = new()
@@ -128,134 +139,61 @@
             }
         }
     };
-    private readonly static Color BackgroundColor = Color.FromArgb(255, 225, 228, 228);
-    public static TreeNode? Tree = new()
+
+    private TreeNode GetTreeNode()
     {
-        CanExpand = false,
-        IsExpanded = true,
-        Children = new List<TreeNode>
+        return new()
+            {
+                CanExpand = false,
+                IsExpanded = true,
+                Children = new()
+            {
+                new()
+                {
+                    Identity = new(Model!.PageVM.Identity.ID, Model!.PageVM.Identity.Name),
+                    GetContent = GetProperty(
+                        new Queries.PropertyVM()
+                        {
+                            Identity = Model.PageVM.Identity,
+                            SignatureIdentity = Model.PageVM.SignatureIdentity,
+                        },
+                        0,
+                        null,
+                        null,
+                        null
+                    ),
+                    Children = GetTreeNodes(Model.PageVM.Properties, Model.PageVM.StyleOfPage.RootProperty, Model.PageVM.StylesOfChildren)
+                }
+            }
+        };
+    }
+
+    private List<TreeNode> GetTreeNodes(
+        Queries.PropertyVM[] propertyVMs, 
+        PageTree.App.Entities.Styles.StyleOfRootProperty parentStyle,
+        PageTree.App.Entities.Styles.Style[] signatureOrPageStyles)
+    {
+        var list = new List<TreeNode>();
+
+        propertyVMs.ForEach((propertyVM, i) =>
         {
-            new TreeNode
-            {
-                Data = new StyleVM()
-                {
-                    Font = new()
-                    {
-                        FontSize = 20
-                    },
-                    BackgroundColor = new()
-                    {
-                        DefaultColor = BackgroundColor
-                    }
-                },
-                Identity = new IdentityVM("LessonsID", "Lessons"),
-                GetContent = GetProperty("Lessons"),
-                Children = new List<TreeNode>
-                {
-                    new TreeNode
-                    {
-                        GetContent = GetProperty("Lesson", "wa nad ga particles"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        GetContent = GetProperty("Lesson", "tara and nara"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                    new TreeNode
-                    {
-                        GetContent = GetProperty("Lesson", "Basic expressions"),
-                        Children = new List<TreeNode>
-                        {
-                        }
-                    },
-                }
-            },
+            var styleOfIndex = parentStyle.Children.FirstOrDefault(c => c.StyleType == PageTree.App.Entities.Styles.ApplyStyleBy.Index && c.ChildIndex == i);
+            var styleOfType = parentStyle.Children.FirstOrDefault(c => c.StyleType == PageTree.App.Entities.Styles.ApplyStyleBy.PropertyType && propertyVM.PropertyType == c.PropertyType);
+            var childStyle = styleOfType ?? styleOfIndex;
 
-            new TreeNode
+            list.Add(new()
             {
-                LayoutType = LayoutType.Grid,
-                Data = new StyleVM()
-                {
-                    BackgroundColor = new()
-                    {
-                        DefaultColor = BackgroundColor
-                    }
-                },
-                Identity = new IdentityVM("WordsID", "Words"),
-                GetContent = GetProperty("Words", "Words"),
-                Children = new List<TreeNode>
-                {
-                    new TreeNode
-                    {
-                        CanExpand = false,
-                        GetContent = GetProperty("Lesson", "Word"),
-                        Data = new StyleVM()
-                        {
-                            BackgroundColor = new()
-                            {
-                                DefaultColor = Color.Aqua
-                            }
-                        }
-                    },
-                    new TreeNode
-                    {
-                        CanExpand = false,
-                        GetContent = GetProperty("Lesson", "Word"),
-                        Data = new StyleVM()
-                        {
-                            BackgroundColor = new()
-                            {
-                                DefaultColor = Color.Aqua
-                            }
-                        }
-                    },
-                }
-            },
+                Identity = new() { ID = propertyVM.Identity.ID, Name= propertyVM.Identity.Name },
+                CanExpand = propertyVM.CanExpand,
+                HasChildren = propertyVM.HasChildren,
+                LayoutType = (BlazorComponentsLayersTest.ViewModels.LayoutType) parentStyle.LayoutOfChildren.Type,
+                Children = GetTreeNodes(propertyVM.Properties, childStyle, signatureOrPageStyles),
+                GetContent = GetProperty(propertyVM, i, parentStyle, childStyle, signatureOrPageStyles)
+            });
+        });
 
-            new TreeNode
-            {
-                LayoutType = LayoutType.Grid,
-                Identity = new IdentityVM("CharactersID", "Characters"),
-                GetContent = GetProperty("Characters", "Characters"),
-                Children = Enumerable.Range(97, 23).Select(i => new TreeNode
-                {
-                    CanExpand = false,
-                    GetContent = GetProperty("", ((char) i).ToString()),
-                    Data = new StyleVM()
-                    {
-                        BackgroundColor = new()
-                        {
-                            DefaultColor = Color.Gray
-                        }
-                    },
-                })
-                .ToList(),
-                Data = new StyleVM()
-                {
-                    BackgroundColor = new()
-                    {
-                        DefaultColor = BackgroundColor
-                    }
-                },
-            },
+        return list;
+    }
 
-            new TreeNode
-            {
-                GetContent = GetProperty("CharactersID", "Characters"),
-                Identity = new IdentityVM("ThirdID", "Sup!"),
-                Data = new StyleVM()
-                {
-                    BackgroundColor = new()
-                    {
-                        DefaultColor = BackgroundColor
-                    }
-                },
-            },
-        }
-    };
+    private readonly static Color BackgroundColor = Color.FromArgb(255, 225, 228, 228);
 }
