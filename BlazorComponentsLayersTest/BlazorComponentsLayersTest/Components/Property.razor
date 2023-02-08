@@ -96,6 +96,7 @@
 
     public class ArtifactVM
     {
+        public ArtifactType Type { get; set; }
         public IdentityVM Identity { get; set; }
         public VisualInfoVM VisualInfo { get; set; } = new();
     }
@@ -108,15 +109,15 @@
 
     public class FontVM
     {
-        public string FontID { get; init; }
-        public float FontSize { get; init; } = 12;
-        public FontWeightType FontWeightType { get; init; }
+        public string Font { get; set; }
+        public float FontSize { get; set; } = 12;
+        public FontWeightType FontWeight { get; set; }
     }
 
     public class IdentityVM
     {
-        public string ID { get; init; }
-        public string Name { get; init; }
+        public string ID { get; set; }
+        public string Name { get; set; }
     }
 
     public enum FontWeightType
@@ -137,5 +138,12 @@
     {
         Vertical,
         Horizontal
+    }
+
+    public enum ArtifactType
+    {
+        Name,
+        Signature,
+        Metadata
     }
 }

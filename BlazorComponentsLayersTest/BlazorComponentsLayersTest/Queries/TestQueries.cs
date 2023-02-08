@@ -1,4 +1,6 @@
-﻿namespace BlazorComponentsLayersTest.Queries
+﻿using PageTree.App.Entities.Styles;
+
+namespace BlazorComponentsLayersTest.Queries
 {
     public static class TestQueries
     {
@@ -137,7 +139,52 @@
 
                 StyleOfPage = new()
                 {
-
+                    RootProperty = new()
+                    {
+                        ChildrenStyle = new()
+                        {
+                            new()
+                            {
+                                Type = PageTree.App.Entities.Styles.StyleArtifactType.Name,
+                                VisualInfo = new()
+                                {
+                                    Font = new()
+                                    {
+                                        FontSize = 18
+                                    }
+                                }
+                            }
+                        },
+                        Children = new()
+                        {
+                            new()
+                            {
+                                StyleType = ApplyStyleBy.Index,
+                                ChildIndex = 0,
+                                VisualInfo = new()
+                                {
+                                    Font = new()
+                                    {
+                                        FontSize = 30
+                                    }
+                                },
+                                Artifacts = new()
+                                {
+                                    new()
+                                    {
+                                        Type = PageTree.App.Entities.Styles.StyleArtifactType.Signature,
+                                        VisualInfo = new()
+                                        {
+                                            Font = new()
+                                            {
+                                                FontSize = 8
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             });
     }

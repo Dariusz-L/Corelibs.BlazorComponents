@@ -94,7 +94,7 @@
                         {
                             childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.LayoutType));
                             {
-                                childBuilder.AddCssAttribute(ref seq, "MarginBottom", 30);
+                                childBuilder.AddCssAttribute(ref seq, "MarginBottom", 15);
                                 if (LayoutGap.HasValue)
                                     childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
 
