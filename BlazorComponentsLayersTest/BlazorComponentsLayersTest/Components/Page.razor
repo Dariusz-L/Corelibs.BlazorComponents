@@ -9,7 +9,7 @@
 <div class="page">
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <PageHeader Model=@GetPageHeader() />
-    <TreeLayout @ref=_treeLayout Tree=_treeNode BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode/>
+    <TreeLayout @ref=_treeLayout Tree=_treeNode BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode />
     <Arrangements @ref=@_arrangements OnAddNewClick=@OnAddNewArrangmentClick />
     <Arrangements_AddNew @ref=@_arrangements_AddNew Properties=_properties />
 </div>
@@ -150,18 +150,45 @@
     {
         var styleData = node.Data as StyleData;
 
-        if (node.Parent != null && node.Parent.GetContent != null)
-        {
-            builder
-                .AddCssAttribute(ref sequence, "Padding", 4)
-                .AddCssAttribute(ref sequence, "PaddingLeft", 10);
-        }
-        else
-        {
-            builder.AddCssAttribute(ref sequence, "Padding", 8);
-        }
+        //if (node.Parent != null && node.Parent.GetContent != null)
+        //{
+        //    builder
+        //        .AddCssAttribute(ref sequence, "Padding", 4)
+        //        .AddCssAttribute(ref sequence, "PaddingLeft", 10);
+        //}
+        //else
+        //{
+        //    builder.AddCssAttribute(ref sequence, "Padding", 8);
+        //}
 
         builder.AddCssAttribute(ref sequence, "BorderRadius", 10);
+
+        if (styleData.Parent != null)
+            Apply(styleData.Parent.VisualInfoOfChildren, ref sequence);
+
+        if (styleData.Child != null)
+            Apply(styleData.Child.VisualInfo, ref sequence);
+
+        void Apply(PageTree.App.Entities.Styles.VisualInfo visualInfo, ref int sequence)
+        {
+            if (visualInfo?.BackgroundColor?.Default != null)
+                builder.AddCssAttribute(ref sequence, "Background", visualInfo.BackgroundColor.Default.ToColor().ToHexString());
+
+            if (visualInfo?.Padding?.All != null)
+                builder.AddCssAttribute(ref sequence, "Padding", visualInfo.Padding.All.Value);
+
+            if (visualInfo?.Padding?.Left != null)
+                builder.AddCssAttribute(ref sequence, "PaddingLeft", visualInfo.Padding.Left.Value);
+
+            if (visualInfo?.Padding?.Right != null)
+                builder.AddCssAttribute(ref sequence, "PaddingRight", visualInfo.Padding.Right.Value);
+
+            if (visualInfo?.Padding?.Top != null)
+                builder.AddCssAttribute(ref sequence, "PaddingTop", visualInfo.Padding.Top.Value);
+
+            if (visualInfo?.Padding?.Bottom != null)
+                builder.AddCssAttribute(ref sequence, "PaddingBottom", visualInfo.Padding.Bottom.Value);
+        }
     }
 
     private PageHeader.ViewModel GetPageHeader()
@@ -188,12 +215,19 @@
 
     private TreeNode GetTreeNode()
     {
+        var layout = Model.PageVM.StyleOfPage.RootProperty.Layout;
+        var layoutGap = layout != null && layout.Gap.HasValue ? layout.Gap.Value : 0;
+
         return new()
         {
             CanExpand = false,
             IsExpanded = true,
             Children = GetTreeNodes(Model.PageVM.Properties, Model.PageVM.StyleOfPage.RootProperty, Model.PageVM.StylesOfChildren),
-            Data = new StyleData(Model.PageVM.StylesOfChildren, null, Model.PageVM.StyleOfPage.RootProperty)
+            Data = new StyleData(Model.PageVM.StylesOfChildren, null, Model.PageVM.StyleOfPage.RootProperty),
+            Layout = new()
+            {
+                Gap = layoutGap
+            },
         };
     }
 
@@ -210,13 +244,20 @@
             var styleOfType = parentStyle?.Children?.FirstOrDefault(c => c.StyleType == PageTree.App.Entities.Styles.ApplyStyleBy.PropertyType && propertyVM.PropertyType == c.PropertyType);
             var childStyle = styleOfType ?? styleOfIndex;
 
+            var layout = parentStyle?.Layout;
+            var layoutGap = layout != null && layout.Gap.HasValue ? layout.Gap.Value : 0;
+
             list.Add(new()
             {
                 Identity = new() { ID = propertyVM.Identity.ID, Name = propertyVM.Identity.Name },
                 CanExpand = propertyVM.CanExpand,
                 HasChildren = propertyVM.HasChildren,
                 IsExpanded = propertyVM.IsExpanded,
-                LayoutType = parentStyle?.LayoutOfChildren != null ? (BlazorComponentsLayersTest.ViewModels.LayoutType) parentStyle?.LayoutOfChildren?.Type : BlazorComponentsLayersTest.ViewModels.LayoutType.Vertical,
+                Layout = new()
+                {
+                    Type = parentStyle?.LayoutOfChildren != null ? (BlazorComponentsLayersTest.ViewModels.LayoutType)parentStyle?.LayoutOfChildren?.Type : BlazorComponentsLayersTest.ViewModels.LayoutType.Vertical,
+                    Gap = layoutGap
+                },
                 Children = GetTreeNodes(propertyVM.Properties, childStyle, signatureOrPageStyles),
                 GetContent = GetProperty(propertyVM, i, parentStyle, childStyle, signatureOrPageStyles),
                 Data = new StyleData(Model.PageVM.StylesOfChildren, parentStyle, childStyle)

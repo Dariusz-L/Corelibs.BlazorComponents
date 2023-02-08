@@ -34,7 +34,7 @@ namespace BlazorComponentsLayersTest.ViewModels
                PageTree.App.Entities.Styles.StyleArtifactType.Signature => vm.ToSignatureArtifactVM(visualInfoVM),
                _ => throw new NotImplementedException()
            };
-
+            
         public static Property.VisualInfoVM OverrideBy(this Property.VisualInfoVM vmStyle, PageTree.App.Entities.Styles.VisualInfo style)
         {
             if (vmStyle == null || style == null)

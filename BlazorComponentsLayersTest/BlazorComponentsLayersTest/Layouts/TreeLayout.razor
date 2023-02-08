@@ -92,15 +92,17 @@
 
                         if (childrenFragments.Count > 0)
                         {
-                            childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.LayoutType));
+                            childBuilder.OpenComponent(seq++, LayoutTypeExtensions.GetComponent(node.Layout.Type));
                             {
-                                childBuilder.AddCssAttribute(ref seq, "MarginBottom", 15);
+                                //childBuilder.AddCssAttribute(ref seq, "MarginBottom", 15);
                                 if (LayoutGap.HasValue)
                                     childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(LayoutGap.Value));
+                                else if (node.Layout != null)
+                                    childBuilder.AddAttribute(seq++, "Gap", new CssAttribute(node.Layout.Gap));
 
                                 childBuilder.AddAttribute(seq++, "Background", null as CssAttribute);
 
-                                if (node.LayoutType != LayoutType.Vertical)
+                                if (node.Layout.Type != LayoutType.Vertical)
                                     childBuilder.AddAttribute(seq++, "ChildWidth", new CssAttributeExt("fit-content"));
 
                                 RenderFragment childrenActualLayoutFragment = (RenderTreeBuilder b) =>
@@ -209,10 +211,16 @@
         public bool CanExpand { get; set; } = true;
         public bool IsExpanded { get; set; } = false;
         public bool HasChildren { get; set; }
-        public LayoutType LayoutType { get; set; }
+        public Layout Layout { get; set; } = new();
         public object? Data { get; set; }
 
         public delegate RenderFragment GetContentDelegate(TreeNode node, ref int sequence);
+    }
+
+    public class Layout
+    {
+        public LayoutType Type { get; set; }
+        public float Gap { get; set; }
     }
 
     public class Content<T>

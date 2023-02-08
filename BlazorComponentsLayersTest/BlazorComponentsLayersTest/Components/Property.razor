@@ -13,7 +13,11 @@
         </ul>*@
         @foreach (var artifact in Model.Artifacts)
         {
-            <CText FontSize=@artifact.VisualInfo.Font.FontSize>@artifact.Identity.Name</CText>
+            <CText 
+                FontSize=@artifact.VisualInfo.Font.FontSize
+                FontWeight=@((double) artifact.VisualInfo.Font.FontWeight)>
+                    @artifact.Identity.Name
+            </CText>
         }
     </div>
 </div>
@@ -122,16 +126,16 @@
 
     public enum FontWeightType
     {
-        Thin, 
-        ExtraLight,
-        Light,
+        Thin = 100, 
+        ExtraLight = 200,
+        Light = 300,
 
-        Normal,
+        Normal = 400,
 
-        Medium,
-        SemiBold,
-        Bold,
-        ExtraBold
+        Medium = 500,
+        SemiBold = 600,
+        Bold = 700,
+        ExtraBold = 800
     }
 
     public enum LayoutType

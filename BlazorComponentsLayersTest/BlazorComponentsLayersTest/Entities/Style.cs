@@ -432,16 +432,16 @@ namespace PageTree.App.Entities.Styles
 
     public enum FontWeight
     {
-        Thin,
-        ExtraLight,
-        Light,
+        Thin = 100,
+        ExtraLight = 200,
+        Light = 300,
 
-        Normal,
+        Normal = 400,
 
-        Medium,
-        SemiBold,
-        Bold,
-        ExtraBold
+        Medium = 500,
+        SemiBold = 600,
+        Bold = 700,
+        ExtraBold = 800
     }
 
     public class ColorInfo
@@ -486,11 +486,11 @@ namespace PageTree.App.Entities.Styles
 
     public class RectArea
     {
-        public string All { get; set; }
-        public string Top { get; set; }
-        public string Bottom { get; set; }
-        public string Right { get; set; }
-        public string Left { get; set; }
+        public float? All { get; set; }
+        public float? Top { get; set; }
+        public float? Bottom { get; set; }
+        public float? Right { get; set; }
+        public float? Left { get; set; }
 
         public RectArea Override(RectArea other)
         {

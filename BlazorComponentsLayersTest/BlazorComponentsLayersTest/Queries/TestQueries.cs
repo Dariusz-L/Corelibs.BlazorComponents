@@ -1,4 +1,5 @@
 ﻿using PageTree.App.Entities.Styles;
+using System.Drawing;
 
 namespace BlazorComponentsLayersTest.Queries
 {
@@ -114,6 +115,55 @@ namespace BlazorComponentsLayersTest.Queries
                                         }
                                     }
                                 }
+                            },
+                            new()
+                            {
+                                IsExpanded = false,
+                                Identity = new() { ID = "Yuta-Aoki-1-ID", Name = "Yuta Aoki" },
+                                SignatureIdentity = new() { ID = "Author-Signature-ID", Name = "Author" },
+                            },
+                            new()
+                            {
+                                IsExpanded = false,
+                                Identity = new() { ID = "Masa-Sensei-1-ID", Name = "Masa Sensei" },
+                                SignatureIdentity = new() { ID = "Author-Signature-ID", Name = "Author" },
+                            }
+                        }
+                    },
+                    new()
+                    {
+                        Identity = new() { ID = "Words-ID", Name = "Words" },
+                        Properties = new PropertyVM[]
+                        {
+                            new()
+                            {
+                                Identity = new() { Name = "Kana Scripts" },
+                                Properties = new PropertyVM[]
+                                {
+                                    new()
+                                    {
+                                        Identity = new() { Name = "Hiragana" },
+                                    },
+                                    new()
+                                    {
+                                        Identity = new() { Name = "Katakana" },
+                                    }
+                                }
+                            },
+                            new()
+                            {
+                                Identity = new() { Name = "Kanji Script" },
+                                Properties = new PropertyVM[]
+                                {
+                                    new()
+                                    {
+                                        Identity = new() { Name = "Radicals" },
+                                    },
+                                    new()
+                                    {
+                                        Identity = new() { Name = "Kanjis" },
+                                    }
+                                }
                             }
                         }
                     },
@@ -125,15 +175,55 @@ namespace BlazorComponentsLayersTest.Queries
                         {
                             new()
                             {
+                                Identity = new() { ID = "Particles-1-ID", Name = "Particles" },
+                                SignatureIdentity = new() { ID = "Part-Of-Speech-ID", Name = "Part Of Speech" },
+                            },
+                            new()
+                            {
+                                Identity = new() { ID = "Pronouns-1-ID", Name = "Pronouns" },
+                                SignatureIdentity = new() { ID = "Part-Of-Speech-ID", Name = "Part Of Speech" },
+                            },
+                            new()
+                            {
                                 Identity = new() { ID = "Nouns-1-ID", Name = "Nouns" },
-                                SignatureIdentity = new() { ID = "Nouns-Signature-ID", Name = "Nouns" },
+                                SignatureIdentity = new() { ID = "Part-Of-Speech-ID", Name = "Part Of Speech" },
                             },
                             new()
                             {
                                 Identity = new() { ID = "Verbs-1-ID", Name = "Verbs" },
-                                SignatureIdentity = new() { ID = "Verbs-Signature-ID", Name = "Verbs" },
+                                SignatureIdentity = new() { ID = "Part-Of-Speech-ID", Name = "Part Of Speech" },
                             }
                         }
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Similar Sounding Words" },
+                        SignatureIdentity = new() { Name = "Similar Sounding Words" },
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Subcultures" },
+                        SignatureIdentity = new() { Name = "Subcultures" },
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Formality Categorizations" },
+                        SignatureIdentity = new() { Name = "Formality Categorizations" },
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Regional Dialects" },
+                        SignatureIdentity = new() { Name = "Regional Dialects" },
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Age Jargons" },
+                        SignatureIdentity = new() { Name = "Age Jargons" },
+                    },
+                    new()
+                    {
+                        Identity = new() { Name = "Genders" },
+                        SignatureIdentity = new() { Name = "Genders" },
                     }
                 },
 
@@ -141,48 +231,75 @@ namespace BlazorComponentsLayersTest.Queries
                 {
                     RootProperty = new()
                     {
+                        Layout = new()
+                        {
+                            Gap = 20
+                        },
+                        VisualInfoOfChildren = new()
+                        {
+                            BackgroundColor = new()
+                            {
+                                Default = Color.FromArgb(255, 236, 236, 236).ToArgb()
+                            },
+                            Padding = new()
+                            {
+                                All = 20
+                            }
+                        },
                         ChildrenStyle = new()
                         {
                             new()
                             {
-                                Type = PageTree.App.Entities.Styles.StyleArtifactType.Name,
+                                Type = StyleArtifactType.Name,
                                 VisualInfo = new()
                                 {
                                     Font = new()
                                     {
-                                        FontSize = 18
+                                        FontSize = 18,
+                                        FontWeight = FontWeight.Bold
                                     }
                                 }
                             }
                         },
                         Children = new()
                         {
-                            new()
-                            {
-                                StyleType = ApplyStyleBy.Index,
-                                ChildIndex = 0,
-                                VisualInfo = new()
-                                {
-                                    Font = new()
-                                    {
-                                        FontSize = 30
-                                    }
-                                },
-                                Artifacts = new()
-                                {
-                                    new()
-                                    {
-                                        Type = PageTree.App.Entities.Styles.StyleArtifactType.Signature,
-                                        VisualInfo = new()
-                                        {
-                                            Font = new()
-                                            {
-                                                FontSize = 8
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            //new()
+                            //{
+                            //    StyleType = ApplyStyleBy.Index,
+                            //    ChildIndex = 0,
+                            //    VisualInfo = new()
+                            //    {
+                            //        Font = new()
+                            //        {
+                            //            FontSize = 30
+                            //        }
+                            //    },
+                            //    Artifacts = new()
+                            //    {
+                            //        new()
+                            //        {
+                            //            Type = StyleArtifactType.Signature,
+                            //            VisualInfo = new()
+                            //            {
+                            //                Font = new()
+                            //                {
+                            //                    FontSize = 8
+                            //                }
+                            //            }
+                            //        }
+                            //    },
+                            //    VisualInfoOfChildren = new()
+                            //    {
+                            //        BackgroundColor = new()
+                            //        {
+                            //            Default = Color.FromArgb(255, 222, 222, 222).ToArgb()
+                            //        },
+                            //        Padding = new()
+                            //        {
+                            //            All = 20
+                            //        }
+                            //    },
+                            //}
                         }
                     }
                 }
