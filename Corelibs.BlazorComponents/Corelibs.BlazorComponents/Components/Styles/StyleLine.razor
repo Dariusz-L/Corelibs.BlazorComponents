@@ -1,0 +1,37 @@
+﻿@using Corelibs.BlazorComponents.ViewModels;
+
+<div class="line">
+    <i class="name">@Name</i>
+    <label class="attribute">
+        <span>Type</span>
+        <Dropdown VM=_typeDropdownVM OnValueChanged=OnLineTypeChanged />
+    </label>
+    <StyleColors />
+    <StyleValues Name="Thickness" />
+</div>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+
+    private Task<bool> OnLineTypeChanged(IdentityVM propertyVM)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Dropdown.ViewModel _typeDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("Solid", "Solid"),
+            new("Dashed", "Dashed"),
+            new("Dotted", "Dotted"),
+        }
+    };
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Line";
+    }
+}

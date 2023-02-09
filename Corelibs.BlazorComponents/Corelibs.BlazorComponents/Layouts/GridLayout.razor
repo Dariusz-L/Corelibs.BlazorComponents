@@ -1,0 +1,8 @@
+﻿@using Corelibs.BlazorComponents.Extensions
+@inherits BaseLayout
+
+<div class="grid-layout @(@class)" style=@CombinedStyle>
+    <CascadingValue Value=@_children>
+        @ChildContent
+    </CascadingValue>
+</div>

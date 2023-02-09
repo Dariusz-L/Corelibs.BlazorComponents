@@ -1,0 +1,61 @@
+﻿@using Corelibs.BlazorComponents.ViewModels;
+@using Common.Basic.Collections;
+@using static Corelibs.BlazorComponents.Layouts.TreeLayout;
+
+<div class="style">
+    @if (!Title.IsNullOrEmpty())
+    {
+        <h5 class="title">@Title</h5>
+    }
+    <TreeLayout @ref=_treeLayout Tree=GetTree() BeforeExpand=BeforeExpand AfterExpand=AfterExpand LayoutGap=20 OverflowX=@("hidden") />
+</div>
+
+@code {
+    [Parameter] public ViewModel VM { get; set; } = new();
+    [Parameter] public string Title { get; set; } = "Word Signature";
+    [Parameter] public Func<HoverableMenu.ButtonVM, Task> OnAttributesClick { get; set; }
+
+    private TreeLayout? _treeLayout;
+
+    private Task<bool> BeforeExpand(string id) => Task.FromResult(true);
+    private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
+
+    private TreeNode _node;
+    public TreeNode? GetTree()
+    {
+        if (_node != null)
+            return _node;
+
+        _node = new TreeNode
+        {
+            //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+            Children = new List<TreeNode>
+            {
+                new TreeNode
+                {
+                    Identity = new IdentityVM("LessonsID", "Lessons"),
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Name")
+                },
+
+                new TreeNode
+                {
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+                    Identity = new IdentityVM("SecondID", "Bah bah")
+                },
+
+                new TreeNode
+                {
+                    //Content = RenderFragmentExtensions.CreateComponent<StyleProperty>(("OnAttributesClick", OnAttributesClick), "Signature", "Name"),
+                    Identity = new IdentityVM("ThirdID", "Sup!"),
+                },
+            }
+        };
+
+        return _node;
+    }
+
+    public class ViewModel
+    {
+        
+    }
+}
