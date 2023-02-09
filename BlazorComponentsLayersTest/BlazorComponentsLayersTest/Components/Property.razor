@@ -13,9 +13,11 @@
         </ul>*@
         @foreach (var artifact in Model.Artifacts)
         {
+            var fontWeight = new CssAttribute((double) artifact.VisualInfo.Font.FontWeight, Unit.None);
+
             <CText 
                 FontSize=@artifact.VisualInfo.Font.FontSize
-                FontWeight=@((double) artifact.VisualInfo.Font.FontWeight)>
+                FontWeight=@fontWeight>
                     @artifact.Identity.Name
             </CText>
         }

@@ -96,7 +96,7 @@
                     .OverrideBy(parentStyle.VisualInfoOfChildren)
                     .OverrideBy(artifact.VisualInfo);
 
-                var newArtifactVM = propertyVM.ToArtifactVM(artifact.Type);
+                var newArtifactVM = propertyVM.ToArtifactVM(artifact.Type, visualInfoVM);
                 vmModel.Artifacts.Add(newArtifactVM);
             });
         }
@@ -195,17 +195,24 @@
     {
         var vm = new PageHeader.ViewModel();
 
-        if (Model!.PageVM.SignatureIdentity != null)
+        if (Model!.PageVM.SignatureIdentity != null && !Model!.PageVM.SignatureIdentity.Name.IsNullOrEmpty())
             vm.Artifacts.Add(
-                new() 
+                new()
                 { 
                     Text = Model.PageVM.SignatureIdentity.Name,
+                    Font = new() { FontSize = 16 }
+                });
+        else
+            vm.Artifacts.Add(
+                new()
+                { 
+                    Text = "",
                     Font = new() { FontSize = 16 }
                 });
 
         vm.Artifacts.Add(
             new() 
-            { 
+            {
                 Text = Model.PageVM.Identity.Name,
                 Font = new() { FontSize = 24 }
             });

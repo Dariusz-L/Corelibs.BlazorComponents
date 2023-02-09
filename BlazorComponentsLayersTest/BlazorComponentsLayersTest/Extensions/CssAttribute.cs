@@ -10,7 +10,7 @@ namespace BlazorComponentsLayersTest.Extensions
         public Unit Unit { get; set; } = Unit.px;
 
         public CssAttribute() {}
-        public CssAttribute(double value) { Value = value; }
+        public CssAttribute(double value, Unit unit = Unit.px) { Value = value; Unit = unit; }
         public CssAttribute(string valuesString)
         {
             if (string.IsNullOrEmpty(valuesString))

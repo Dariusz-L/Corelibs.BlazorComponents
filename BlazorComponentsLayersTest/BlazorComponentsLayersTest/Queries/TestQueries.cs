@@ -132,7 +132,7 @@ namespace BlazorComponentsLayersTest.Queries
                     },
                     new()
                     {
-                        Identity = new() { ID = "Words-ID", Name = "Words" },
+                        Identity = new() { Name = "Scripts" },
                         Properties = new PropertyVM[]
                         {
                             new()

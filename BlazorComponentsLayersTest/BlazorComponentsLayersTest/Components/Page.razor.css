@@ -7,8 +7,8 @@
     margin-right: auto;
     overflow-x: auto;
     box-sizing: border-box;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .page::-webkit-scrollbar {

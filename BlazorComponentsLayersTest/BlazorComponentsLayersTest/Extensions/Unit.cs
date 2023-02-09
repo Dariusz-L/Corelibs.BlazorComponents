@@ -4,7 +4,9 @@
     {
         px,
         rem,
-        pt
+        pt,
+
+        None,
     }
 
     public static class UnitExtensions
@@ -24,7 +26,7 @@
                 "px" => Unit.px,
                 "rem" => Unit.rem,
                 "%" => Unit.pt,
-                _ => Unit.px
+                _ => Unit.None
             };
     }
 }
