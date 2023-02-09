@@ -1,11 +1,11 @@
 ﻿@using Corelibs.BlazorShared.UI;
+@using Corelibs.BlazorShared.UI.Css;
 
 @inherits BaseElement
 
 <div class="property-container" style=@Style @onclick="HandleClick" @oncontextmenu="HandleRightClick" @oncontextmenu:preventDefault="true">
     <div class="property">
         @*<div class="property-highlight"/>*@
-        @*<SignatureAndName Text1=@Text1 Text2=@Text2 />*@
         @*<HoverableMenu Title="S" VM=_menuVM OnClick=OnMenuButtonClick MenuButtonCSS="property-menu-button" />*@
         <PropertyMenu @ref=_menu />
         @*<ul class="side-menu">

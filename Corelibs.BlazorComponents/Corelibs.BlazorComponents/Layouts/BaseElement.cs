@@ -1,4 +1,4 @@
-﻿using Corelibs.BlazorComponents.Extensions;
+﻿using Corelibs.BlazorShared.UI.Css;
 using Microsoft.AspNetCore.Components;
 
 namespace Corelibs.BlazorComponents.Layouts

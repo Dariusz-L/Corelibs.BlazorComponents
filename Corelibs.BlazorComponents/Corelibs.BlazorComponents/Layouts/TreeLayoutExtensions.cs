@@ -1,4 +1,4 @@
-﻿using Corelibs.BlazorComponents.Extensions;
+﻿using Corelibs.BlazorShared.UI;
 using Microsoft.AspNetCore.Components;
 using static Corelibs.BlazorComponents.Layouts.TreeLayout;
 

@@ -1,4 +1,6 @@
-﻿@inherits BaseElement
+﻿@using Corelibs.BlazorShared.UI.Css;
+
+@inherits BaseElement
 
 <div class="outer @_displayNoneCssClass @(@class)" @onclick=@OnClick style=@Style @ref=ElementReference>
     <div @onclick:stopPropagation="true" @onclick:preventDefault="true">
