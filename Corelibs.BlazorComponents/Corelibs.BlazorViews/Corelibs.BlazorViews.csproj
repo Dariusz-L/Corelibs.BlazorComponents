@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic\Corelibs.Basic.csproj" />
     <ProjectReference Include="..\..\..\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared\Corelibs.BlazorShared.csproj" />
+    <ProjectReference Include="..\..\..\PageTree\PageTree\PageTree.App.Entities\PageTree.App.Entities.csproj" />
   </ItemGroup>
 
 </Project>

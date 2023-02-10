@@ -8,7 +8,7 @@
 @using Corelibs.BlazorShared.UI.Css;
 @using static Corelibs.BlazorViews.Layouts.TreeLayout;
 
-<div class="page">
+<div class="page" style=@_mainStyle>
     <PageMenu OnArrangmentsButton=@OnArrangmentsButton />
     <PageHeader Model=@GetPageHeader() />
     <TreeLayout @ref=_treeLayout Tree=_treeNode BeforeExpand=BeforeExpand AfterExpand=AfterExpand ModifyNode=ModifyNode />
@@ -19,6 +19,11 @@
 @code {
     [Parameter]
     public Corelibs.BlazorViews.Queries.GetPageQueryOut? Model { get; set; } = Corelibs.BlazorViews.Queries.TestQueries.Query;
+
+    [Parameter] public int Left { get; set; }
+    [Parameter] public int Top { get; set; }
+
+    private string _mainStyle => $"width: calc(100% - {Left}px); ";
 
     private PageTree.App.Entities.Styles.Style _style => Model!.PageVM.StyleOfPage!;
 
