@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.BlazorShared", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corelibs.BlazorComponents", "Corelibs.BlazorComponents\Corelibs.BlazorComponents.csproj", "{ADEBCE22-17DB-4F92-BB13-ECCF13E79FC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corelibs.BlazorViews", "Corelibs.BlazorViews\Corelibs.BlazorViews.csproj", "{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{ADEBCE22-17DB-4F92-BB13-ECCF13E79FC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ADEBCE22-17DB-4F92-BB13-ECCF13E79FC6}.Release|x64.ActiveCfg = Release|Any CPU
 		{ADEBCE22-17DB-4F92-BB13-ECCF13E79FC6}.Release|x64.Build.0 = Release|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Debug|x64.Build.0 = Debug|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Release|x64.ActiveCfg = Release|Any CPU
+		{7D9ADC3E-7082-4B6F-84DC-C12B555A319C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

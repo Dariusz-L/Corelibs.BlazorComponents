@@ -1,0 +1,54 @@
+﻿@using System.Drawing;
+@using Corelibs.BlazorViews.ViewModels;
+
+<div class="fonts">
+    <i class="name">@Name</i>
+    <label class="attribute">
+        <span>Font</span>
+        <Dropdown VM=_fontDropdownVM OnValueChanged=OnFontChanged />
+    </label>
+    <label class="attribute">
+        <span>Font Size</span>
+        <input class="index-input" type="text" placeholder="Enter Index" value="16" />
+    </label>
+    <label class="attribute">
+        <span>Font Weight</span>
+        <Dropdown VM=_textWeightDropdownVM />
+    </label>
+</div>
+
+@code {
+    [Parameter] public ViewModel Model { get; set; } = new();
+
+    [Parameter] public string Name { get => Model.Name; set => Model.Name = value; }
+
+    private Task<bool> OnFontChanged(IdentityVM propertyVM)
+    {
+        return Task.FromResult(true);
+    }
+
+    private Dropdown.ViewModel _fontDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Arial"),
+            new("", "Times New Roman"),
+            new("", "3rd font"),
+        }
+    };
+
+    private Dropdown.ViewModel _textWeightDropdownVM = new()
+    {
+        Values = new()
+        {
+            new("", "Thin"),
+            new("", "Bold"),
+            new("", "Bolder"),
+        }
+    };
+
+    public class ViewModel
+    {
+        public string Name { get; set; } = "Font";
+    }
+}

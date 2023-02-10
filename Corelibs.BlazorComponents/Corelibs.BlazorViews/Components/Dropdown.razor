@@ -1,0 +1,75 @@
+﻿@using Corelibs.BlazorViews.ViewModels;
+
+@inherits BaseElement
+
+<div class="dropdown @_isActiveCssClass @(@class)">
+    <div class="dropdown-trigger">
+        <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" @onclick=@OnTrigger>
+            <span>@(VM.SelectedValue.Name ?? "None")</span>
+        </button>
+    </div>
+    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+        <div class="dropdown-content">
+            @foreach (var value in VM.Values)
+            {
+                if (value == VM.SelectedValue)
+                {
+                    continue;
+                }
+
+                <button class="dropdown-item" @onclick=@(() => OnValueChangedLocal(value))>@value.Name</button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public ViewModel VM { get; set; } = new();
+    [Parameter] public Func<IdentityVM, Task<bool>> OnValueChanged { get; set; } = OnValueChangedDefault;
+    [Parameter] public string FixedValue { get; set; } = "";
+
+    public bool IsActive { get; private set; } = false;
+
+    private string _isActiveCssClass => IsActive ? "is-active" : "";
+
+    protected override void OnInitialized()
+    {
+        if (!string.IsNullOrEmpty(FixedValue))
+        {
+            VM.SelectedValue = new IdentityVM(FixedValue, FixedValue);
+        }
+        else
+        if ((VM.SelectedValue == null || string.IsNullOrEmpty(VM.SelectedValue.Name)) && VM.Values.Count() > 0)
+            VM.SelectedValue = VM.Values.First();
+    }
+
+    private void OnTrigger()
+    {
+        IsActive = !IsActive;
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnValueChangedLocal(IdentityVM value)
+    {
+        bool result = await OnValueChanged?.Invoke(value);
+        if (!result)
+            return;
+
+        if (string.IsNullOrEmpty(FixedValue))
+            VM.SelectedValue = value;
+
+        IsActive = false;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private static Task<bool> OnValueChangedDefault(IdentityVM selectedValue)
+    {
+        return Task.FromResult(true);
+    }
+
+    public class ViewModel {
+        public List<IdentityVM> Values { get; set; } = new();
+        public IdentityVM SelectedValue { get; set; } = new();
+    }
+}

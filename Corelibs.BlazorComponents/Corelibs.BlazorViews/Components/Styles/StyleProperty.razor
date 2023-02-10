@@ -1,0 +1,56 @@
+﻿@using Corelibs.BlazorViews.ViewModels;
+@using Corelibs.BlazorViews.Components;
+@using static Corelibs.BlazorViews.Layouts.TreeLayout;
+
+<div class="property-container">
+    <div class="property">
+        <SignatureAndName Text1=@Text1 Text2=@Text2 />
+        <div class="info-tool">
+            @*<div class="property-highlight"/>*@
+            @*<HoverableMenu Title="ST" VM=_stylesMenuVM OnClick=OnMenuButtonClick MenuButtonCSS="style-style-menu-button" />*@
+            <HoverableMenu Title="S" VM=_settingsMenuVM OnClick=OnMenuButtonClick MenuButtonCSS="style-menu-button" />
+        </div>
+        <ul class="side-menu">
+            <input type="checkbox" class="select-checkbox" />
+        </ul>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Text1 { get; set; }
+    [Parameter] public string Text2 { get; set; }
+
+    [Parameter] public string ID { get; set; }
+
+    [Parameter] public Func<HoverableMenu.ButtonVM, Task> OnAttributesClick { get; set; }
+
+    private async Task<bool> OnMenuButtonClick(HoverableMenu.ButtonVM vm)
+    {
+        if (vm.Name == "Attributes")
+        {
+            await OnAttributesClick(vm);
+            return true;
+        }
+
+        return true;
+    }
+
+    private HoverableMenu.MenuVM _settingsMenuVM = new()
+    {
+        Buttons = new()
+        {
+            new("Create Substyle"),
+            new("Archive"),
+            new("Move Up"),
+            new("Move Down"),
+            new("Move To Index"),
+            new("---", false),
+            new("Attributes"),
+            new("---", false),
+            new("Save Expand"),
+            new("Reset Expand"),
+            new("Collapse"),
+            new("Collapse All"),
+        }
+    };
+}
