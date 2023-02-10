@@ -21,5 +21,14 @@ namespace Corelibs.BlazorComponents.Layouts
 
             return content;
         }
+
+        public static Type GetComponent(TreeLayout.LayoutType layoutType) =>
+            layoutType switch
+            {
+                TreeLayout.LayoutType.Vertical => typeof(VerticalLayout),
+                TreeLayout.LayoutType.Horizontal => typeof(VerticalLayout),
+                TreeLayout.LayoutType.Grid => typeof(GridLayout),
+                _ => typeof(VerticalLayout)
+            };
     }
 }

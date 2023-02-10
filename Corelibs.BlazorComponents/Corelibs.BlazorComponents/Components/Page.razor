@@ -66,8 +66,6 @@
             int seqLocal = seq;
             seq += 4;
 
-            var style = node.Data as StyleVM;
-
             return RenderFragmentExtensions.CreateComponent<Property>(builder =>
             {
                 var vmModel = GetPropertyViewModel(propertyVM, parentStyle, childStyle, propertyIndex, propertyVM.PropertyType);
@@ -264,7 +262,7 @@
                 IsExpanded = propertyVM.IsExpanded,
                 Layout = new()
                 {
-                    Type = parentStyle?.LayoutOfChildren != null ? (Corelibs.BlazorComponents.ViewModels.LayoutType)parentStyle?.LayoutOfChildren?.Type : Corelibs.BlazorComponents.ViewModels.LayoutType.Vertical,
+                    Type = parentStyle?.LayoutOfChildren != null ? (TreeLayout.LayoutType) parentStyle?.LayoutOfChildren?.Type : TreeLayout.LayoutType.Vertical,
                     Gap = layoutGap
                 },
                 Children = GetTreeNodes(propertyVM.Properties, childStyle, signatureOrPageStyles),
