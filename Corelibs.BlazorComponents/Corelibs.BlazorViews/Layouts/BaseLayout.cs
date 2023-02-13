@@ -48,6 +48,8 @@ namespace Corelibs.BlazorViews.Layouts
         [Parameter] public CssAttribute? MinHeight { get; set; }
         [Parameter] public CssAttribute? MaxHeight { get; set; }
 
+        [Parameter] public Func<Task>? OnClick { get; set; }
+
         public Task RefreshView() => InvokeAsync(StateHasChanged);
 
         protected override void OnInitialized()

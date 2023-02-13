@@ -67,7 +67,7 @@ namespace Corelibs.BlazorViews.Layouts
                                             .OpenElement(seq++, "img");
                                         {
                                             childBuilder.AddAttribute(seq++, "class", "expand-icon");
-                                            childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "/icons/chevron-down.png" : "/icons/chevron-right.png");
+                                            childBuilder.AddAttribute(seq++, "src", node.IsExpanded ? "_content/Corelibs.BlazorViews/icons/chevron-down.png" : "_content/Corelibs.BlazorViews/icons/chevron-right.png");
                                         }
                                         childBuilder.CloseElement();
                                         childBuilder.CloseElement();

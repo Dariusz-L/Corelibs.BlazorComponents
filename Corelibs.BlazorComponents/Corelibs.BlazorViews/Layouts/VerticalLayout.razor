@@ -1,7 +1,13 @@
-﻿@inherits BaseLayout
+﻿@using Common.Basic.Functional
 
-<div class="vertical-layout @(@class)" style=@CombinedStyle>
+@inherits BaseLayout
+
+<div class="vertical-layout @(@class)" 
+     style=@CombinedStyle 
+     @onclick="@(() => OnClick?.InvokeIfOk())" @onclick:stopPropagation=true @onclick:preventDefault=true>
+
     <CascadingValue Value=@_children>
         @ChildContent
     </CascadingValue>
+
 </div>
