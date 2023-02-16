@@ -1,6 +1,7 @@
 ﻿using Common.Basic.Functional;
 using Corelibs.BlazorShared.UI.Css;
 using Microsoft.AspNetCore.Components;
+using System;
 
 namespace Corelibs.BlazorViews.Layouts
 {
@@ -90,5 +91,13 @@ namespace Corelibs.BlazorViews.Layouts
         private static string bgNone = $"background: none";
 
         string color = GetRandomColor();
+
+        protected Task OnClickInternal()
+        {
+            if (OnClick != null && OnClick.GetInvocationList().Length > 0)
+                return OnClick();
+
+            return Task.CompletedTask;
+        }
     }
 }

@@ -2,12 +2,21 @@
 
 @inherits BaseLayout
 
-<div class="vertical-layout @(@class)" 
+<div class="vertical-layout @(@class)" @ref=_reference
      style=@CombinedStyle 
-     @onclick="@(() => OnClick?.InvokeIfOk())" @onclick:stopPropagation=true @onclick:preventDefault=true>
+    @onclick=@OnClickInternal @onclick:stopPropagation=true @onclick:preventDefault=true>
 
     <CascadingValue Value=@_children>
         @ChildContent
     </CascadingValue>
 
 </div>
+
+@code {
+    private ElementReference _reference;
+
+    protected override void OnInitialized()
+    {
+        
+    }
+}
