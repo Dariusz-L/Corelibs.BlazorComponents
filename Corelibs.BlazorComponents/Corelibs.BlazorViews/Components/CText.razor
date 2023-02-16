@@ -2,10 +2,10 @@
 
 @inherits BaseElement
 
-<p style=@Style>@ChildContent</p>
+<p style=@Style>@Text</p>
 
 @code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Text { get; set; } = "";
     [Parameter] public CssAttribute? FontSize { get; set; }
     [Parameter] public CssAttribute? FontWeight { get; set; }
 

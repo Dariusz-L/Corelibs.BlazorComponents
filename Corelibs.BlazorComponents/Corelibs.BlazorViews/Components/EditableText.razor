@@ -1,0 +1,26 @@
+﻿@using Corelibs.BlazorViews.Components;
+@using Corelibs.BlazorViews.Layouts;
+
+@inherits BaseElement
+
+<div>
+    <CText Text=@Text style=style class=@(@class) />
+    <input class="input" type="text" placeholder="Enter Index" value=@Text @oninput=OnInputChanged />
+</div>
+
+@code {
+    [Parameter] public string? Text { get; set; }
+
+    private bool _isEdit;
+
+    private void OnInputChanged(ChangeEventArgs args)
+    {
+        var value = args.Value as string;
+        Text = value;
+    }
+
+    private void OnTextClick()
+    {
+        Console.WriteLine("OnTextClick");
+    }
+}
