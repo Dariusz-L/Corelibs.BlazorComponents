@@ -3,24 +3,106 @@
 
 @inherits BaseElement
 
-<div>
-    <CText Text=@Text style=style class=@(@class) />
-    <input class="input" type="text" placeholder="Enter Index" value=@Text @oninput=OnInputChanged />
+<div @onclick=OnClick>
+    @if (Mode == ModeType.InputOnly || _isEdit)
+    {
+        <input class="input" type="text" placeholder="Enter Index" value=@Text 
+            @oninput=OnInputChangedInternal @ref=_input @onfocusout=OnFocusOut @onkeydown=OnKeyDown />
+    }
+    else
+    {
+        <CText Text=@Text style=style class=@(@class) />
+    }
 </div>
 
 @code {
+    [Parameter] public string? PreviousText { get; set; }
     [Parameter] public string? Text { get; set; }
+    [Parameter] public ModeType Mode { get; set; }
+    [Parameter] public bool IsDynamicEdit { get; set; }
+    [Parameter] public Func<string, Task<bool>> OnInputChanged { get; set; }
+    [Parameter] public Func<string, Task<bool>> OnEnter { get; set; }
+
+    private ElementReference _input;
 
     private bool _isEdit;
 
-    private void OnInputChanged(ChangeEventArgs args)
+    protected override void OnInitialized()
     {
-        var value = args.Value as string;
-        Text = value;
+        PreviousText = Text;
     }
 
-    private void OnTextClick()
+    private async Task OnInputChangedInternal(ChangeEventArgs args)
     {
-        Console.WriteLine("OnTextClick");
+        var value = args.Value as string;
+
+        if (IsDynamicEdit)
+            PreviousText = Text;
+
+        Text = value;
+
+        if (OnInputChanged != null)
+            if (!await OnInputChanged(Text))
+                Text = PreviousText;
+    }
+
+    private void OnClick()
+    {
+        if (Mode == ModeType.EditOnClick)
+        {
+            PreviousText = Text;
+            _isEdit = true;
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (_isEdit)
+            _input.FocusAsync();
+    }
+
+    private Task OnFocusOut(FocusEventArgs args)
+    {
+        _isEdit = false;
+        PreviousText = Text;
+
+        return InvokeAsync(StateHasChanged);
+    }
+
+    public async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (!IsDynamicEdit)
+        {
+            if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            {
+                if (OnEnter != null)
+                    if (!await OnEnter(Text))
+                        Text = PreviousText;
+
+                if (Mode != ModeType.InputOnly)
+                {
+                    _isEdit = false;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+        }
+    }
+
+    public bool IsEdit {
+        get => Mode != ModeType.InputOnly ? _isEdit : true;
+        set {
+            if (!value && Mode == ModeType.InputOnly)
+                Mode = ModeType.None;
+
+            _isEdit = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public enum ModeType
+    {
+        None,
+        EditOnClick,
+        InputOnly
     }
 }
