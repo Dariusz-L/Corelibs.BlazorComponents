@@ -16,12 +16,14 @@
 </div>
 
 @code {
-    [Parameter] public string? PreviousText { get; set; }
     [Parameter] public string? Text { get; set; }
     [Parameter] public ModeType Mode { get; set; }
     [Parameter] public bool IsDynamicEdit { get; set; }
+    [Parameter] public bool SubmitIfSameName { get; set; }
     [Parameter] public Func<string, Task<bool>> OnInputChanged { get; set; }
-    [Parameter] public Func<string, Task<bool>> OnEnter { get; set; }
+    [Parameter] public Func<string, Task<bool>> OnSubmit { get; set; }
+
+    public string? PreviousText { get; private set; }
 
     private ElementReference _input;
 
@@ -37,7 +39,9 @@
         var value = args.Value as string;
 
         if (IsDynamicEdit)
+        {
             PreviousText = Text;
+        }
 
         Text = value;
 
@@ -48,6 +52,9 @@
 
     private void OnClick()
     {
+        if (_isEdit)
+            return;
+
         if (Mode == ModeType.EditOnClick)
         {
             PreviousText = Text;
@@ -71,12 +78,19 @@
 
     public async Task OnKeyDown(KeyboardEventArgs e)
     {
-        if (!IsDynamicEdit)
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
-            if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            if (!SubmitIfSameName && Text == PreviousText)
             {
-                if (OnEnter != null)
-                    if (!await OnEnter(Text))
+                Text = PreviousText;
+                await SetIsEdit(false); 
+                return;
+            }
+
+            if (!IsDynamicEdit)
+            {
+                if (OnSubmit != null)
+                    if (!await OnSubmit(Text))
                         Text = PreviousText;
 
                 if (Mode != ModeType.InputOnly)
@@ -88,15 +102,18 @@
         }
     }
 
-    public bool IsEdit {
-        get => Mode != ModeType.InputOnly ? _isEdit : true;
-        set {
-            if (!value && Mode == ModeType.InputOnly)
-                Mode = ModeType.None;
+    public bool IsEdit => Mode != ModeType.InputOnly ? _isEdit : true;
 
-            _isEdit = value;
-            InvokeAsync(StateHasChanged);
-        }
+    public Task SetIsEdit(bool value)
+    {
+        if (value == _isEdit)
+            return Task.CompletedTask;
+
+        if (!value && Mode == ModeType.InputOnly)
+            Mode = ModeType.None;
+
+        _isEdit = value;
+        return InvokeAsync(StateHasChanged);
     }
 
     public enum ModeType
