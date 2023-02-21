@@ -2,7 +2,7 @@
 
 @inherits BaseLayout
 
-<div class="vertical-layout @(@class)" @ref=_reference
+<div class="vertical-layout @(@class)"
      style=@CombinedStyle 
     @onclick=@OnClickInternal @onclick:stopPropagation=true @onclick:preventDefault=true>
 
@@ -11,12 +11,3 @@
     </CascadingValue>
 
 </div>
-
-@code {
-    private ElementReference _reference;
-
-    protected override void OnInitialized()
-    {
-        
-    }
-}
