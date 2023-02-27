@@ -2,7 +2,7 @@
 
 @inherits BaseElement
 
-<p style=@Style>@Text</p>
+<p style=@Style class="@(@class)">@Text</p>
 
 @code {
     [Parameter] public string? Text { get; set; } = "";
@@ -10,3 +10,4 @@
     [Parameter] public CssAttribute? FontWeight { get; set; }
 
 }
+    
