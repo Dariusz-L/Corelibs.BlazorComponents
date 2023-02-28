@@ -1,4 +1,5 @@
-﻿@using Corelibs.BlazorViews.Components;
+﻿@using Corelibs.BlazorShared.UI.Css;
+@using Corelibs.BlazorViews.Components;
 @using Corelibs.BlazorViews.Layouts;
 
 @inherits BaseElement
@@ -7,26 +8,31 @@
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
         <input class="input" type="text" placeholder="Enter Index" value=@Text 
-            @oninput=OnInputChangedInternal @ref=_input @onfocusout=OnFocusOut @onkeydown=OnKeyDown />
+            @oninput=OnInputChangedInternal @onfocusout=OnFocusOut @onkeydown=OnKeyDown @ref=_input/>
     }
     else
     {
-        <CText Text=@Text style=style class=@(@class) />
+        <CText 
+            Text=@Text style=style class=@(@class)
+            FontSize=FontSize 
+            FontWeight=FontWeight />
     }
 </div>
 
 @code {
     [Parameter] public string? Text { get; set; }
-    [Parameter] public ModeType Mode { get; set; }
+    [Parameter] public ModeType Mode { get; set; } 
     [Parameter] public bool IsDynamicEdit { get; set; }
     [Parameter] public bool SubmitIfSameName { get; set; }
     [Parameter] public Func<string, Task<bool>> OnInputChanged { get; set; }
     [Parameter] public Func<string, Task<bool>> OnSubmit { get; set; }
 
+    [Parameter] public CssAttribute? FontSize { get; set; }
+    [Parameter] public CssAttribute? FontWeight { get; set; }
+
     public string? PreviousText { get; private set; }
 
     private ElementReference _input;
-
     private bool _isEdit;
 
     protected override void OnInitialized()
