@@ -2,7 +2,7 @@
     overflow-x: auto;
     height: fit-content;
     overflow-x: visible;
-    margin-bottom: 1rem;
+    margin-bottom: 500px;
 }
 
 .tree-layout-container::-webkit-scrollbar {
