@@ -1,6 +1,9 @@
 ﻿using Common.Basic.Functional;
+using Corelibs.BlazorShared.UI;
 using Corelibs.BlazorShared.UI.Css;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using System;
 
 namespace Corelibs.BlazorViews.Layouts
@@ -51,6 +54,10 @@ namespace Corelibs.BlazorViews.Layouts
 
         [Parameter] public Func<Task>? OnClick { get; set; }
 
+        [Inject] private IJSRuntime _jsRuntime { get; set; }
+
+        protected ElementReference _reference;
+
         public Task RefreshView() => InvokeAsync(StateHasChanged);
 
         protected override void OnInitialized()
@@ -92,12 +99,18 @@ namespace Corelibs.BlazorViews.Layouts
 
         string color = GetRandomColor();
 
-        protected Task OnClickInternal()
+        protected async Task OnClickInternal(MouseEventArgs args)
         {
-            if (OnClick != null && OnClick.GetInvocationList().Length > 0)
-                return OnClick();
+            if (args.Button != 0)
+                return;
 
-            return Task.CompletedTask;
+            var rect = await _jsRuntime.GetRect(_reference);
+            if (args.PageX > rect.Left && args.PageX < rect.Right &&
+                args.PageY > rect.Top && args.PageY < rect.Bottom)
+            {
+                if (OnClick != null && OnClick.GetInvocationList().Length > 0)
+                    await OnClick();
+            }
         }
     }
 }

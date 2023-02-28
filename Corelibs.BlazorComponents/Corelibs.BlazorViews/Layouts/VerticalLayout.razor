@@ -2,7 +2,7 @@
 
 @inherits BaseLayout
 
-<div class="vertical-layout @(@class)"
+<div class="vertical-layout @(@class)" @ref=_reference
      style=@CombinedStyle 
     @onclick=@OnClickInternal @onclick:stopPropagation=true @onclick:preventDefault=true>
 

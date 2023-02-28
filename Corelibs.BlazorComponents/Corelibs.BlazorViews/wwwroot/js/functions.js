@@ -10,6 +10,10 @@ function getBoundingClientRectByClass(className) {
     return element.getBoundingClientRect();
 };
 
+function getBoundingClientRect(element){
+    return element.getBoundingClientRect();
+}
+
 function setPosition(element, x, y) {
     element.style.left = x + "px";
     element.style.top = y + "px";
