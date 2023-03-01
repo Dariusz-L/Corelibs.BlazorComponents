@@ -1,0 +1,24 @@
+﻿@using Corelibs.BlazorViews.ViewModels
+@using Corelibs.BlazorViews.Layouts
+@using Corelibs.BlazorViews.Components
+
+<OuterClickComponent @ref=@OuterClick>
+    <ToolWindow>
+        <VerticalLayout Gap=5 OverflowX=@("auto")>
+            @foreach (var opt in Options)
+            {
+                <button class="button" @onclick=@(() => OnSelected?.Invoke(ID, opt.ID))>
+                    @opt.Name
+                </button>
+            }
+        </VerticalLayout>
+    </ToolWindow>
+</OuterClickComponent>
+
+@code {
+    public string ID { get; set; }
+    [Parameter] public IdentityVM[]? Options { get; set; } = Array.Empty<IdentityVM>();
+    public OuterClickComponent? OuterClick { get; private set; }
+
+    [Parameter] public Func<string, string, Task>? OnSelected { get; set; }
+}
