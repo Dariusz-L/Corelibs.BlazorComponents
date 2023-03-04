@@ -7,7 +7,7 @@
 <div @onclick=OnClick>
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
-        <input class="input" type="text" placeholder=@Placeholder value=@Text 
+        <input class="input" type="text" placeholder=@Placeholder value=@Text
             @oninput=OnInputChangedInternal @onfocusout=OnFocusOut @onkeydown=OnKeyDown @ref=_input/>
     }
     else
@@ -55,6 +55,12 @@
         if (OnInputChanged != null)
             if (!await OnInputChanged(Text))
                 Text = PreviousText;
+    }
+
+    public void FocusInputIfShown()
+    {
+        if (Mode == ModeType.InputOnly)
+            _input.FocusAsync();
     }
 
     private void OnClick()
