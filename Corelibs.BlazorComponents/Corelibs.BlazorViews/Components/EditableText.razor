@@ -7,12 +7,12 @@
 <div @onclick=OnClick>
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
-        <input class="input" type="text" placeholder="Enter Index" value=@Text 
+        <input class="input" type="text" placeholder=@Placeholder value=@Text 
             @oninput=OnInputChangedInternal @onfocusout=OnFocusOut @onkeydown=OnKeyDown @ref=_input/>
     }
     else
     {
-        <CText 
+        <CText
             Text=@Text style=style class=@(@class)
             FontSize=FontSize 
             FontWeight=FontWeight />
@@ -21,6 +21,7 @@
 
 @code {
     [Parameter] public string? Text { get; set; }
+    [Parameter] public string? Placeholder { get; set; } = "Enter Text";
     [Parameter] public ModeType Mode { get; set; } 
     [Parameter] public bool IsDynamicEdit { get; set; }
     [Parameter] public bool SubmitIfSameName { get; set; }
