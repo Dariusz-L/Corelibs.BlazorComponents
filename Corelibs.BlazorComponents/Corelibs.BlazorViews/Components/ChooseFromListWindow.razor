@@ -7,7 +7,7 @@
         <VerticalLayout Gap=5 OverflowX=@("auto")>
             @foreach (var opt in Options)
             {
-                <button class="button" @onclick=@(() => OnSelected?.Invoke(ID, opt.ID))>
+                <button class="button" @onclick=@(() => OnSelected?.Invoke(Data, opt.ID))>
                     @opt.Name
                 </button>
             }
@@ -16,9 +16,9 @@
 </OuterClickComponent>
 
 @code {
-    public string ID { get; set; }
+    public object Data { get; set; }
     [Parameter] public IdentityVM[]? Options { get; set; } = Array.Empty<IdentityVM>();
     public OuterClickComponent? OuterClick { get; private set; }
 
-    [Parameter] public Func<string, string, Task>? OnSelected { get; set; }
+    [Parameter] public Func<object, string, Task>? OnSelected { get; set; }
 }
