@@ -7,7 +7,7 @@
 <div @onclick=OnClick>
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
-        <input class="input" type="text" placeholder=@Placeholder value=@Text
+        <input class="input @(@class)" style=@Style type="text" placeholder=@Placeholder value=@Text
             @oninput=OnInputChangedInternal @onfocusout=OnFocusOut @onkeydown=OnKeyDown @ref=_input/>
     }
     else
