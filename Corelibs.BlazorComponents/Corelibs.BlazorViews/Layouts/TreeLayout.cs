@@ -117,12 +117,12 @@ namespace Corelibs.BlazorViews.Layouts
 
         private async Task SwitchExpand(TreeNode node)
         {
-            if (BeforeExpand == null)
-                return;
-
-            var result = await BeforeExpand.Invoke(node.Identity.ID);
-            if (!result)
-                return;
+            if (BeforeExpand != null)
+            {
+                var result = await BeforeExpand.Invoke(node.Identity.ID);
+                if (!result)
+                    return;
+            }
 
             node.IsExpanded = !node.IsExpanded;
             await InvokeAsync(StateHasChanged);
