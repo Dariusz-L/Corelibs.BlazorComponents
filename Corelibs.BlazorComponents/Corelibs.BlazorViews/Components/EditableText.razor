@@ -4,7 +4,7 @@
 
 @inherits BaseElement
 
-<div @onclick=OnClick>
+<div @onclick=OnClick class="@class_topmost">
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
         <input class="input @(@class)" style=@Style type="text" placeholder=@Placeholder value=@Text
@@ -30,6 +30,7 @@
 
     [Parameter] public CssAttribute? FontSize { get; set; }
     [Parameter] public CssAttribute? FontWeight { get; set; }
+    [Parameter] public string class_topmost { get; set; }
 
     public string? PreviousText { get; private set; }
 
