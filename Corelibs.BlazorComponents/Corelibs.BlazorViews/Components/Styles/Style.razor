@@ -17,8 +17,8 @@
 
     private TreeLayout? _treeLayout;
 
-    private Task<bool> BeforeExpand(string id) => Task.FromResult(true);
-    private Task AfterExpand(string id) => InvokeAsync(StateHasChanged);
+    private Task<bool> BeforeExpand(TreeLayout.TreeNode node) => Task.FromResult(true);
+    private Task AfterExpand(TreeLayout.TreeNode node) => InvokeAsync(StateHasChanged);
 
     private TreeNode _node;
     public TreeNode? GetTree()

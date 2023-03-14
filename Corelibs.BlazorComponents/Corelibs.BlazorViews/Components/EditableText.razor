@@ -4,7 +4,7 @@
 
 @inherits BaseElement
 
-<div @onclick=OnClick class="@class_topmost">
+<div @onclick=OnClick @onclick:stopPropagation="true" @onclick:preventDefault="true" class="@class_topmost">
     @if (Mode == ModeType.InputOnly || _isEdit)
     {
         <input class="input @(@class)" style=@Style type="text" placeholder=@Placeholder value=@Text

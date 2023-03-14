@@ -9,8 +9,8 @@ namespace Corelibs.BlazorViews.Layouts
     public partial class TreeLayout
     {
         [Parameter] public TreeNode? Tree { get; set; }
-        [Parameter] public Func<string, Task<bool>> BeforeExpand { get; set; }
-        [Parameter] public Func<string, Task> AfterExpand { get; set; }
+        [Parameter] public Func<TreeNode, Task<bool>> BeforeExpand { get; set; }
+        [Parameter] public Func<TreeNode, Task> AfterExpand { get; set; }
 
         [Parameter] public CssAttribute? Padding { get; set; }
         [Parameter] public CssAttribute? PaddingLeft { get; set; }
@@ -119,7 +119,7 @@ namespace Corelibs.BlazorViews.Layouts
         {
             if (BeforeExpand != null)
             {
-                var result = await BeforeExpand.Invoke(node.Identity.ID);
+                var result = await BeforeExpand.Invoke(node);
                 if (!result)
                     return;
             }
@@ -127,7 +127,7 @@ namespace Corelibs.BlazorViews.Layouts
             node.IsExpanded = !node.IsExpanded;
             await InvokeAsync(StateHasChanged);
 
-            await AfterExpand.Invoke(node.Identity.ID);
+            await AfterExpand.Invoke(node);
         }
 
         int treeNodeCount;
